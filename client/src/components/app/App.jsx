@@ -22,6 +22,7 @@ import { useGraduateScriptsStore } from '../../hooks/zustand/useGraduateScriptsS
 import { useStudentsStore } from '../../hooks/zustand/useStudentsStore';
 import { DegreeWorksPage } from '../../pages/DegreeWorksPage';
 import { useDegreeWorksStore } from '../../hooks/zustand/useDegreeWorksStore';
+import { FilesPage } from '../../pages/FilesPage';
 
 function App() {
   const { getAllEducationLevels } = useCommonStore((state) => state);
@@ -116,6 +117,16 @@ function App() {
               <RequireAuth role={USER_ROLES.SECRETARY}>
                 <SecretaryTabs>
                   <DegreeWorksPage />
+                </SecretaryTabs>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/files"
+            element={
+              <RequireAuth role={USER_ROLES.SECRETARY}>
+                <SecretaryTabs>
+                  <FilesPage parse />
                 </SecretaryTabs>
               </RequireAuth>
             }

@@ -6,11 +6,17 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { File, FileCreationAttributes } from './files.model';
 import * as fs from 'fs/promises';
-import { FILE_DOES_NOT_EXIST_MSG, FILES_FOLDER } from './constants';
+import {
+  BAD_FILE_TEXT_MSG,
+  FILE_DOES_NOT_EXIST_MSG,
+  FILES_FOLDER,
+} from './constants';
 import { v4 as uuidv4 } from 'uuid';
 import { getFilePathByUuid } from '../utils/getFilePathByUuid';
 import { parseStudents } from '../utils/fileParsers/parseStudents';
 import { StudentsService } from '../students/students.service';
+import { ParsedStudent } from '../utils/types/parsed-students.type';
+import { ParseStudentsDto } from './dto/ParseStudents.dto';
 
 @Injectable()
 export class FilesService {
@@ -62,7 +68,7 @@ export class FilesService {
     await file.destroy();
   }
 
-  async parseAndSaveStudents(fileId: number, directionId: number) {
+  async parseAndSaveStudents(fileId: number, dto: ParseStudentsDto) {
     const file = await this.fileRepository.findByPk(fileId);
     if (!file) {
       throw new BadRequestException(FILE_DOES_NOT_EXIST_MSG);
@@ -70,9 +76,16 @@ export class FilesService {
 
     const fileBuffer = await fs.readFile(getFilePathByUuid(file.uuid));
     const fileText = fileBuffer.toString();
-    const students = parseStudents(fileText);
+    let students: ParsedStudent[];
+
+    try {
+      students = parseStudents(fileText);
+    } catch (err) {
+      throw new BadRequestException(BAD_FILE_TEXT_MSG);
+    }
+
     const promises = students.map((student) =>
-      this.studentsService.createStudent({ ...student, directionId }),
+      this.studentsService.createStudent({ ...student, ...dto }),
     );
     return Promise.all(promises);
   }

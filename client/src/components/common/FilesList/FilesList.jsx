@@ -5,14 +5,21 @@ import { deleteFile, getAllFilesByYear } from '../../../services/filesService';
 import { useCommonStore } from '../../../hooks/zustand/commonStore';
 import { sendFiles } from '../../../utils/sendFiles';
 import { FilesListItem } from './FilesListItem';
+import { CommonModal } from '../CommonModal';
+import { FileModal } from '../../Tabs/files/FileModal';
 
-export const FilesList = React.memo(() => {
+export const FilesList = React.memo(({ parse }) => {
   const { currentYear } = useCommonStore((state) => state);
   const dropAreaRef = React.useRef(null);
   const [dragHover, setDragHover] = React.useState(0);
   const createMutation = useMutation(({ currentYear, files }) =>
     sendFiles(currentYear, files)
   );
+  const [selectedFile, setSelectedFile] = React.useState(null);
+
+  const closeModal = React.useCallback(() => {
+    setSelectedFile(null);
+  }, [setSelectedFile]);
 
   const deleteMutation = useMutation((file) => deleteFile(file.id));
 
@@ -66,7 +73,16 @@ export const FilesList = React.memo(() => {
     [currentYear, createMutation, queryClient]
   );
 
-  const onSelect = React.useCallback((file) => {}, []);
+  const onSelect = React.useCallback(
+    (file) => {
+      if (!parse) {
+        return;
+      }
+
+      setSelectedFile(file);
+    },
+    [parse]
+  );
 
   const onFileDelete = React.useCallback(
     (file) => {
@@ -144,6 +160,9 @@ export const FilesList = React.memo(() => {
           />
         ))}
       </Box>
+      <CommonModal active={!!selectedFile} onClose={closeModal}>
+        <FileModal file={selectedFile} />
+      </CommonModal>
     </Box>
   );
 });

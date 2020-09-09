@@ -2,7 +2,7 @@ import { useAuthStore } from '../hooks/zustand/useAuthStore';
 import { USER_ROLES } from '../constants';
 import { Navigate, useLocation } from 'react-router-dom';
 import { AdminPage } from './AdminPage';
-import { DeaneryPage } from './DeaneryPage';
+import { FilesPage } from './FilesPage';
 
 export const UserMainPage = () => {
   const auth = useAuthStore();
@@ -16,7 +16,7 @@ export const UserMainPage = () => {
       return <Navigate to="/directions" state={{ from: location }} replace />;
 
     case USER_ROLES.DEANERY:
-      return <DeaneryPage />;
+      return <FilesPage />;
 
     default:
       return <></>;

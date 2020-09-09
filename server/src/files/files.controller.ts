@@ -62,6 +62,6 @@ export class FilesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ParseStudentsDto,
   ) {
-    return this.filesService.parseAndSaveStudents(id, dto.directionId);
+    return this.filesService.parseAndSaveStudents(id, dto);
   }
 }

@@ -17,5 +17,11 @@ export const createFile = async (year, file, filename) => {
   return sendRequest('post', 'api/files', formData);
 };
 
-export const deleteFile = async (fileId) =>
+export const deleteFile = (fileId) =>
   sendRequest('delete', `/api/files/${fileId}`, undefined);
+
+export const parseStudentsFromFile = async (fileId, directionId, year) =>
+  sendRequest('post', `api/files/${fileId}/parse-students`, {
+    directionId,
+    year,
+  });

@@ -54,6 +54,8 @@ export const createDefaultStore = (
         ['selected' + cap]: initVal,
         ['select' + cap]: (val) => set({ ['selected' + cap]: val }),
         ['resetSelected' + cap]: () => set({ ['selected' + cap]: initVal }),
+        ['add' + pluralCap]: (items) =>
+          set({ [plural]: [...get()[plural], ...items] }),
       }),
       { name, serialize: { options: true }, store: name }
     )

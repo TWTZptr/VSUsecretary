@@ -14,17 +14,16 @@ import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
 export const StudentViewer = () => {
   const [modalActive, activateModal, inactivateModal] = useModal();
   const [student, studentHandlers] = useStudent();
-  const { selectedStudent, deleteStudent, updateStudent } = useStudentsStore(
-    (state) => state
-  );
+  const { selectedStudent, removeStudentById, updateStudent } =
+    useStudentsStore((state) => state);
 
   React.useEffect(() => {
     studentHandlers.setStudent(selectedStudent);
   }, [selectedStudent, studentHandlers]);
 
   const onDelete = React.useCallback(() => {
-    deleteStudent(selectedStudent.id);
-  }, [deleteStudent, selectedStudent.id]);
+    removeStudentById(selectedStudent.id);
+  }, [removeStudentById, selectedStudent.id]);
 
   const onSave = React.useCallback(() => {
     try {

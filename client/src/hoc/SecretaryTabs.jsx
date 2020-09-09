@@ -58,6 +58,7 @@ export const SecretaryTabs = React.memo(({ children }) => {
           onClick={onTabClick}
           data-nav="/graduate-scripts"
         />
+        <Tab label="Файлы" onClick={onTabClick} data-nav="/files" />
       </Tabs>
       <Box sx={React.useMemo(() => ({ margin: '30px', width: '100%' }), [])}>
         {children}
