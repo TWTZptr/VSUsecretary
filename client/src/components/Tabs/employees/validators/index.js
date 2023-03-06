@@ -1,0 +1,82 @@
+import Joi from 'joi';
+
+const schema = Joi.object({
+  id: Joi.number(),
+  name: Joi.string().min(3).max(40).required().messages({
+    'string.base': 'Имя должно быть текстом',
+    'string.empty': 'Имя не должно быть пустым',
+    'string.min': 'Имя не должно быть короче 3-х символов',
+    'string.max': 'Имя должно быть короче 40 символов',
+    'any.required': 'Имя должно быть не пустым',
+  }),
+  lastname: Joi.string().min(3).max(50).required().messages({
+    'string.base': 'Фамилия должна быть текстом',
+    'string.empty': 'Фамилия не должна быть пустым',
+    'string.min': 'Фамилия не должна быть короче 3-х символов',
+    'string.max': 'Фамилия должна быть короче 50 символов',
+    'any.required': 'Фамилия должно быть не пустым',
+  }),
+  patronymic: Joi.string().min(3).max(50).required().messages({
+    'string.base': 'Отчество должно быть текстом',
+    'string.empty': 'Отчество не должно быть пустым',
+    'string.min': 'Отчество не должно быть короче 3-х символов',
+    'string.max': 'Отчество должно быть короче 50 символов',
+    'any.required': 'Отчество должно быть не пустым',
+  }),
+  position: Joi.string().min(3).required().messages({
+    'string.base': 'Должность должна быть текстом',
+    'string.empty': 'Должность не должна быть пустой',
+    'string.min': 'Должностьне должна быть короче 3-х символов',
+    'any.required': 'Должность должна быть не пустым',
+  }),
+  anotherJob: Joi.string().allow('').min(3).max(50).messages({
+    'string.base': 'Второе место работы должно быть текстом',
+    'string.empty': 'Второе место работы не должно быть пустым',
+    'string.min': 'Второе место работы не должно быть короче 3-х символов',
+    'string.max': 'Второе место работы должно быть короче 50 символов',
+  }),
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      'string.base': 'Email должен быть текстом',
+      'string.empty': 'Email не должен быть пустым',
+      'string.email': 'Email не соответствует формату',
+    }),
+  phoneNumber: Joi.string().min(4).max(20).required().messages({
+    'string.base': 'Номер телефона должен быть текстом',
+    'string.empty': 'Номер телефона не должен быть пустым',
+    'string.min': 'Номер телефона не должен быть короче 4-х символов',
+    'string.max': 'Номер телефона должен быть короче 20 символов',
+  }),
+  academicDegree: Joi.string().required().messages({
+    'any.required':
+      'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
+    'string.base':
+      'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
+    'string.empty': 'Ученое звание не указано',
+  }),
+  academicRank: Joi.string().required().messages({
+    'any.required':
+      'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
+    'string.base':
+      'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
+    'string.empty': 'Ученая степень не указана',
+  }),
+  status: Joi.string().min(4).max(20).required().messages({
+    'any.required':
+      'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
+    'string.base':
+      'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
+    'string.empty': 'Статус не указан',
+    'string.min': 'Статус не должен быть короче 4-х символов',
+    'string.max': 'Статус должен быть короче 20 символов',
+  }),
+});
+
+export const validateEmployee = (employee) => {
+  const validationResult = schema.validate(employee);
+  if (validationResult.error) {
+    throw new Error(validationResult.error.message);
+  }
+};

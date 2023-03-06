@@ -1,0 +1,1 @@
+export const UNEXIST_EMPLOYEE_ID_MSG = 'Employee with that id does not exist';

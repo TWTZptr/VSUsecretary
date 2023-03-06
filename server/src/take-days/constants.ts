@@ -1,0 +1,1 @@
+export const UNEXIST_TAKEDAY_ID_MSG = 'Take day with that id does not exist';
