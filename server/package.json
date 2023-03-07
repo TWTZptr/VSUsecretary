@@ -33,6 +33,7 @@
     "dotenv": "^16.0.0",
     "lvovich": "^2.0.0",
     "mysql2": "^2.3.3",
+    "nestjs-sequelize-seeder": "^1.1.4",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "plural-ru": "^2.0.2",

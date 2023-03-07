@@ -12,6 +12,7 @@ import { EmployeesTakeDaysModule } from './employees-take-days/employees-take-da
 import { DegreeWorksModule } from './degree-works/degree-works.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
+import { SeederModule } from 'nestjs-sequelize-seeder';
 
 @Module({
   imports: [
@@ -21,6 +22,9 @@ import { RolesModule } from './roles/roles.module';
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       useClass: SequelizeConfigService,
+    }),
+    SeederModule.forRoot({
+      runOnlyIfTableIsEmpty: true,
     }),
     DirectionsModule,
     GroupsModule,

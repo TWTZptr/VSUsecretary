@@ -1,17 +1,17 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
-  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { Role } from '../roles/roles.model';
 
 interface UserCreationAttributes {
-  roleId: number;
   name: string;
   password: string;
+  roleId: number;
 }
 
 @Table({ tableName: 'Users' })
@@ -34,6 +34,6 @@ export class User extends Model<User, UserCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, field: 'role_id' })
   roleId: number;
 
-  @HasOne(() => Role, 'roleId')
+  @BelongsTo(() => Role, 'roleId')
   role: Role;
 }

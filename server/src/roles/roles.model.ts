@@ -4,7 +4,7 @@ interface RoleCreationAttributes {
   name: string;
 }
 
-@Table({ tableName: 'roles' })
+@Table({ tableName: 'Roles' })
 export class Role extends Model<Role, RoleCreationAttributes> {
   @Column({
     type: DataType.INTEGER,
