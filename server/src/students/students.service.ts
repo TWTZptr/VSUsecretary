@@ -1,6 +1,6 @@
 import {
-  Injectable,
   BadRequestException,
+  Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
@@ -18,14 +18,14 @@ export class StudentsService {
   ) {}
 
   async createStudent(dto: CreateStudentDto) {
+    //FIXME: dto.groupId ===  0 не пройдет проверку
     if (dto.groupId && (await this.groupsService.isGroupExists(dto.groupId))) {
       throw new BadRequestException(UNEXIST_GROUP_ID_MSG);
     }
-    const student = await this.studentRepository.create(dto);
-    return student;
+    return this.studentRepository.create(dto);
   }
 
-  async getStudentById(id: number, attributes = null) {
+  getStudentById(id: number, attributes = null) {
     return this.studentRepository.findByPk(id, { attributes });
   }
 
@@ -42,8 +42,7 @@ export class StudentsService {
       throw new NotFoundException(UNEXIST_STUDENT_ID_MSG);
     }
 
-    const student = this.studentRepository.findByPk(dto.id);
-    return student;
+    return this.studentRepository.findByPk(dto.id);
   }
 
   async deleteStudentById(id: number) {

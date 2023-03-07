@@ -10,6 +10,8 @@ import { EmployeesModule } from './employees/employees.module';
 import { TakeDaysModule } from './take-days/take-days.module';
 import { EmployeesTakeDaysModule } from './employees-take-days/employees-take-days.module';
 import { DegreeWorksModule } from './degree-works/degree-works.module';
+import { UsersModule } from './users/users.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { DegreeWorksModule } from './degree-works/degree-works.module';
     TakeDaysModule,
     EmployeesTakeDaysModule,
     DegreeWorksModule,
+    UsersModule,
+    RolesModule,
   ],
   controllers: [],
   providers: [],
