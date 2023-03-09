@@ -5,6 +5,7 @@ import { SeederModule } from 'nestjs-sequelize-seeder';
 import { EducationLevelsSeed } from './education-levels.seed';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { EducationLevel } from './education-levels.model';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   controllers: [EducationLevelsController],
@@ -12,6 +13,7 @@ import { EducationLevel } from './education-levels.model';
   imports: [
     SequelizeModule.forFeature([EducationLevel]),
     SeederModule.forFeature([EducationLevelsSeed]),
+    AuthModule,
   ],
 })
 export class EducationLevelsModule {}
