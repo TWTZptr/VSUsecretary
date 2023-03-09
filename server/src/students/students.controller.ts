@@ -11,6 +11,7 @@ import {
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentsService } from './students.service';
+import { PasswordService } from '../password/password.service';
 
 @Controller('students')
 export class StudentsController {

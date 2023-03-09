@@ -6,6 +6,8 @@ import { User } from './users.model';
 import { RolesModule } from '../roles/roles.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import { UsersSeed } from './users.seed';
+import { PasswordModule } from '../password/password.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   controllers: [UsersController],
@@ -14,6 +16,8 @@ import { UsersSeed } from './users.seed';
     SequelizeModule.forFeature([User]),
     RolesModule,
     SeederModule.forFeature([UsersSeed]),
+    PasswordModule,
+    AuthModule,
   ],
   exports: [UsersService],
 })

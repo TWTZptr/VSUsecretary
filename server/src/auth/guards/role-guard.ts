@@ -3,13 +3,12 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
-import { UserPayload } from './types/user-payload.type';
-import { GLOBAL_ACCESS_ROLES } from './constants';
+import { UserPayload } from '../types/user-payload.type';
+import { GLOBAL_ACCESS_ROLES } from '../constants';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
