@@ -7,8 +7,9 @@ export class UpdateGroupDto {
   readonly id: number;
 
   @IsNotEmpty()
-  @IsOptional()
-  readonly educationLevel?: string;
+  @ToOptionalInt()
+  @IsInt()
+  readonly educationLevelId?: number;
 
   @IsOptional()
   @IsInt()

@@ -24,8 +24,7 @@ export class GroupsService {
     ) {
       throw new BadRequestException(INVALID_DIRECTION_ID_MSG);
     }
-    const group = await this.groupRepository.create(dto);
-    return group;
+    return this.groupRepository.create(dto);
   }
 
   async updateGroup(dto: UpdateGroupDto) {
@@ -43,8 +42,7 @@ export class GroupsService {
       throw new NotFoundException(UNEXIST_GROUP_ID_MSG);
     }
 
-    const group = await this.groupRepository.findByPk(dto.id);
-    return group;
+    return this.groupRepository.findByPk(dto.id);
   }
 
   getGroupById(id: number, attributes = null) {
@@ -77,10 +75,9 @@ export class GroupsService {
     return id && !(await this.getGroupById(id));
   }
 
-  async getAllGroups() {
-    const groups = this.groupRepository.findAll({
+  getAllGroups() {
+    return this.groupRepository.findAll({
       order: ['number'],
     });
-    return groups;
   }
 }

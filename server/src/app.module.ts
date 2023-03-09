@@ -13,6 +13,7 @@ import { DegreeWorksModule } from './degree-works/degree-works.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
+import { EducationLevelsModule } from './education-levels/education-levels.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { SeederModule } from 'nestjs-sequelize-seeder';
     DegreeWorksModule,
     UsersModule,
     RolesModule,
+    EducationLevelsModule,
   ],
   controllers: [],
   providers: [],

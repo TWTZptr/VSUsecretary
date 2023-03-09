@@ -30,7 +30,7 @@ const ToOptionalInt = () => {
 
 const valueToInt = (value: any, key: string) => {
   if (value === '') {
-    throw new BadRequestException([`Emplty value on key '${key}'`]);
+    throw new BadRequestException(`Error while casting value '${key}' to int`);
   }
 
   return +value;

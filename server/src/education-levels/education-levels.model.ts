@@ -1,12 +1,15 @@
 import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
-import { User } from '../users/users.model';
+import { Group } from '../groups/groups.model';
 
-interface RoleCreationAttributes {
+interface EducationLevelCreationAttributes {
   name: string;
 }
 
-@Table({ tableName: 'Roles' })
-export class Role extends Model<Role, RoleCreationAttributes> {
+@Table({ tableName: 'EducationLevels' })
+export class EducationLevel extends Model<
+  EducationLevel,
+  EducationLevelCreationAttributes
+> {
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -18,6 +21,6 @@ export class Role extends Model<Role, RoleCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
-  @HasMany(() => User, 'roleId')
-  users: User[];
+  @HasMany(() => Group, 'educationLevenId')
+  groups: Group[];
 }
