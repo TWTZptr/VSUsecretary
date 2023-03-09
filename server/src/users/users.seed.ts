@@ -1,4 +1,6 @@
-import { OnSeederInit, Seeder } from 'nestjs-sequelize-seeder';
+import { More, OnSeederInit, Seeder } from 'nestjs-sequelize-seeder';
+import { genSalt, genSaltSync, hash, hashSync } from 'bcrypt';
+import { NUMBER_OF_PASSWORD_SALT_ROUNDS } from '../password/constants';
 
 @Seeder({
   model: 'User',
@@ -23,5 +25,11 @@ export class UsersSeed implements OnSeederInit {
         roleId: 3,
       },
     ];
+  }
+
+  everyone(item: More, index: number): More {
+    const salt = genSaltSync(NUMBER_OF_PASSWORD_SALT_ROUNDS);
+    item.password = hashSync(item.password, salt);
+    return item;
   }
 }

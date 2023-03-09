@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
-import { UserPayload } from '../users/types/user-payload.type';
+import { UserPayload } from './types/user-payload.type';
 
 @Injectable()
 export class RoleGuard implements CanActivate {

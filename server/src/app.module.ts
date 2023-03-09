@@ -15,6 +15,7 @@ import { RolesModule } from './roles/roles.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import { EducationLevelsModule } from './education-levels/education-levels.module';
 import { PasswordModule } from './password/password.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { PasswordModule } from './password/password.module';
     RolesModule,
     EducationLevelsModule,
     PasswordModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

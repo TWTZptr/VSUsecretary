@@ -13,7 +13,7 @@ import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AuthorizedUser } from '../users/decorators/authorized-user.decorator';
-import { UserPayload } from '../users/types/user-payload.type';
+import { UserPayload } from './types/user-payload.type';
 
 @Controller('auth')
 export class AuthController {
