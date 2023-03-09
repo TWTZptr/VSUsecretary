@@ -15,5 +15,6 @@ import { UsersSeed } from './users.seed';
     RolesModule,
     SeederModule.forFeature([UsersSeed]),
   ],
+  exports: [UsersService],
 })
 export class UsersModule {}
