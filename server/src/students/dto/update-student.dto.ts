@@ -29,5 +29,5 @@ export class UpdateStudentDto {
   @IsInt()
   @ToOptionalInt()
   @IsOptional()
-  readonly groupId?: number;
+  readonly directionId?: number;
 }

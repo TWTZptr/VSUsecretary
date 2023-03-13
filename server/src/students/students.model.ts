@@ -2,13 +2,13 @@ import {
   BelongsTo,
   Column,
   DataType,
-  Model,
-  Table,
   ForeignKey,
   HasOne,
+  Model,
+  Table,
 } from 'sequelize-typescript';
 import { DegreeWork } from 'src/degree-works/degree-work.model';
-import { Group } from '../groups/groups.model';
+import { Direction } from '../directions/directions.model';
 
 interface StudentCreationAttributes {
   name: string;
@@ -39,12 +39,12 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   publications: number;
 
-  @ForeignKey(() => Group)
-  @Column({ type: DataType.INTEGER, allowNull: true, field: 'group_id' })
-  groupId: number;
+  @ForeignKey(() => Direction)
+  @Column({ type: DataType.INTEGER, allowNull: true, field: 'direction_id' })
+  directionId: number;
 
-  @BelongsTo(() => Group, 'groupId')
-  group: Group;
+  @BelongsTo(() => Direction, 'directionId')
+  direction: Direction;
 
   @HasOne(() => DegreeWork, 'studentId')
   degreeWork: DegreeWork;

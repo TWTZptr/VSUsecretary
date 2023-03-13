@@ -4,7 +4,6 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import configuration from './config/configuration';
 import { SequelizeConfigService } from './config/sequelize.config.service';
 import { DirectionsModule } from './directions/directions.module';
-import { GroupsModule } from './groups/groups.module';
 import { StudentsModule } from './students/students.module';
 import { EmployeesModule } from './employees/employees.module';
 import { TakeDaysModule } from './take-days/take-days.module';
@@ -30,7 +29,6 @@ import { AuthModule } from './auth/auth.module';
       runOnlyIfTableIsEmpty: true,
     }),
     DirectionsModule,
-    GroupsModule,
     StudentsModule,
     EmployeesModule,
     TakeDaysModule,

@@ -1,11 +1,15 @@
 import {
-  Table,
-  Model,
+  BelongsTo,
   Column,
   DataType,
+  ForeignKey,
   HasMany,
+  HasOne,
+  Model,
+  Table,
 } from 'sequelize-typescript';
-import { Group } from 'src/groups/groups.model';
+import { Student } from '../students/students.model';
+import { EducationLevel } from '../education-levels/education-levels.model';
 
 interface DirectionCreationAttributes {
   code: string;
@@ -33,6 +37,17 @@ export class Direction extends Model<Direction, DirectionCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false, field: 'short_name' })
   shortName: string;
 
-  @HasMany(() => Group, 'directionId')
-  groups: Group[];
+  @ForeignKey(() => EducationLevel)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+    field: 'education_level_id',
+  })
+  educationLevelId: number;
+
+  @BelongsTo(() => EducationLevel, 'educationLevelId')
+  educationLevel: EducationLevel;
+
+  @HasMany(() => Student, 'directionId')
+  students: Student[];
 }

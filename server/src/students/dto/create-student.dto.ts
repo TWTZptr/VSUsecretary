@@ -21,5 +21,5 @@ export class CreateStudentDto {
   @IsInt()
   @ToOptionalInt()
   @IsOptional()
-  readonly groupId?: number;
+  readonly directionId?: number;
 }

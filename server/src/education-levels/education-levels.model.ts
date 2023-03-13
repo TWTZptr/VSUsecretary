@@ -1,5 +1,5 @@
 import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
-import { Group } from '../groups/groups.model';
+import { Direction } from '../directions/directions.model';
 
 interface EducationLevelCreationAttributes {
   name: string;
@@ -21,6 +21,6 @@ export class EducationLevel extends Model<
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
-  @HasMany(() => Group, 'educationLevenId')
-  groups: Group[];
+  @HasMany(() => Direction, 'educationLevelId')
+  directions: Direction[];
 }

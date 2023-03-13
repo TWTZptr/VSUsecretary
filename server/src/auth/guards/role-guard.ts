@@ -32,10 +32,6 @@ export class RoleGuard implements CanActivate {
       throw new ForbiddenException();
     }
 
-    if (!requiredRoles) {
-      return true;
-    }
-
     const token = authHeader.split(' ')[1];
 
     if (!token) {
@@ -48,6 +44,10 @@ export class RoleGuard implements CanActivate {
       userPayload = this.jwtService.verify(token);
     } catch (err) {
       throw new ForbiddenException();
+    }
+
+    if (!requiredRoles) {
+      return true;
     }
 
     req.user = userPayload;

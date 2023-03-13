@@ -4,22 +4,25 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { GroupsService } from 'src/groups/groups.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UNEXIST_GROUP_ID_MSG, UNEXIST_STUDENT_ID_MSG } from './constants';
 import { Student } from './students.model';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { DirectionsService } from '../directions/directions.service';
 
 @Injectable()
 export class StudentsService {
   constructor(
     @InjectModel(Student) private studentRepository: typeof Student,
-    private groupsService: GroupsService,
+    private readonly directionsService: DirectionsService,
   ) {}
 
   async createStudent(dto: CreateStudentDto) {
     //FIXME: dto.groupId ===  0 не пройдет проверку
-    if (dto.groupId && (await this.groupsService.isGroupExists(dto.groupId))) {
+    if (
+      dto.directionId &&
+      (await this.directionsService.isDirectionExists(dto.directionId))
+    ) {
       throw new BadRequestException(UNEXIST_GROUP_ID_MSG);
     }
     return this.studentRepository.create(dto);
@@ -30,7 +33,10 @@ export class StudentsService {
   }
 
   async updateStudent(dto: UpdateStudentDto) {
-    if (dto.groupId && (await this.groupsService.isGroupExists(dto.groupId))) {
+    if (
+      dto.directionId &&
+      (await this.directionsService.isDirectionExists(dto.directionId))
+    ) {
       throw new BadRequestException(UNEXIST_GROUP_ID_MSG);
     }
 
