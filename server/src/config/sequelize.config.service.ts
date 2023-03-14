@@ -12,15 +12,15 @@ export class SequelizeConfigService implements SequelizeOptionsFactory {
   createSequelizeOptions():
     | SequelizeModuleOptions
     | Promise<SequelizeModuleOptions> {
-    const config: SequelizeModuleOptions = {
+    return {
       dialect: 'postgres',
       username: this.configService.get('DB.USERNAME'),
       password: this.configService.get('DB.PASSWORD'),
       database: this.configService.get('DB.DATABASE'),
       host: this.configService.get('DB.HOST'),
       port: +this.configService.get('DB.PORT'),
-      synchronize: true,
       autoLoadModels: true,
+      synchronize: true,
       define: {
         timestamps: false,
       },
@@ -31,6 +31,5 @@ export class SequelizeConfigService implements SequelizeOptionsFactory {
         idle: 10000,
       },
     };
-    return config;
   }
 }
