@@ -12,9 +12,8 @@ export class EmployeesService {
     @InjectModel(Employee) private employeeRepository: typeof Employee,
   ) {}
 
-  async createEmployee(dto: CreateEmployeeDto) {
-    const employee = await this.employeeRepository.create(dto);
-    return employee;
+  createEmployee(dto: CreateEmployeeDto) {
+    return this.employeeRepository.create(dto);
   }
 
   async findEmployeeById(id: number) {
@@ -38,8 +37,7 @@ export class EmployeesService {
     if (!affectedCount) {
       throw new NotFoundException(UNEXIST_EMPLOYEE_ID_MSG);
     }
-    const employee = await this.getEmployeeById(dto.id);
-    return employee;
+    return this.getEmployeeById(dto.id);
   }
 
   async deleteEmployeeById(id: number) {
