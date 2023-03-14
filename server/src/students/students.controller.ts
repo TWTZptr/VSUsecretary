@@ -7,13 +7,18 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentsService } from './students.service';
 import { PasswordService } from '../password/password.service';
+import { RoleGuard } from '../auth/guards/role-guard';
+import { RequireRoles } from '../auth/decorators/role-auth.decorator';
 
 @Controller('students')
+@UseGuards(RoleGuard)
+@RequireRoles()
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 

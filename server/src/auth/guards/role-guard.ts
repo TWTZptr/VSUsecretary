@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
@@ -29,13 +30,13 @@ export class RoleGuard implements CanActivate {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      throw new ForbiddenException();
+      throw new UnauthorizedException();
     }
 
     const token = authHeader.split(' ')[1];
 
     if (!token) {
-      throw new ForbiddenException();
+      throw new UnauthorizedException();
     }
 
     let userPayload: UserPayload;
@@ -43,10 +44,10 @@ export class RoleGuard implements CanActivate {
     try {
       userPayload = this.jwtService.verify(token);
     } catch (err) {
-      throw new ForbiddenException();
+      throw new UnauthorizedException();
     }
 
-    if (!requiredRoles) {
+    if (!requiredRoles.length) {
       return true;
     }
 

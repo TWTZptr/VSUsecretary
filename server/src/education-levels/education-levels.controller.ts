@@ -5,6 +5,8 @@ import { RequireRoles } from '../auth/decorators/role-auth.decorator';
 import { SECRETARY } from '../users/constants';
 
 @Controller('education-levels')
+@UseGuards(RoleGuard)
+@RequireRoles()
 export class EducationLevelsController {
   constructor(
     private readonly educationLevelsService: EducationLevelsService,

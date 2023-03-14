@@ -7,14 +7,19 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeesService } from './employees.service';
 import { AddTakeDayDto } from './dto/add-take-day.dto';
 import { TakeDaysService } from 'src/take-days/take-days.service';
+import { RequireRoles } from '../auth/decorators/role-auth.decorator';
+import { RoleGuard } from '../auth/guards/role-guard';
 
 @Controller('employees')
+@UseGuards(RoleGuard)
+@RequireRoles()
 export class EmployeesController {
   constructor(
     private readonly employeesService: EmployeesService,

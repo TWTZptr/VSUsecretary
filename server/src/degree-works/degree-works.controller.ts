@@ -7,12 +7,17 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { DegreeWorksService } from './degree-works.service';
 import { CreateDegreeWorkDto } from './dto/create-degree-work.dto';
 import { UpdateDegreeWorkDto } from './dto/update-degree-work.dto';
+import { RoleGuard } from '../auth/guards/role-guard';
+import { RequireRoles } from '../auth/decorators/role-auth.decorator';
 
 @Controller('degree-works')
+@UseGuards(RoleGuard)
+@RequireRoles()
 export class DegreeWorksController {
   constructor(private readonly degreeWorksService: DegreeWorksService) {}
 

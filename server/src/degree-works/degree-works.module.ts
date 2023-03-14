@@ -6,6 +6,7 @@ import { DegreeWork } from './degree-work.model';
 import { TakeDaysModule } from 'src/take-days/take-days.module';
 import { EmployeesModule } from 'src/employees/employees.module';
 import { StudentsModule } from 'src/students/students.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   controllers: [DegreeWorksController],
@@ -15,6 +16,7 @@ import { StudentsModule } from 'src/students/students.module';
     TakeDaysModule,
     EmployeesModule,
     StudentsModule,
+    AuthModule,
   ],
   exports: [DegreeWorksService],
 })

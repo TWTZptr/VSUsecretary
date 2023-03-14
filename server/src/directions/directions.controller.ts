@@ -7,12 +7,17 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { DirectionsService } from './directions.service';
 import { CreateDirectionDto } from './dto/create-direction.dto';
 import { UpdateDirectionDto } from './dto/update-direction.dto';
+import { RoleGuard } from '../auth/guards/role-guard';
+import { RequireRoles } from '../auth/decorators/role-auth.decorator';
 
 @Controller('directions')
+@UseGuards(RoleGuard)
+@RequireRoles()
 export class DirectionsController {
   constructor(private directionsService: DirectionsService) {}
 
