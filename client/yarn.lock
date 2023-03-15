@@ -1720,6 +1720,11 @@
     redux-thunk "^2.4.1"
     reselect "^4.1.5"
 
+"@remix-run/router@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.4.0.tgz#74935d538e4df8893e47831a7aea362f295bcd39"
+  integrity sha512-BJ9SxXux8zAg991UmT8slpwpsd31K1dHHbD3Ba4VzD+liLQ4WAMSxQp2d2ZPRPfN0jN2NPRowcSSoM7lCaF08Q==
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz#04bc0608f4aa4b2e4b1aebf284344d0f68fda283"
@@ -1905,6 +1910,19 @@
     "@svgr/plugin-jsx" "^5.5.0"
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
+
+"@tanstack/query-core@4.26.1":
+  version "4.26.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.26.1.tgz#7a441086c4d3d79e1d156c0a355bd3567213626e"
+  integrity sha512-Zrx2pVQUP4ndnsu6+K/m8zerXSVY8QM+YSbxA1/jbBY21GeCd5oKfYl92oXPK0hPEUtoNuunIdiq0ZMqLos+Zg==
+
+"@tanstack/react-query@^4.26.1":
+  version "4.26.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.26.1.tgz#d254f6b7b297b5ae4204c84e6622506e5ec77d09"
+  integrity sha512-i3dnz4TOARGIXrXQ5P7S25Zfi4noii/bxhcwPurh2nrf5EUCcAt/95TB2HSmMweUBx206yIMWUMEQ7ptd6zwDg==
+  dependencies:
+    "@tanstack/query-core" "4.26.1"
+    use-sync-external-store "^1.2.0"
 
 "@testing-library/dom@^8.0.0":
   version "8.12.0"
@@ -8358,6 +8376,21 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
+react-router-dom@^6.9.0:
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.9.0.tgz#dd8b4e461453bd4cad2e6404493d1a5b4bfea758"
+  integrity sha512-/seUAPY01VAuwkGyVBPCn1OXfVbaWGGu4QN9uj0kCPcTyNYgL1ldZpxZUpRU7BLheKQI4Twtl/OW2nHRF1u26Q==
+  dependencies:
+    "@remix-run/router" "1.4.0"
+    react-router "6.9.0"
+
+react-router@6.9.0:
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.9.0.tgz#0f503d9becbc62d9e4ddc0f9bd4026e0fd29fbf5"
+  integrity sha512-51lKevGNUHrt6kLuX3e/ihrXoXCa9ixY/nVWRLlob4r/l0f45x3SzBvYJe3ctleLUQQ5fVa4RGgJOTH7D9Umhw==
+  dependencies:
+    "@remix-run/router" "1.4.0"
+
 react-scripts@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-5.0.0.tgz#6547a6d7f8b64364ef95273767466cc577cb4b60"
@@ -9821,6 +9854,11 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+use-sync-external-store@1.2.0, use-sync-external-store@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
@@ -10425,3 +10463,10 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^4.3.6:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.3.6.tgz#ce7804eb75361af0461a2d0536b65461ec5de86f"
+  integrity sha512-6J5zDxjxLE+yukC2XZWf/IyWVKnXT9b9HUv09VJ/bwGCpKNcaTqp7Ws28Xr8jnbvnZcdRaidztAPsXFBIqufiw==
+  dependencies:
+    use-sync-external-store "1.2.0"

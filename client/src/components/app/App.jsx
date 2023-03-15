@@ -1,21 +1,42 @@
-import '../../App.scss';
-import View from '../View/View';
-import { StyledEngineProvider } from '@mui/material/styles';
+import './App.scss';
 import { Provider } from 'react-redux';
 import store from '../../redux/index';
 import { ToastContainer } from 'react-toastify';
 import React from 'react';
 import 'react-toastify/dist/ReactToastify.css';
+import { Route, Routes } from 'react-router-dom';
+import { AuthProvider } from '../../hoc/AuthProvider';
+import { RequireAuth } from '../../hoc/RequireAuth';
+import { UserDefaultPage } from '../pages/UserDefaultPage';
+import { RequireUnauth } from '../../hoc/RequireUnauth';
+import { LoginPage } from '../pages/LoginPage';
 
 function App() {
   return (
     <div className="App">
-      <StyledEngineProvider>
+      <AuthProvider>
         <Provider store={store}>
-          <View />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <RequireAuth>
+                  <UserDefaultPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RequireUnauth>
+                  <LoginPage />
+                </RequireUnauth>
+              }
+            />
+          </Routes>
           <ToastContainer pauseOnFocusLoss={false} />
         </Provider>
-      </StyledEngineProvider>
+      </AuthProvider>
     </div>
   );
 }

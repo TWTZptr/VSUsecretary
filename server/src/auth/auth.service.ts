@@ -24,7 +24,10 @@ export class AuthService {
   ) {}
 
   async login(@Body() userLoginDto: LoginUserDto): Promise<LoginInfo> {
-    const user = await this.usersService.findByRoleId(userLoginDto.roleId);
+    const user = await this.usersService.findByRoleId(userLoginDto.roleId, {
+      attributes: { exclude: ['roleId'] },
+      include: ['role'],
+    });
     if (
       !user ||
       !(await this.passwordService.compare(
@@ -35,7 +38,7 @@ export class AuthService {
       throw new UnauthorizedException(INVALID_CREDENTIALS_MSG);
     }
 
-    const role = await user.$get('role');
+    const role = user.role;
     const payload = { role, id: user.id };
     const tokenPair = this.generateTokenPair(payload);
     user.password = undefined;
@@ -66,7 +69,10 @@ export class AuthService {
   }
 
   async getSelf(id: number): Promise<User> {
-    const user = await this.usersService.findById(id, { include: 'role' });
+    const user = await this.usersService.findById(id, {
+      include: 'role',
+      attributes: { exclude: ['roleId'] },
+    });
     user.password = undefined;
     return user;
   }

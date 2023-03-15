@@ -62,3 +62,8 @@ export const GRADUATION_INITIAL_STATE = {
   remarks: '',
   mark: '',
 };
+export const USER_ROLES = {
+  ADMIN: 'Администратор',
+  SECRETARY: 'Секретарь',
+  DEANERY: 'Деканат',
+};

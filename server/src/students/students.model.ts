@@ -14,6 +14,7 @@ interface StudentCreationAttributes {
   name: string;
   lastname: string;
   patronymic: string;
+  year: number;
   publications: number;
 }
 
@@ -35,6 +36,9 @@ export class Student extends Model<Student, StudentCreationAttributes> {
 
   @Column({ type: DataType.STRING(50), allowNull: false })
   patronymic: string;
+
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  year: number;
 
   @Column({ type: DataType.INTEGER, allowNull: false })
   publications: number;

@@ -26,7 +26,7 @@ export const DirectionEditor = (props) => {
         <CommonTextField
           label="Полное название"
           id="full-name"
-          sx={{ width: '100%' }}
+          sx={React.useMemo(() => ({ width: '100%' }), [])}
           onChange={(event) => props.handlers.setFullName(event.target.value)}
           value={props.localDirection.fullName}
           disabled={props.disabled}
