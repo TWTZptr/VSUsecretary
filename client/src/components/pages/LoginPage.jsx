@@ -7,6 +7,7 @@ import { getAllRoles } from '../../services/rolesService';
 import { RoleSelector } from '../common/selectors/RoleSelector';
 import { USER_ROLES } from '../../constants';
 import { CommonTextField } from '../common/CommonTextField';
+import { CommonButton } from '../common/CommonButton';
 
 export const LoginPage = React.memo(() => {
   const auth = useAuthStore((store) => store);
@@ -45,12 +46,14 @@ export const LoginPage = React.memo(() => {
   const onSubmit = React.useCallback(
     async (event) => {
       event.preventDefault();
+      const { id: roleId } = roles.find((role) => role.name === inputData.role);
       if (!inputData.password) {
         setErr('Пароль не должен быть пустым!');
         return;
       }
 
-      const res = await auth.login(inputData);
+      const res = await auth.login({ roleId, password: inputData.password });
+      console.log(res);
       if (res.ok) {
         navigate('/');
       }
@@ -105,7 +108,9 @@ export const LoginPage = React.memo(() => {
           />
         </Box>
 
-        <button type="submit">Войти</button>
+        <CommonButton variant="container" type="submit" onClick={onSubmit}>
+          Войти
+        </CommonButton>
       </form>
       <div className="error-container">{err}</div>
     </Box>

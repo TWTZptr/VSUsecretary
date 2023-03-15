@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
       if (tokenReady) {
         const response = await getSelf();
         if (response.ok) {
-          auth.setUser(response.data);
+          auth.loginUser(response.data);
         } else {
           tokenReady = false;
         }
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       if (!tokenReady && (await auth.refresh())) {
         const response = await getSelf();
         if (response.ok) {
-          auth.setUser(response.data);
+          auth.loginUser(response.data);
         }
       }
       auth.getReady();

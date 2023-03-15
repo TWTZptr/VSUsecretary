@@ -28,8 +28,8 @@ export const useAuthStore = create((set) => {
     user: INIT_USER,
     authenticated: false,
     ready: false,
-    setUser: (user) => {
-      set({ user });
+    loginUser: (user) => {
+      loginUser(user);
     },
     login: async (credentials) => {
       const response = await tryLogin(credentials);

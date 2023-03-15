@@ -21,8 +21,9 @@ export const sendRequest = async (type, url, data = {}, config = {}) => {
     return { status: response.status, data: response.data, ok: true };
   } catch (err) {
     if (axios.isAxiosError(err)) {
+      console.log(err);
       if (err.response?.status === 401 && (await tryRefresh())) {
-        const response = await sendApiRequest(type, url, data, config);
+        const response = await sendRequest(type, url, data, config);
         return { status: response.status, data: response.data, ok: true };
       }
 
