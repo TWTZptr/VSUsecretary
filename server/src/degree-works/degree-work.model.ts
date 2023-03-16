@@ -1,14 +1,13 @@
 import {
-  Table,
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
-  BelongsTo,
   Model,
+  Table,
 } from 'sequelize-typescript';
 import { Employee } from 'src/employees/employees.model';
 import { Student } from 'src/students/students.model';
-import { TakeDay } from 'src/take-days/take-days.model';
 
 interface DegreeWorkCreationAttributes {
   theme: string;
@@ -61,10 +60,6 @@ export class DegreeWork extends Model<
   @Column({ type: DataType.BOOLEAN, allowNull: false })
   implementation: boolean;
 
-  @ForeignKey(() => Student)
-  @Column({ type: DataType.INTEGER, allowNull: true, field: 'student_id' })
-  studentId: number;
-
   @ForeignKey(() => Employee)
   @Column({ type: DataType.INTEGER, allowNull: true, field: 'reviewer_id' })
   reviewerId: number;
@@ -73,24 +68,9 @@ export class DegreeWork extends Model<
   @Column({ type: DataType.INTEGER, allowNull: true, field: 'supervisor_id' })
   supervisorId: number;
 
-  @ForeignKey(() => TakeDay)
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-    field: 'take_day_id',
-    onDelete: 'SET NULL',
-  })
-  takeDayId: number;
-
-  @BelongsTo(() => Student, 'studentId')
-  student: Student;
-
   @BelongsTo(() => Employee, 'supervisorId')
   supervisor: Employee;
 
   @BelongsTo(() => Employee, 'reviewerId')
   reviewer: Employee;
-
-  @BelongsTo(() => TakeDay, 'takeDayId')
-  takeDay: TakeDay;
 }

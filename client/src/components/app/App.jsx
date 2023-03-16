@@ -7,9 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider } from '../../hoc/AuthProvider';
 import { RequireAuth } from '../../hoc/RequireAuth';
-import { UserDefaultPage } from '../pages/UserDefaultPage';
+import { UserMainPage } from '../pages/UserMainPage';
 import { RequireUnauth } from '../../hoc/RequireUnauth';
 import { LoginPage } from '../pages/LoginPage';
+import { DegreeWorksPage } from '../Tabs/degreeWorks/DegreeWorksPage';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
               path="/"
               element={
                 <RequireAuth>
-                  <UserDefaultPage />
+                  <UserMainPage />
                 </RequireAuth>
               }
             />

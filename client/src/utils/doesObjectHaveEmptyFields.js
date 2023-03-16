@@ -1,6 +1,6 @@
 export const doesObjectHaveEmptyFields = (object) => {
   const keys = Object.keys(object);
-  const isFieldEmpty = keys.reduce((acc, current) => {
+  return keys.reduce((acc, current) => {
     const field = object[current];
     if (typeof field === 'object') {
       return acc;
@@ -8,5 +8,4 @@ export const doesObjectHaveEmptyFields = (object) => {
 
     return acc || field === '';
   }, false);
-  return isFieldEmpty;
 };

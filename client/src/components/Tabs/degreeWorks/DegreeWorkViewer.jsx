@@ -1,10 +1,5 @@
 import { useModal } from '../../../hooks/useModal';
-import { useDispatch, useSelector } from 'react-redux';
 import { useDegreeWork } from '../../../hooks/useDegreeWork';
-import {
-  deleteDegreeWorkAction,
-  updateDegreeWorkAction,
-} from '../../../redux/actions/degreeWorksActions';
 import { ViewerBox } from '../../common/ViewerBox';
 import { Box } from '@mui/system';
 import { EditorButtonBlock } from '../../common/EditorButtonBlock';
@@ -16,33 +11,32 @@ import { toastError } from '../../../utils/toastSender';
 import { validateDegreeWork } from './validators';
 import { Typography } from '@mui/material';
 import { formatMark } from '../../../helpers/formatters';
+import { useDegreeWorksStore } from '../../../hooks/zustand/useDegreeWorksStore';
 
 export const DegreeWorkViewer = React.memo(() => {
   const [modalActive, activateModal, inactivateModal] = useModal();
-  const dispatch = useDispatch();
-
-  const selectedDegreeWork = useSelector(
-    (state) => state.ui.selectedDegreeWork
-  );
+  const { selectedDegreeWork, removeDegreeWork, updateDegreeWork } =
+    useDegreeWorksStore((state) => state);
   const [degreeWork, degreeWorkHandlers] = useDegreeWork();
 
   React.useEffect(() => {
     degreeWorkHandlers.setDegreeWork(selectedDegreeWork);
-  }, [selectedDegreeWork.id, degreeWorkHandlers]);
+  }, [selectedDegreeWork, degreeWorkHandlers]);
 
   const onDelete = React.useCallback(
-    () => dispatch(deleteDegreeWorkAction(selectedDegreeWork.id)),
-    [selectedDegreeWork.id, dispatch]
+    () => removeDegreeWork(selectedDegreeWork.id),
+    [selectedDegreeWork.id, removeDegreeWork]
   );
 
   const onSave = React.useCallback(() => {
     try {
       validateDegreeWork(degreeWork);
-      dispatch(updateDegreeWorkAction(degreeWork));
+
+      updateDegreeWork(degreeWork);
     } catch (e) {
       toastError(e.message);
     }
-  }, [degreeWork, dispatch]);
+  }, [degreeWork, updateDegreeWork]);
 
   const disabled = !Boolean(selectedDegreeWork.id);
 

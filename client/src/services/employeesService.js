@@ -1,21 +1,20 @@
-import axios from 'axios';
+import { sendRequest } from '../utils/sendRequest';
 
 const createEmployee = async (employee) => {
-  const response = await axios.post('/api/employees', employee);
+  const response = await sendRequest('post', '/api/employees', employee);
   return response.data;
 };
 
 const updateEmployee = async (employee) => {
-  const response = await axios.patch('/api/employees', employee);
+  const response = await sendRequest('patch', '/api/employees', employee);
   return response.data;
 };
 
-const deleteEmployeeById = async (id) => {
-  await axios.delete(`/api/employees/${id}`);
-};
+const deleteEmployeeById = (id) =>
+  sendRequest('delete', `/api/employees/${id}`);
 
 const getAllEmployees = async () => {
-  const response = await axios.get(`/api/employees`);
+  const response = await sendRequest('get', `/api/employees`);
   return response.data;
 };
 

@@ -1,21 +1,19 @@
-import axios from 'axios';
+import { sendRequest } from '../utils/sendRequest';
 
 const createStudent = async (student) => {
-  const response = await axios.post('/api/students', student);
+  const response = await sendRequest('post', '/api/students', student);
   return response.data;
 };
 
 const updateStudent = async (student) => {
-  const response = await axios.patch('/api/students', student);
+  const response = await sendRequest('patch', '/api/students', student);
   return response.data;
 };
 
-const deleteStudentById = async (id) => {
-  await axios.delete(`/api/students/${id}`);
-};
+const deleteStudentById = (id) => sendRequest('delete', `/api/students/${id}`);
 
 const getAllStudents = async () => {
-  const response = await axios.get('/api/students');
+  const response = await sendRequest('get', '/api/students');
   return response.data;
 };
 

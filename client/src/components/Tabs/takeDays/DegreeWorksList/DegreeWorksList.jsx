@@ -9,7 +9,7 @@ import { updateDegreeWorkAction } from '../../../../redux/actions/degreeWorksAct
 import { DegreeWorkListItems } from './DegreeWorkListItems';
 import CommonListItem from '../../../common/CommonListItem';
 import { CommonButton } from '../../../common/CommonButton';
-import { DegreeWorksListItem } from '../../../common/degreeWork/DegreeWorksListItem';
+import { DegreeWorkListItem } from '../../../common/degreeWork/DegreeWorkListItem';
 
 export const DegreeWorksList = (props) => {
   const handleDeleteDegreeWork = (degreeWork) => {
@@ -57,7 +57,7 @@ export const DegreeWorksList = (props) => {
   if (unusedDegreeWorks.length) {
     unusedDegreeWorksListItems = unusedDegreeWorks.map((degreeWork) => {
       return (
-        <DegreeWorksListItem
+        <DegreeWorkListItem
           degreeWork={degreeWork}
           key={degreeWork.id}
           onClick={onClick}

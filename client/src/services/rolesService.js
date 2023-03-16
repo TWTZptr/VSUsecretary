@@ -1,6 +1,6 @@
-import axios from 'axios';
+import { sendRequest } from '../utils/sendRequest';
 
 export const getAllRoles = async () => {
-  const res = await axios.get('/api/roles');
+  const res = await sendRequest('get', '/api/roles');
   return res.data;
 };

@@ -1,29 +1,28 @@
 import { useDegreeWork } from '../../../hooks/useDegreeWork';
-import { useDispatch } from 'react-redux';
-import { createDegreeWorkAction } from '../../../redux/actions/degreeWorksActions';
 import { ModalBox } from '../../common/ModalBox';
 import { DegreeWorksEditor } from '../../common/degreeWork/DegreeWorksEditor';
 import { CommonButton } from '../../common/CommonButton';
 import React from 'react';
 import { validateDegreeWork } from './validators';
 import { toastError } from '../../../utils/toastSender';
+import { useDegreeWorksStore } from '../../../hooks/zustand/useDegreeWorksStore';
 
-export const ModalAddDegreeWork = React.forwardRef((props, ref) => {
+export const ModalAddDegreeWork = React.memo(({ onClose }) => {
   const [degreeWork, degreeWorkHandlers] = useDegreeWork();
-  const dispatch = useDispatch();
+  const { createDegreeWork } = useDegreeWorksStore((state) => state);
 
-  const handleAdd = () => {
+  const handleAdd = React.useCallback(() => {
     try {
       validateDegreeWork(degreeWork);
-      dispatch(createDegreeWorkAction(degreeWork));
-      props.onClose();
+      createDegreeWork(degreeWork);
+      onClose();
     } catch (e) {
       toastError(e.message);
     }
-  };
+  }, [onClose, createDegreeWork, degreeWork]);
 
   return (
-    <ModalBox sx={React.useMemo(() => ({ maxWidth: 700 }), [])} ref={ref}>
+    <ModalBox sx={React.useMemo(() => ({ maxWidth: 700 }), [])}>
       <DegreeWorksEditor
         handlers={degreeWorkHandlers}
         localDegreeWork={degreeWork}

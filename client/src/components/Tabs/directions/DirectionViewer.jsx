@@ -1,10 +1,5 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  updateDirectionAction,
-  deleteDirectionAction,
-} from '../../../redux/actions/directionsActions';
 import { EditorButtonBlock } from '../../common/EditorButtonBlock';
 import { ModalAddDirection } from './ModalAddDirection';
 import { useModal } from '../../../hooks/useModal';
@@ -14,27 +9,33 @@ import { CommonModal } from '../../common/CommonModal';
 import { ViewerBox } from '../../common/ViewerBox';
 import { toastError } from '../../../utils/toastSender';
 import { validateDirection } from './validators';
+import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
 
-export const DirectionViewer = (props) => {
+export const DirectionViewer = React.memo(() => {
   const [modalActive, activateModal, inactivateModal] = useModal();
 
-  const dispatch = useDispatch();
-  const selectedDirection = useSelector((state) => state.ui.selectedDirection);
+  const {
+    selectedDirection,
+    removeDirection,
+    updateDirection,
+    resetSelectedDirection,
+  } = useDirectionsStore((state) => state);
 
   const [direction, directionHandlers] = useDirection();
 
   React.useEffect(() => {
     directionHandlers.setDirection(selectedDirection);
-  }, [selectedDirection]);
+  }, [selectedDirection, directionHandlers]);
 
   const onDelete = () => {
-    dispatch(deleteDirectionAction(direction.id));
+    removeDirection(direction.id);
+    resetSelectedDirection();
   };
 
   const onSave = () => {
     try {
       validateDirection(direction);
-      dispatch(updateDirectionAction(direction));
+      updateDirection(direction);
     } catch (e) {
       toastError(e.message);
     }
@@ -50,7 +51,7 @@ export const DirectionViewer = (props) => {
           localDirection={direction}
           disabled={disabled}
         />
-        <Box sx={{ width: '100%' }}>
+        <Box sx={React.useMemo(() => ({ width: '100%' }), [])}>
           <EditorButtonBlock
             onSave={onSave}
             onDelete={onDelete}
@@ -65,4 +66,4 @@ export const DirectionViewer = (props) => {
       </CommonModal>
     </ViewerBox>
   );
-};
+});

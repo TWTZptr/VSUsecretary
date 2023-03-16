@@ -1,21 +1,19 @@
-import axios from 'axios';
+import { sendRequest } from '../utils/sendRequest';
 
 const createDirection = async (direction) => {
-  const response = await axios.post('/api/directions', direction);
+  const response = await sendRequest('post', '/api/directions', direction);
   return response.data;
 };
 
 const updateDirection = async (direction) => {
-  const response = await axios.patch('/api/directions', direction);
+  const response = await sendRequest('patch', '/api/directions', direction);
   return response.data;
 };
 
-const deleteDirectionById = async (id) => {
-  await axios.delete(`/api/directions/${id}`);
-};
-
+const deleteDirectionById = (id) =>
+  sendRequest('delete', `/api/directions/${id}`);
 const getAllDirections = async () => {
-  const response = await axios.get(`/api/directions`);
+  const response = await sendRequest('get', `/api/directions`);
   return response.data;
 };
 

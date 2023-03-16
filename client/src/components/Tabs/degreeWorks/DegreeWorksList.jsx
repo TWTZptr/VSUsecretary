@@ -1,23 +1,22 @@
 import { DefaultList } from '../../common/DefaultList';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectDegreeWork } from '../../../redux/slices/uiSlice';
-import { DegreeWorksListItem } from '../../common/degreeWork/DegreeWorksListItem';
+import { DegreeWorkListItem } from '../../common/degreeWork/DegreeWorkListItem';
+import { useDegreeWorksStore } from '../../../hooks/zustand/useDegreeWorksStore';
 
 export const DegreeWorksList = React.memo((props) => {
-  const degreeWorks = useSelector((state) => state.degreeWorks);
-  const selectedDegreeWork = useSelector(
-    (state) => state.ui.selectedDegreeWork
-  );
-  const dispatch = useDispatch();
+  const { degreeWorks, selectedDegreeWork, selectDegreeWork } =
+    useDegreeWorksStore((state) => state);
 
-  const onClick = React.useCallback((degreeWork) => {
-    dispatch(selectDegreeWork(degreeWork));
-  }, []);
+  const onClick = React.useCallback(
+    (degreeWork) => {
+      selectDegreeWork(degreeWork);
+    },
+    [selectDegreeWork]
+  );
 
   const items = degreeWorks.map((degreeWork) => {
     return (
-      <DegreeWorksListItem
+      <DegreeWorkListItem
         degreeWork={degreeWork}
         key={degreeWork.id}
         selected={degreeWork.id === selectedDegreeWork.id}

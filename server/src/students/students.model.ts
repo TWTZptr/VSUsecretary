@@ -3,12 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
-  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { DegreeWork } from 'src/degree-works/degree-work.model';
 import { Direction } from '../directions/directions.model';
+import { TakeDay } from '../take-days/take-days.model';
 
 interface StudentCreationAttributes {
   name: string;
@@ -47,9 +47,20 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: true, field: 'direction_id' })
   directionId: number;
 
+  @ForeignKey(() => DegreeWork)
+  @Column({ type: DataType.INTEGER, allowNull: true, field: 'degree_work_id' })
+  degreeWorkId: number;
+
+  @ForeignKey(() => TakeDay)
+  @Column({ type: DataType.INTEGER, allowNull: true, field: 'take_day_id' })
+  takeDayId: number;
+
   @BelongsTo(() => Direction, 'directionId')
   direction: Direction;
 
-  @HasOne(() => DegreeWork, 'studentId')
+  @BelongsTo(() => DegreeWork, 'degreeWorkId')
   degreeWork: DegreeWork;
+
+  @BelongsTo(() => TakeDay, 'takeDayId')
+  takeDay: TakeDay;
 }

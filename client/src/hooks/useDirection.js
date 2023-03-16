@@ -4,20 +4,23 @@ import React from 'react';
 export const useDirection = (initialState = INITIAL_DIRECTION_STATE) => {
   const [direction, setDirection] = React.useState(initialState);
 
-  const groupHandlers = {
-    setCode: (code) => {
-      setDirection({...direction, code});
-    },
-    setShortName: (shortName) => {
-      setDirection({...direction, shortName});
-    },
-    setFullName: (fullName) => {
-      setDirection({...direction, fullName});
-    },
-    setDirection: (direction) => {
-      setDirection(direction);
-    },
-  };
+  const groupHandlers = React.useMemo(
+    () => ({
+      setCode: (code) => {
+        setDirection((prevState) => ({ ...prevState, code }));
+      },
+      setShortName: (shortName) => {
+        setDirection((prevState) => ({ ...prevState, shortName }));
+      },
+      setFullName: (fullName) => {
+        setDirection((prevState) => ({ ...prevState, fullName }));
+      },
+      setDirection: (direction) => {
+        setDirection(direction);
+      },
+    }),
+    []
+  );
 
   return [direction, groupHandlers];
 };

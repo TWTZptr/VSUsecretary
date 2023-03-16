@@ -1,6 +1,6 @@
 import { DefaultList } from '../../../../common/DefaultList';
 import React from 'react';
-import { DegreeWorksListItem } from '../../../../common/degreeWork/DegreeWorksListItem';
+import { DegreeWorkListItem } from '../../../../common/degreeWork/DegreeWorkListItem';
 import { formatPerson } from '../../../../../helpers/formatters';
 import { useSelector } from 'react-redux';
 
@@ -15,7 +15,7 @@ export const DegreeWorksList = React.memo((props) => {
         );
 
         return (
-          <DegreeWorksListItem
+          <DegreeWorkListItem
             degreeWork={degreeWork}
             onClick={props.onSelect}
             selected={props.selectedDegreeWork.id === degreeWork.id}

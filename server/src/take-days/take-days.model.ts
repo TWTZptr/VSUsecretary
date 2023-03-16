@@ -1,14 +1,14 @@
 import {
-  Model,
+  BelongsToMany,
   Column,
   DataType,
-  Table,
-  BelongsToMany,
   HasMany,
+  Model,
+  Table,
 } from 'sequelize-typescript';
-import { DegreeWork } from 'src/degree-works/degree-work.model';
 import { EmployeeTakeDay } from 'src/employees-take-days/employees-take-days.model';
 import { Employee } from 'src/employees/employees.model';
+import { Student } from '../students/students.model';
 
 interface TakeDayCreationAttributes {
   date: Date;
@@ -30,6 +30,6 @@ export class TakeDay extends Model<TakeDay, TakeDayCreationAttributes> {
   @BelongsToMany(() => Employee, () => EmployeeTakeDay)
   employees: Array<Employee & { EmployeeTakeDay: EmployeeTakeDay }>;
 
-  @HasMany(() => DegreeWork, 'takeDayId')
-  degreeWorks: DegreeWork[];
+  @HasMany(() => Student, 'takeDayId')
+  students: Student[];
 }

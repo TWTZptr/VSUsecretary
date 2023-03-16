@@ -2,7 +2,7 @@ import { useAuthStore } from '../../hooks/zustand/useAuthStore';
 import { USER_ROLES } from '../../constants';
 import SecretaryMainPage from './SecretaryMainPage';
 
-export const UserDefaultPage = () => {
+export const UserMainPage = () => {
   const auth = useAuthStore();
 
   switch (auth.user.role.name) {

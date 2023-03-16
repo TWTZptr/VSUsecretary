@@ -18,6 +18,10 @@ const schema = Joi.object({
     'string.base': `Полное название должно быть строкой`,
     'string.empty': `Полное название не указано`,
   }),
+  educationLevelId: Joi.number().required().messages({
+    'number.base': `Неверная степень обучения`,
+    'number.empty': 'Степень обучения не указана',
+  }),
 });
 
 export const validateDirection = (direction) => {

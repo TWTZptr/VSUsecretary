@@ -20,7 +20,7 @@ export class UsersService {
   findByRoleId(roleId: number, options: FindOptions<User> = {}) {
     return this.userRepository.findOne({
       ...options,
-      where: { roleId: role },
+      where: { roleId },
     });
   }
 

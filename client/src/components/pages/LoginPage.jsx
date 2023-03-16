@@ -53,13 +53,13 @@ export const LoginPage = React.memo(() => {
       }
 
       const res = await auth.login({ roleId, password: inputData.password });
-      console.log(res);
       if (res.ok) {
         navigate('/');
       }
 
       if (res.status === 401) {
         setErr('Неверный пароль!');
+        return;
       }
 
       setErr('Неизвестная ошибка');
