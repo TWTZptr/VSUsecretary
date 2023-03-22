@@ -8,7 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { DegreeWork } from 'src/degree-works/degree-work.model';
 import { Direction } from '../directions/directions.model';
-import { TakeDay } from '../take-days/take-days.model';
+import { GraduateScript } from '../graduate-scripts/graduate-scripts.model';
 
 interface StudentCreationAttributes {
   name: string;
@@ -43,6 +43,9 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   publications: number;
 
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  order?: number;
+
   @ForeignKey(() => Direction)
   @Column({ type: DataType.INTEGER, allowNull: true, field: 'direction_id' })
   directionId: number;
@@ -51,9 +54,13 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: true, field: 'degree_work_id' })
   degreeWorkId: number;
 
-  @ForeignKey(() => TakeDay)
-  @Column({ type: DataType.INTEGER, allowNull: true, field: 'take_day_id' })
-  takeDayId: number;
+  @ForeignKey(() => GraduateScript)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+    field: 'gradudate_script_id',
+  })
+  graduateScriptId: number;
 
   @BelongsTo(() => Direction, 'directionId')
   direction: Direction;
@@ -61,6 +68,6 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @BelongsTo(() => DegreeWork, 'degreeWorkId')
   degreeWork: DegreeWork;
 
-  @BelongsTo(() => TakeDay, 'takeDayId')
-  takeDay: TakeDay;
+  @BelongsTo(() => GraduateScript, 'graduateScriptId')
+  graduateScript: GraduateScript;
 }

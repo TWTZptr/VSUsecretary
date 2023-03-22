@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsDate, IsInt } from 'class-validator';
 
-export class UpdateTakeDayDto {
+export class UpdateGraduateScriptDto {
   @IsNotEmpty()
   @IsInt()
   readonly id: number;

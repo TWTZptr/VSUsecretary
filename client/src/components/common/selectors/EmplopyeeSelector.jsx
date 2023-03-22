@@ -6,7 +6,7 @@ export const EmployeeSelector = React.memo((props) => {
   const label = props.label || 'Сотрудник';
   return (
     <CommonFormControl
-      sx={{ flexGrow: 1, ...props.sx }}
+      sx={React.useMemo(() => ({ flexGrow: 1, ...props.sx }), [])}
       disabled={props.disabled}
     >
       <InputLabel>{label}</InputLabel>

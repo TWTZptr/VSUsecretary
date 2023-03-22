@@ -1,13 +1,13 @@
 import { Box } from '@mui/system';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllTakeDaysAction } from '../../../redux/actions/takeDaysActions';
-import { TakeDayViewer } from './TakeDayViewer';
-import { TakeDayList } from './TakeDayList';
-import { ViewerBox } from '../../common/ViewerBox';
-import { GraduationMode } from './GraduationMode/GraduationMode';
+import { getAllTakeDaysAction } from '../../redux/actions/takeDaysActions';
+import { TakeDayViewer } from '../Tabs/takeDays/TakeDayViewer';
+import { TakeDayList } from '../Tabs/takeDays/TakeDayList';
+import { ViewerBox } from '../common/ViewerBox';
+import { GraduationMode } from '../Tabs/takeDays/GraduationMode/GraduationMode';
 
-export const TakeDays = (props) => {
+export const GraduateScriptsPage = (props) => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {

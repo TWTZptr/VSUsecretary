@@ -10,13 +10,19 @@ import { RequireAuth } from '../../hoc/RequireAuth';
 import { UserMainPage } from '../pages/UserMainPage';
 import { RequireUnauth } from '../../hoc/RequireUnauth';
 import { LoginPage } from '../pages/LoginPage';
-import { DegreeWorksPage } from '../Tabs/degreeWorks/DegreeWorksPage';
+import { DirectionsPage } from '../pages/DirectionsPage';
+import { USER_ROLES } from '../../constants';
+import { SecretaryTabs } from '../../hoc/SecretaryTabs';
+import { GraduateScriptsPage } from '../pages/GraduateScriptsPage';
+import { EmployeesPage } from '../pages/EmployeesPage';
+import { Header } from '../header/Header';
 
 function App() {
   return (
     <div className="App">
       <AuthProvider>
         <Provider store={store}>
+          <Header />
           <Routes>
             <Route
               path="/"
@@ -32,6 +38,36 @@ function App() {
                 <RequireUnauth>
                   <LoginPage />
                 </RequireUnauth>
+              }
+            />
+            <Route
+              path="/directions"
+              element={
+                <RequireAuth role={USER_ROLES.SECRETARY}>
+                  <SecretaryTabs>
+                    <DirectionsPage />
+                  </SecretaryTabs>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/graduate-scripts"
+              element={
+                <RequireAuth role={USER_ROLES.SECRETARY}>
+                  <SecretaryTabs>
+                    <GraduateScriptsPage />
+                  </SecretaryTabs>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/employees"
+              element={
+                <RequireAuth role={USER_ROLES.SECRETARY}>
+                  <SecretaryTabs>
+                    <EmployeesPage />
+                  </SecretaryTabs>
+                </RequireAuth>
               }
             />
           </Routes>

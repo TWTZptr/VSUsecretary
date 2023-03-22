@@ -7,8 +7,8 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { DegreeWork } from 'src/degree-works/degree-work.model';
-import { EmployeeTakeDay } from 'src/employees-take-days/employees-take-days.model';
-import { TakeDay } from 'src/take-days/take-days.model';
+import { EmployeeGraduateScript } from 'src/employees-graduate-scripts/employees-graduate-scripts.model';
+import { GraduateScript } from 'src/graduate-scripts/graduate-scripts.model';
 
 interface EmployeeCreationAttributes {
   name: string;
@@ -75,8 +75,10 @@ export class Employee extends Model<Employee, EmployeeCreationAttributes> {
   @Column({ type: DataType.STRING(20), allowNull: false })
   status: string;
 
-  @BelongsToMany(() => TakeDay, () => EmployeeTakeDay)
-  takeDays: Array<TakeDay & { EmployeeTakeDay: EmployeeTakeDay }>;
+  @BelongsToMany(() => GraduateScript, () => EmployeeGraduateScript)
+  graduateScripts: Array<
+    GraduateScript & { EmployeeGraduateScript: EmployeeGraduateScript }
+  >;
 
   @HasMany(() => DegreeWork, 'supervisorId')
   degreeWorksAsSupervisor: DegreeWork[];

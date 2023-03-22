@@ -1,17 +1,22 @@
 import CommonListItem from '../../common/CommonListItem';
 import { ListItemButton, ListItemText } from '@mui/material';
+import React from 'react';
 
-export const EmployeeListItem = (props) => {
+export const EmployeeListItem = ({ onClick, employee, selected }) => {
+  const onSelfClick = React.useCallback(() => {
+    onClick(employee);
+  }, [onClick, employee]);
+
   return (
     <CommonListItem
-      key={props.employee.id}
+      key={employee.id}
       disablePadding
-      onClick={props.onClick}
-      active={props.selected}
+      onClick={onSelfClick}
+      active={selected}
     >
       <ListItemButton>
         <ListItemText
-          primary={`${props.employee.lastname} ${props.employee.name} ${props.employee.patronymic}`}
+          primary={`${employee.lastname} ${employee.name} ${employee.patronymic}`}
         />
       </ListItemButton>
     </CommonListItem>

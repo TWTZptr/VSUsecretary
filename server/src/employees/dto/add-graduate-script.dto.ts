@@ -1,11 +1,11 @@
 import { IsNotEmpty, IsInt } from 'class-validator';
 
-export class AddTakeDayDto {
+export class AddGraduateScriptDto {
   @IsInt()
   @IsNotEmpty()
   employeeId: number;
 
   @IsInt()
   @IsNotEmpty()
-  takeDayId: number;
+  graduateScriptId: number;
 }

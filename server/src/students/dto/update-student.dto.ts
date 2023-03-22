@@ -16,6 +16,11 @@ export class UpdateStudentDto {
   @Length(3, 50)
   readonly lastname?: string;
 
+  @IsInt()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly order?: number;
+
   @IsNotEmpty()
   @IsOptional()
   @Length(3, 50)

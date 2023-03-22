@@ -1,6 +1,6 @@
 import { IsDate, IsNotEmpty } from 'class-validator';
 
-export class CreateTakeDayDto {
+export class CreateGraduateScriptDto {
   @IsNotEmpty()
   @IsDate()
   readonly date: Date;

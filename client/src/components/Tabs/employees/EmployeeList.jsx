@@ -1,13 +1,19 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { DefaultList } from '../../common/DefaultList';
 import { EmployeeListItem } from './EmployeeListItem';
-import { selectEmployee } from '../../../redux/slices/uiSlice';
+import React from 'react';
+import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
 
-export const EmployeeList = (props) => {
-  const dispatch = useDispatch();
-  const selectedEmployee = useSelector((state) => state.ui.selectedEmployee);
+export const EmployeeList = React.memo(() => {
+  const { selectedEmployee, employees, selectEmployee } = useEmployeesStore(
+    (state) => state
+  );
 
-  const employees = useSelector((state) => state.employees);
+  const onClick = React.useCallback(
+    (employee) => {
+      selectEmployee(employee);
+    },
+    [selectEmployee]
+  );
 
   return (
     <DefaultList>
@@ -17,10 +23,10 @@ export const EmployeeList = (props) => {
             employee={employee}
             key={employee.id}
             selected={employee.id === selectedEmployee.id}
-            onClick={() => dispatch(selectEmployee(employee))}
+            onClick={onClick}
           />
         );
       })}
     </DefaultList>
   );
-};
+});

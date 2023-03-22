@@ -6,17 +6,17 @@ import {
   Model,
 } from 'sequelize-typescript';
 import { Employee } from 'src/employees/employees.model';
-import { TakeDay } from 'src/take-days/take-days.model';
+import { GraduateScript } from 'src/graduate-scripts/graduate-scripts.model';
 
-interface EmployeeTakeDayCreationAttributes {
+interface EmployeeGraduateScriptCreationAttributes {
   employeeId: number;
-  takeDayId: number;
+  graduateScriptId: number;
 }
 
-@Table({ tableName: 'EmployeesTakeDays' })
-export class EmployeeTakeDay extends Model<
-  EmployeeTakeDay,
-  EmployeeTakeDayCreationAttributes
+@Table({ tableName: 'EmployeesGraduateScripts' })
+export class EmployeeGraduateScript extends Model<
+  EmployeeGraduateScript,
+  EmployeeGraduateScriptCreationAttributes
 > {
   @ForeignKey(() => Employee)
   @Column({
@@ -27,12 +27,12 @@ export class EmployeeTakeDay extends Model<
   })
   employeeId: number;
 
-  @ForeignKey(() => TakeDay)
+  @ForeignKey(() => GraduateScript)
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
-    field: 'take_day_id',
+    field: 'graduate_script_id',
     onDelete: 'CASCADE',
   })
-  takeDayId: number;
+  graduateScriptId: number;
 }

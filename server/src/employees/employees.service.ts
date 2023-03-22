@@ -4,7 +4,7 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { Employee } from './employees.model';
 import { UNEXIST_EMPLOYEE_ID_MSG } from './constants';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { TakeDay } from '../take-days/take-days.model';
+import { GraduateScript } from '../graduate-scripts/graduate-scripts.model';
 
 @Injectable()
 export class EmployeesService {
@@ -49,14 +49,20 @@ export class EmployeesService {
     }
   }
 
-  async addTakeDayToEmployee(employee: Employee, takeDay: TakeDay) {
-    await employee.$add('takeDays', takeDay);
+  async addGraduateScriptToEmployee(
+    employee: Employee,
+    graduateScript: GraduateScript,
+  ) {
+    await employee.$add('graduateScripts', graduateScript);
     const updatedEmployee = this.getEmployeeById(employee.id);
     return updatedEmployee;
   }
 
-  async removeEmployeeTakeDay(employee: Employee, takeDay: TakeDay) {
-    await employee.$remove('takeDay', takeDay);
+  async removeEmployeeGraduateScript(
+    employee: Employee,
+    graduateScript: GraduateScript,
+  ) {
+    await employee.$remove('graduateScript', graduateScript);
     const updatedEmployee = this.getEmployeeById(employee.id);
     return updatedEmployee;
   }
@@ -65,10 +71,10 @@ export class EmployeesService {
     return id && (await this.getEmployeeById(id));
   }
 
-  async getEmployeeTakeDays(employeeId: number) {
+  async getEmployeeGraduateScripts(employeeId: number) {
     const employee = await this.findEmployeeById(employeeId);
-    const takeDays = await employee.$get('takeDays');
-    return takeDays;
+    const graduateScripts = await employee.$get('graduateScripts');
+    return graduateScripts;
   }
 
   async getAllEmployees() {

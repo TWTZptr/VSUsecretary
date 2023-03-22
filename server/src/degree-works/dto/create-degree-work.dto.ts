@@ -64,5 +64,5 @@ export class CreateDegreeWorkDto {
   @IsInt()
   @IsOptional()
   @ToOptionalInt()
-  readonly takeDayId?: number;
+  readonly graduateScriptId?: number;
 }

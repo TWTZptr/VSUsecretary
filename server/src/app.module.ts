@@ -6,8 +6,8 @@ import { SequelizeConfigService } from './config/sequelize.config.service';
 import { DirectionsModule } from './directions/directions.module';
 import { StudentsModule } from './students/students.module';
 import { EmployeesModule } from './employees/employees.module';
-import { TakeDaysModule } from './take-days/take-days.module';
-import { EmployeesTakeDaysModule } from './employees-take-days/employees-take-days.module';
+import { GraduateScriptsModule } from './graduate-scripts/graduate-scripts.module';
+import { EmployeesGraduateScriptsModule } from './employees-graduate-scripts/employees-graduate-scripts.module';
 import { DegreeWorksModule } from './degree-works/degree-works.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
@@ -32,8 +32,8 @@ import { FilesModule } from './files/files.module';
     DirectionsModule,
     StudentsModule,
     EmployeesModule,
-    TakeDaysModule,
-    EmployeesTakeDaysModule,
+    GraduateScriptsModule,
+    EmployeesGraduateScriptsModule,
     DegreeWorksModule,
     UsersModule,
     RolesModule,

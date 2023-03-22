@@ -1,5 +1,14 @@
 import { create as createStore } from 'zustand';
 
+// directions
+// createDirection
+// removeDirection
+// updateDirection
+// getAllDirections
+// getDirectionById
+// selectedDirection
+// selectDirection
+// resetSelectedDirection
 export const createDefaultStore = (
   name,
   { create, update, remove, getAll },
@@ -17,7 +26,7 @@ export const createDefaultStore = (
         set({ [plural]: [...get()[plural], item] });
       }
     },
-    ['remove' + cap]: async (id) => {
+    ['remove' + cap + 'ById']: async (id) => {
       const res = await remove(id);
       if (res) {
         set({ [plural]: get()[plural].filter((val) => val.id !== id) });
@@ -37,7 +46,8 @@ export const createDefaultStore = (
       const res = await getAll();
       set({ [plural]: res });
     },
-    getById: (id) => get()[plural].find((item) => item.id === id),
+    ['get' + cap + 'ById']: (id) =>
+      get()[plural].find((item) => item.id === id),
     ['selected' + cap]: initVal,
     ['select' + cap]: (val) => set({ ['selected' + cap]: val }),
     ['resetSelected' + cap]: () => set({ ['selected' + cap]: initVal }),

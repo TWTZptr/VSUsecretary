@@ -7,8 +7,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { EmployeesService } from 'src/employees/employees.service';
 import { UNEXIST_STUDENT_ID_MSG } from 'src/students/constants';
 import { StudentsService } from 'src/students/students.service';
-import { UNEXIST_TAKEDAY_ID_MSG } from 'src/take-days/constants';
-import { TakeDaysService } from 'src/take-days/take-days.service';
+import { UNEXIST_TAKEDAY_ID_MSG } from 'src/graduate-scripts/constants';
+import { GraduateScriptsService } from 'src/graduate-scripts/graduate-scripts.service';
 import {
   UNEXIST_DEGREE_WORK_ID_MSG,
   UNEXIST_REWIEVER_ID_MSG,
@@ -24,7 +24,7 @@ export class DegreeWorksService {
     @InjectModel(DegreeWork) private degreeWorkRepository: typeof DegreeWork,
     private studentsService: StudentsService,
     private employeesService: EmployeesService,
-    private takeDaysService: TakeDaysService,
+    private graduateScriptsService: GraduateScriptsService,
   ) {}
 
   async getDegreeWorkById(id: number) {
@@ -54,8 +54,10 @@ export class DegreeWorksService {
     }
 
     if (
-      dto.takeDayId &&
-      !(await this.takeDaysService.isTakeDayExists(dto.takeDayId))
+      dto.graduateScriptId &&
+      !(await this.graduateScriptsService.isGraduateScriptExists(
+        dto.graduateScriptId,
+      ))
     ) {
       throw new BadRequestException(UNEXIST_TAKEDAY_ID_MSG);
     }

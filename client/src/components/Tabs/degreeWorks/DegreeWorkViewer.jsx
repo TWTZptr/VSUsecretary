@@ -15,7 +15,7 @@ import { useDegreeWorksStore } from '../../../hooks/zustand/useDegreeWorksStore'
 
 export const DegreeWorkViewer = React.memo(() => {
   const [modalActive, activateModal, inactivateModal] = useModal();
-  const { selectedDegreeWork, removeDegreeWork, updateDegreeWork } =
+  const { selectedDegreeWork, removeDegreeWorkById, updateDegreeWork } =
     useDegreeWorksStore((state) => state);
   const [degreeWork, degreeWorkHandlers] = useDegreeWork();
 
@@ -24,8 +24,8 @@ export const DegreeWorkViewer = React.memo(() => {
   }, [selectedDegreeWork, degreeWorkHandlers]);
 
   const onDelete = React.useCallback(
-    () => removeDegreeWork(selectedDegreeWork.id),
-    [selectedDegreeWork.id, removeDegreeWork]
+    () => removeDegreeWorkById(selectedDegreeWork.id),
+    [selectedDegreeWork.id, removeDegreeWorkById]
   );
 
   const onSave = React.useCallback(() => {

@@ -16,7 +16,7 @@ export const DirectionViewer = React.memo(() => {
 
   const {
     selectedDirection,
-    removeDirection,
+    removeDirectionById,
     updateDirection,
     resetSelectedDirection,
   } = useDirectionsStore((state) => state);
@@ -28,7 +28,7 @@ export const DirectionViewer = React.memo(() => {
   }, [selectedDirection, directionHandlers]);
 
   const onDelete = () => {
-    removeDirection(direction.id);
+    removeDirectionById(direction.id);
     resetSelectedDirection();
   };
 

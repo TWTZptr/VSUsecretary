@@ -12,8 +12,8 @@ import {
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeesService } from './employees.service';
-import { AddTakeDayDto } from './dto/add-take-day.dto';
-import { TakeDaysService } from 'src/take-days/take-days.service';
+import { AddGraduateScriptDto } from './dto/add-graduate-script.dto';
+import { GraduateScriptsService } from 'src/graduate-scripts/graduate-scripts.service';
 import { RequireRoles } from '../auth/decorators/role-auth.decorator';
 import { RoleGuard } from '../auth/guards/role-guard';
 
@@ -23,7 +23,7 @@ import { RoleGuard } from '../auth/guards/role-guard';
 export class EmployeesController {
   constructor(
     private readonly employeesService: EmployeesService,
-    private readonly takeDaysService: TakeDaysService,
+    private readonly graduateScriptsService: GraduateScriptsService,
   ) {}
 
   @Post()
@@ -46,35 +46,47 @@ export class EmployeesController {
     return this.employeesService.deleteEmployeeById(id);
   }
 
-  @Post('takeDays')
-  async addTakeDayToEmployee(@Body() addTakeDayDto: AddTakeDayDto) {
-    const takeDay = await this.takeDaysService.findTakeDayById(
-      addTakeDayDto.takeDayId,
-    );
+  @Post('graduateScripts')
+  async addGraduateScriptToEmployee(
+    @Body() addGraduateScriptDto: AddGraduateScriptDto,
+  ) {
+    const graduateScript =
+      await this.graduateScriptsService.findGraduateScriptById(
+        addGraduateScriptDto.graduateScriptId,
+      );
 
     const employee = await this.employeesService.findEmployeeById(
-      addTakeDayDto.employeeId,
+      addGraduateScriptDto.employeeId,
     );
 
-    return this.employeesService.addTakeDayToEmployee(employee, takeDay);
+    return this.employeesService.addGraduateScriptToEmployee(
+      employee,
+      graduateScript,
+    );
   }
 
-  @Delete(':id/takeDays/:takeDayId')
-  async removeEmployeeTakeDay(
+  @Delete(':id/graduateScripts/:graduateScriptId')
+  async removeEmployeeGraduateScript(
     @Param('id', ParseIntPipe) id: number,
-    @Param('takeDayId', ParseIntPipe) takeDayId: number,
+    @Param('graduateScriptId', ParseIntPipe) graduateScriptId: number,
   ) {
-    const takeDay = await this.takeDaysService.findTakeDayById(takeDayId);
+    const graduateScript =
+      await this.graduateScriptsService.findGraduateScriptById(
+        graduateScriptId,
+      );
     const employee = await this.employeesService.findEmployeeById(id);
 
-    return this.employeesService.removeEmployeeTakeDay(employee, takeDay);
+    return this.employeesService.removeEmployeeGraduateScript(
+      employee,
+      graduateScript,
+    );
   }
 
-  @Get(':employeeId/takeDays')
-  async findEmployeeTakeDays(
+  @Get(':employeeId/graduateScripts')
+  async findEmployeeGraduateScripts(
     @Param('employeeId', ParseIntPipe) employeeId: number,
   ) {
-    return this.employeesService.getEmployeeTakeDays(employeeId);
+    return this.employeesService.getEmployeeGraduateScripts(employeeId);
   }
 
   @Get()

@@ -71,5 +71,5 @@ export class UpdateDegreeWorkDto {
   @IsInt()
   @ToOptionalInt()
   @IsOptional()
-  readonly takeDayId?: number;
+  readonly graduateScriptId?: number;
 }
