@@ -1,9 +1,9 @@
 import { Box } from '@mui/system';
-import { DirectionsList } from '../Tabs/directions/DirectionsList';
+import { DirectionsList } from '../components/Tabs/directions/DirectionsList';
 import React from 'react';
-import { DirectionViewer } from '../Tabs/directions/DirectionViewer';
-import { TabFlexbox } from '../common/TabFlexbox';
-import { useDirectionsStore } from '../../hooks/zustand/useDirectionsStore';
+import { DirectionViewer } from '../components/Tabs/directions/DirectionViewer';
+import { TabFlexbox } from '../components/common/TabFlexbox';
+import { useDirectionsStore } from '../hooks/zustand/useDirectionsStore';
 
 export const DirectionsPage = React.memo(() => {
   const { getAllDirections } = useDirectionsStore((state) => state);

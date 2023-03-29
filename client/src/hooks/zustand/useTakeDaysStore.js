@@ -4,7 +4,7 @@ import {
   deleteTakeDayById,
   getAllTakeDays,
   updateTakeDay,
-} from '../../services/takeDaysService';
+} from '../../services/graduateScriptsService';
 import { INITIAL_TAKE_DAY_STATE } from '../../constants';
 
 export const useTakeDaysStore = createDefaultStore(

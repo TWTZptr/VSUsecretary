@@ -1,5 +1,5 @@
-import { useAuthStore } from '../../hooks/zustand/useAuthStore';
-import { USER_ROLES } from '../../constants';
+import { useAuthStore } from '../hooks/zustand/useAuthStore';
+import { USER_ROLES } from '../constants';
 import { Navigate, useLocation } from 'react-router-dom';
 
 export const UserMainPage = () => {

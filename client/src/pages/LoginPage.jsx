@@ -1,13 +1,13 @@
-import { useAuthStore } from '../../hooks/zustand/useAuthStore';
+import { useAuthStore } from '../hooks/zustand/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { Box } from '@mui/system';
 import { useQuery } from '@tanstack/react-query';
-import { getAllRoles } from '../../services/rolesService';
-import { RoleSelector } from '../common/selectors/RoleSelector';
-import { USER_ROLES } from '../../constants';
-import { CommonTextField } from '../common/CommonTextField';
-import { CommonButton } from '../common/CommonButton';
+import { getAllRoles } from '../services/rolesService';
+import { RoleSelector } from '../components/common/selectors/RoleSelector';
+import { USER_ROLES } from '../constants';
+import { CommonTextField } from '../components/common/CommonTextField';
+import { CommonButton } from '../components/common/CommonButton';
 
 export const LoginPage = React.memo(() => {
   const auth = useAuthStore((store) => store);

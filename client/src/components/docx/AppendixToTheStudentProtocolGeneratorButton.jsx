@@ -4,7 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Box } from '@mui/system';
 import 'react-toastify/dist/ReactToastify.css';
 import { generateAppendixToTheProtocol } from '../../helpers/docx/generateAppendixToTheProtocol';
-import { getEmployeesByTakeDayId } from '../../services/takeDaysService';
+import { getEmployeesByTakeDayId } from '../../services/graduateScriptsService';
 import { saveAs } from 'file-saver';
 import React from 'react';
 

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import {
   removeEmployeeTakeDay,
   setTakeDayToEmployee,
-} from '../../../services/takeDaysService';
+} from '../../../services/graduateScriptsService';
 import { CommissionList } from './CommissionList/CommissionList';
 import { CommonFormControl } from '../../common/CommonFormControl';
 import { InputLabel, MenuItem, Select } from '@mui/material';

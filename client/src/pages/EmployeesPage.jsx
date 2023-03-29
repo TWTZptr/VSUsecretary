@@ -1,9 +1,9 @@
 import React from 'react';
-import { TabFlexbox } from '../common/TabFlexbox';
+import { TabFlexbox } from '../components/common/TabFlexbox';
 import { Box } from '@mui/system';
-import { EmployeeViewer } from '../Tabs/employees/EmployeeViewer';
-import { EmployeeList } from '../Tabs/employees/EmployeeList';
-import { useEmployeesStore } from '../../hooks/zustand/useEmployeesStore';
+import { EmployeeViewer } from '../components/Tabs/employees/EmployeeViewer';
+import { EmployeeList } from '../components/Tabs/employees/EmployeeList';
+import { useEmployeesStore } from '../hooks/zustand/useEmployeesStore';
 
 export const EmployeesPage = React.memo(() => {
   const { getAllEmployees } = useEmployeesStore((state) => state);

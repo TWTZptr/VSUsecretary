@@ -6,27 +6,23 @@ import { TextField } from '@mui/material';
 import React from 'react';
 import { DegreeWorksList } from './DegreeWorksList/DegreeWorksList';
 import { EmployeesList } from './EmployeesList';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteTakeDayAction,
-  updateTakeDayAction,
-} from '../../../redux/actions/takeDaysActions';
 import DangerousButton from '../../common/DangerousButton';
 import { CommonButton } from '../../common/CommonButton';
-import { startTakeDay } from '../../../redux/slices/uiSlice';
 import { AddTakeDayPopover } from './AddTakeDayPopover';
 import { MarksFullListGenerationButton } from './MarksFullListGenerationButton';
 import { toastError } from '../../../utils/toastSender';
 import { INITIAL_TAKE_DAY_STATE } from '../../../constants';
 
 export const TakeDayEditor = (props) => {
-  const dispatch = useDispatch();
-  const selectedTakeDay = useSelector(
-    (state) => state.ui.selectedTakeDayInfo.takeDay
-  );
+  // const selectedTakeDay = useSelector(
+  //   (state) => state.ui.selectedTakeDayInfo.takeDay
+  // );
 
-  const { degreeWorks } = useSelector((state) => state);
-  const { employees } = useSelector((state) => state.ui.selectedTakeDayInfo);
+  // const { degreeWorks } = useSelector((state) => state);
+  // const { employees } = useSelector((state) => state.ui.selectedTakeDayInfo);
+  const degreeWorks = [];
+  const employees = [];
+  const selectedTakeDay = {};
 
   const startTakeDayHandler = React.useCallback(() => {
     if (
@@ -47,12 +43,12 @@ export const TakeDayEditor = (props) => {
       return;
     }
 
-    dispatch(startTakeDay(selectedTakeDay));
+    // dispatch(startTakeDay(selectedTakeDay));
   }, [selectedTakeDay.id, degreeWorks, props.localTakeDay]);
 
-  const deleteTakeDayHandler = React.useCallback(() => {
-    dispatch(deleteTakeDayAction(selectedTakeDay.id));
-  }, [dispatch, selectedTakeDay.id]);
+  // const deleteTakeDayHandler = React.useCallback(() => {
+  //   dispatch(deleteTakeDayAction(selectedTakeDay.id));
+  // }, [dispatch, selectedTakeDay.id]);
 
   const disabled = !Boolean(selectedTakeDay.id);
 
@@ -64,12 +60,12 @@ export const TakeDayEditor = (props) => {
             <DatePicker
               label="Дата сдачи"
               value={props.localTakeDay.date}
-              onChange={(newDate) => {
-                dispatch(
-                  updateTakeDayAction({ ...props.localTakeDay, date: newDate })
-                );
-                props.handlers.setDate(newDate);
-              }}
+              // onChange={(newDate) => {
+              //   dispatch(
+              //     updateTakeDayAction({ ...props.localTakeDay, date: newDate })
+              //   );
+              //   props.handlers.setDate(newDate);
+              // }}
               renderInput={(params) => (
                 <TextField
                   onKeyDown={(event) => event.preventDefault()}
@@ -107,7 +103,9 @@ export const TakeDayEditor = (props) => {
       <EditorInputBlock>
         <Box>
           <AddTakeDayPopover />
-          <DangerousButton onClick={deleteTakeDayHandler} disabled={disabled}>
+          <DangerousButton
+            /*onClick={deleteTakeDayHandler}*/ disabled={disabled}
+          >
             Удалить
           </DangerousButton>
         </Box>

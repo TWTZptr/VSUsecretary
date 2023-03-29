@@ -8,40 +8,82 @@ import {
   Typography,
 } from '@mui/material';
 import { useCommonStore } from '../../hooks/zustand/commonStore';
+import { CommonButton } from '../common/CommonButton';
+import { useAuthStore } from '../../hooks/zustand/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = React.memo(() => {
   const { currentYear, setCurrentYear } = useCommonStore((state) => state);
+  const { logout } = useAuthStore((store) => store);
+  const navigate = useNavigate();
 
-  const onYearChange = React.useCallback((event) => {
-    setCurrentYear(event.target.value);
-  }, []);
+  const onYearChange = React.useCallback(
+    (event) => {
+      setCurrentYear(event.target.value);
+    },
+    [setCurrentYear]
+  );
 
-  const from = new Date().getFullYear() - 50;
-  const years = Array.from({ length: 100 }, (_, index) => index + from);
+  const from = new Date().getFullYear() - 10;
+  const years = Array.from(
+    { length: 20 },
+    (_, index) => index + from
+  ).reverse();
+
+  const onLogout = React.useCallback(async () => {
+    await logout();
+    navigate('/login');
+  }, [logout, navigate]);
 
   return (
     <header>
       <Box
-        sx={React.useMemo(() => ({
-          width: '100%',
-          height: '60px',
-          backgroundColor: 'rgba(143,143,143,0.65)',
-          padding: '5px 20px',
-          textAlign: 'left',
-          display: 'flex',
-          justifyContent: 'space-between',
-          boxSizing: 'border-box',
-        }))}
+        sx={React.useMemo(
+          () => ({
+            width: '100%',
+            height: '60px',
+            backgroundColor: 'rgba(143,143,143,0.65)',
+            padding: '10px 20px',
+            textAlign: 'left',
+            display: 'flex',
+            justifyContent: 'space-between',
+            boxSizing: 'border-box',
+          }),
+          []
+        )}
       >
         <Box>
           <Typography
-            sx={React.useMemo(() => ({
-              fontSize: '22px',
-            }))}
+            sx={React.useMemo(
+              () => ({
+                fontSize: '18px',
+              }),
+              []
+            )}
           >
-            <FormControl sx={React.useMemo(() => ({}), [])}>
+            <FormControl fullWidth>
               <InputLabel>Год</InputLabel>
-              <Select label="Год" onChange={onYearChange} value={currentYear}>
+              <Select
+                label="Год"
+                onChange={onYearChange}
+                value={currentYear}
+                sx={React.useMemo(
+                  () => ({
+                    maxHeight: '44px',
+                  }),
+                  []
+                )}
+                MenuProps={React.useMemo(
+                  () => ({
+                    PaperProps: {
+                      style: {
+                        maxHeight: '300px',
+                      },
+                    },
+                  }),
+                  []
+                )}
+              >
                 {years.map((year) => (
                   <MenuItem value={year} key={year}>
                     {year}
@@ -51,17 +93,27 @@ export const Header = React.memo(() => {
             </FormControl>
           </Typography>
         </Box>
-        <Box>
+        <Box
+          sx={React.useMemo(
+            () => ({
+              display: 'flex',
+              flexDirection: 'row',
+            }),
+            []
+          )}
+        >
           <Typography
             sx={React.useMemo(
               () => ({
                 fontSize: '24px',
+                marginRight: '16px',
               }),
               []
             )}
           >
             Система "Секретарь ГЭК" v1.0.0
           </Typography>
+          <CommonButton onClick={onLogout}>Выйти</CommonButton>
         </Box>
       </Box>
     </header>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, List, ListItem, ListItemButton, Popover } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { removeEmployeeTakeDay } from '../../../../services/takeDaysService';
+import { removeEmployeeTakeDay } from '../../../../services/graduateScriptsService';
 import { DefaultList } from '../../../common/DefaultList';
 import { EmployeeListItem } from '../../employees/EmployeeListItem';
 import { findUnusedItems } from '../../../../helpers/findUnusedItems';

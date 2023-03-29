@@ -1,9 +1,9 @@
-import { TabFlexbox } from '../common/TabFlexbox';
+import { TabFlexbox } from '../components/common/TabFlexbox';
 import { Box } from '@mui/system';
 import React from 'react';
-import { DegreeWorkViewer } from '../Tabs/degreeWorks/DegreeWorkViewer';
-import { DegreeWorksList } from '../Tabs/degreeWorks/DegreeWorksList';
-import { useDegreeWorksStore } from '../../hooks/zustand/useDegreeWorksStore';
+import { DegreeWorkViewer } from '../components/Tabs/degreeWorks/DegreeWorkViewer';
+import { DegreeWorksList } from '../components/Tabs/degreeWorks/DegreeWorksList';
+import { useDegreeWorksStore } from '../hooks/zustand/useDegreeWorksStore';
 
 export const DegreeWorksPage = React.memo(() => {
   const { getAllDegreeWorks } = useDegreeWorksStore((state) => state);

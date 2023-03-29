@@ -1,10 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Tab, Tabs } from '@mui/material';
+import { SECTIONS_MAP } from '../components/app/sectionsMap';
 
 export const SecretaryTabs = React.memo(({ children }) => {
-  const [selectedSection, setSelectedSection] = React.useState(0);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [selectedSection, setSelectedSection] = React.useState(
+    SECTIONS_MAP[location.pathname]
+  );
 
   const onChange = React.useCallback(
     (event, newValue) => {
