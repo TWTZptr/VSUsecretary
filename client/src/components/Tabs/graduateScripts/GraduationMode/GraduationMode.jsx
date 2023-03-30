@@ -3,12 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GRADUATION_INITIAL_STATE } from '../../../../constants';
 import { GraduationProcess } from './GraduationProcess/GraduationProcess';
 import { GraduationEnd } from './GraduationEnd/GraduationEnd';
-import { getTakeDayEmployeesAction } from '../../../../redux/actions/GraduationActions';
-import {
-  addStudentsToGraduation,
-  setGraduationDirection,
-  setGraduationGroup,
-} from '../../../../redux/slices/graduationSlice';
 
 export const GraduationMode = React.memo((props) => {
   const [end, setEnd] = React.useState(false);
@@ -57,13 +51,13 @@ export const GraduationMode = React.memo((props) => {
     <GraduationEnd
       allGraduations={allGraduations.current}
       degreeWorks={degreeWorks}
-      takeDay={props.takeDay}
+      takeDay={props.graduateScript}
     />
   ) : (
     <GraduationProcess
       onGraduationEnd={onGraduationEnd}
       allGraduations={allGraduations}
-      takeDay={props.takeDay}
+      takeDay={props.graduateScript}
       degreeWorks={degreeWorks}
     />
   );

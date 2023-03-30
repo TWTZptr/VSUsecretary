@@ -18,6 +18,9 @@ export const useDirection = (initialState = INITIAL_DIRECTION_STATE) => {
       setDirection: (direction) => {
         setDirection(direction);
       },
+      setEducationLevel: (educationLevelId) => {
+        setDirection((prevState) => ({ ...prevState, educationLevelId }));
+      },
     }),
     []
   );

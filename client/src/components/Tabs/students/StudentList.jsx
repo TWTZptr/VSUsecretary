@@ -1,14 +1,19 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectStudent } from '../../../redux/slices/uiSlice';
 import { DefaultList } from '../../common/DefaultList';
 import { StudentListItem } from './StudentListItem';
+import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
 
-export const StudentList = (props) => {
-  const dispatch = useDispatch();
-  const selectedStudent = useSelector((state) => state.ui.selectedStudent);
+export const StudentList = () => {
+  const { students, selectedStudent, selectStudent } = useStudentsStore(
+    (state) => state
+  );
 
-  const students = useSelector((state) => state.students);
+  const onClick = React.useCallback(
+    (student) => {
+      selectStudent(student);
+    },
+    [selectStudent]
+  );
 
   return (
     <DefaultList>
@@ -18,7 +23,7 @@ export const StudentList = (props) => {
             student={student}
             key={student.id}
             selected={student.id === selectedStudent.id}
-            onClick={() => dispatch(selectStudent(student))}
+            onClick={onClick}
           />
         );
       })}

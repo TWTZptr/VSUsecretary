@@ -1,19 +1,19 @@
 import { createDefaultStore } from '../../helpers/createDefaultStore';
+import { INITIAL_STUDENT_STATE } from '../../constants';
 import {
-  createDirection,
-  deleteDirectionById,
-  getAllDirections,
-  updateDirection,
-} from '../../services/directionsService';
-import { INITIAL_DIRECTION_STATE } from '../../constants';
+  createStudent,
+  deleteStudentById,
+  getAllStudents,
+  updateStudent,
+} from '../../services/studentsService';
 
 export const useStudentsStore = createDefaultStore(
   'student',
   {
-    update: updateDirection,
-    getAll: getAllDirections,
-    create: createDirection,
-    remove: deleteDirectionById,
+    update: updateStudent,
+    getAll: getAllStudents,
+    create: createStudent,
+    remove: deleteStudentById,
   },
-  INITIAL_DIRECTION_STATE
+  INITIAL_STUDENT_STATE
 );

@@ -53,45 +53,36 @@ export const Header = React.memo(() => {
         )}
       >
         <Box>
-          <Typography
-            sx={React.useMemo(
-              () => ({
-                fontSize: '18px',
-              }),
-              []
-            )}
-          >
-            <FormControl fullWidth>
-              <InputLabel>Год</InputLabel>
-              <Select
-                label="Год"
-                onChange={onYearChange}
-                value={currentYear}
-                sx={React.useMemo(
-                  () => ({
-                    maxHeight: '44px',
-                  }),
-                  []
-                )}
-                MenuProps={React.useMemo(
-                  () => ({
-                    PaperProps: {
-                      style: {
-                        maxHeight: '300px',
-                      },
+          <FormControl fullWidth>
+            <InputLabel>Год</InputLabel>
+            <Select
+              label="Год"
+              onChange={onYearChange}
+              value={currentYear}
+              sx={React.useMemo(
+                () => ({
+                  maxHeight: '44px',
+                }),
+                []
+              )}
+              MenuProps={React.useMemo(
+                () => ({
+                  PaperProps: {
+                    style: {
+                      maxHeight: '300px',
                     },
-                  }),
-                  []
-                )}
-              >
-                {years.map((year) => (
-                  <MenuItem value={year} key={year}>
-                    {year}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Typography>
+                  },
+                }),
+                []
+              )}
+            >
+              {years.map((year) => (
+                <MenuItem value={year} key={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Box>
         <Box
           sx={React.useMemo(

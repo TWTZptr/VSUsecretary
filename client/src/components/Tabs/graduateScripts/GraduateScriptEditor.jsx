@@ -8,18 +8,25 @@ import { DegreeWorksList } from './DegreeWorksList/DegreeWorksList';
 import { EmployeesList } from './EmployeesList';
 import DangerousButton from '../../common/DangerousButton';
 import { CommonButton } from '../../common/CommonButton';
-import { AddTakeDayPopover } from './AddTakeDayPopover';
+import { AddGraduateScriptPopover } from './AddGraduateScriptPopover';
 import { MarksFullListGenerationButton } from './MarksFullListGenerationButton';
 import { toastError } from '../../../utils/toastSender';
-import { INITIAL_TAKE_DAY_STATE } from '../../../constants';
+import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
+import { useCommonStore } from '../../../hooks/zustand/commonStore';
 
-export const TakeDayEditor = (props) => {
-  // const selectedTakeDay = useSelector(
-  //   (state) => state.ui.selectedTakeDayInfo.takeDay
-  // );
+export const GraduateScriptEditor = ({
+  handlers,
+  disabled,
+  localGraduateScript,
+}) => {
+  const { deleteGraduateScript, selectedGraduateScript, updateGraduateScript } =
+    useGraduateScriptsStore((state) => state);
+  const { startGraduateScript } = useCommonStore((state) => state);
 
-  // const { degreeWorks } = useSelector((state) => state);
-  // const { employees } = useSelector((state) => state.ui.selectedTakeDayInfo);
+  const onDateChange = React.useCallback((date) => {
+    updateGraduateScript({ ...selectedGraduateScript, date });
+  }, []);
+
   const degreeWorks = [];
   const employees = [];
   const selectedTakeDay = {};
@@ -27,7 +34,7 @@ export const TakeDayEditor = (props) => {
   const startTakeDayHandler = React.useCallback(() => {
     if (
       !degreeWorks.filter(
-        (degreeWork) => degreeWork.takeDayId === props.localTakeDay.id
+        (degreeWork) => degreeWork.takeDayId === localGraduateScript.id
       ).length
     ) {
       toastError('Не добавлено ни одной работы!');
@@ -43,14 +50,12 @@ export const TakeDayEditor = (props) => {
       return;
     }
 
-    // dispatch(startTakeDay(selectedTakeDay));
-  }, [selectedTakeDay.id, degreeWorks, props.localTakeDay]);
+    startGraduateScript(selectedTakeDay);
+  }, [selectedTakeDay.id, degreeWorks, localGraduateScript]);
 
-  // const deleteTakeDayHandler = React.useCallback(() => {
-  //   dispatch(deleteTakeDayAction(selectedTakeDay.id));
-  // }, [dispatch, selectedTakeDay.id]);
-
-  const disabled = !Boolean(selectedTakeDay.id);
+  const onDeleteGraduateScript = React.useCallback(() => {
+    deleteGraduateScript(selectedGraduateScript.id);
+  }, [deleteGraduateScript, selectedTakeDay.id]);
 
   return (
     <Box sx={React.useMemo(() => ({ width: '100%' }), [])}>
@@ -59,20 +64,15 @@ export const TakeDayEditor = (props) => {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="Дата сдачи"
-              value={props.localTakeDay.date}
-              // onChange={(newDate) => {
-              //   dispatch(
-              //     updateTakeDayAction({ ...props.localTakeDay, date: newDate })
-              //   );
-              //   props.handlers.setDate(newDate);
-              // }}
+              value={localGraduateScript.date}
+              onChange={onDateChange}
               renderInput={(params) => (
                 <TextField
                   onKeyDown={(event) => event.preventDefault()}
                   {...params}
                 />
               )}
-              disabled={props.disabled}
+              disabled={disabled}
             />
           </LocalizationProvider>
         </Box>
@@ -102,10 +102,8 @@ export const TakeDayEditor = (props) => {
       </EditorInputBlock>
       <EditorInputBlock>
         <Box>
-          <AddTakeDayPopover />
-          <DangerousButton
-            /*onClick={deleteTakeDayHandler}*/ disabled={disabled}
-          >
+          <AddGraduateScriptPopover />
+          <DangerousButton onClick={onDeleteGraduateScript} disabled={disabled}>
             Удалить
           </DangerousButton>
         </Box>

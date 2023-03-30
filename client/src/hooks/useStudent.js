@@ -20,11 +20,11 @@ export const useStudent = (initialState = INITIAL_STUDENT_STATE) => {
       setPublications: (publications) => {
         setStudent((prevState) => ({ ...prevState, publications }));
       },
-      setGroupId: (groupId) => {
-        setStudent((prevState) => ({ ...prevState, groupId }));
-      },
       setStudent: (student) => {
         setStudent(() => student);
+      },
+      setDirectionId: (directionId) => {
+        setStudent((prevState) => ({ ...prevState, directionId }));
       },
     }),
     []

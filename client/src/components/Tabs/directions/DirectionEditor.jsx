@@ -2,13 +2,18 @@ import { CommonTextField } from '../../common/CommonTextField';
 import { Box } from '@mui/system';
 import React from 'react';
 import { EditorInputBlock } from '../../common/EditorInputBlock';
+import { CommonFormControl } from '../../common/CommonFormControl';
+import { InputLabel, MenuItem, Select } from '@mui/material';
+import { useCommonStore } from '../../../hooks/zustand/commonStore';
 
 export const DirectionEditor = React.memo(
   ({
-    handlers: { setCode, setShortName, setFullName },
+    handlers: { setCode, setShortName, setFullName, setEducationLevel },
     localDirection,
     disabled,
   }) => {
+    const { educationLevels } = useCommonStore((state) => state);
+
     const handleCodeChange = React.useCallback(
       (event) => {
         setCode(event.target.value);
@@ -28,6 +33,23 @@ export const DirectionEditor = React.memo(
         setFullName(event.target.value);
       },
       [setFullName]
+    );
+
+    const handleEducationLevelChange = React.useCallback(
+      (event) => {
+        setEducationLevel(event.target.value);
+      },
+      [setEducationLevel]
+    );
+
+    const educationsLevelsList = React.useMemo(
+      () =>
+        educationLevels.map((lvl) => (
+          <MenuItem value={lvl.id} key={lvl.id}>
+            {lvl.name}
+          </MenuItem>
+        )),
+      [educationLevels]
     );
 
     return (
@@ -57,6 +79,21 @@ export const DirectionEditor = React.memo(
             value={localDirection.fullName}
             disabled={disabled}
           />
+        </EditorInputBlock>
+        <EditorInputBlock>
+          <CommonFormControl
+            sx={React.useMemo(() => ({ width: '100%' }), [])}
+            disabled={disabled}
+          >
+            <InputLabel>Направление</InputLabel>
+            <Select
+              label="Направление"
+              onChange={handleEducationLevelChange}
+              value={localDirection.educationLevelId || ''}
+            >
+              {educationsLevelsList}
+            </Select>
+          </CommonFormControl>
         </EditorInputBlock>
       </Box>
     );

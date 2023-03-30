@@ -30,6 +30,9 @@ export class GraduateScript extends Model<
   @Column({ type: DataType.DATEONLY, allowNull: false })
   date: Date;
 
+  @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
+  complete: boolean;
+
   @BelongsToMany(() => Employee, () => EmployeeGraduateScript)
   employees: Array<
     Employee & { EmployeeGraduateScript: EmployeeGraduateScript }

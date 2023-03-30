@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 import {
   INITIAL_EMPLOYEE_STATE,
   INITIAL_STUDENT_STATE,
-  INITIAL_TAKE_DAY_STATE,
+  INITIAL_GRADUATE_SCRIPT_STATE,
 } from '../../../constants';
 import { CommonTextField } from '../CommonTextField';
 import React from 'react';
@@ -31,7 +31,7 @@ export const DegreeWorksEditor = React.memo((props) => {
     () =>
       takeDays.find(
         (takeDay) => takeDay.id === props.localDegreeWork.takeDayId
-      ) || INITIAL_TAKE_DAY_STATE,
+      ) || INITIAL_GRADUATE_SCRIPT_STATE,
     [takeDays, props.localDegreeWork.takeDayId]
   );
 

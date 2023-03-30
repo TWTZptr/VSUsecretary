@@ -1,12 +1,7 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../../hooks/useModal';
 import { useStudent } from '../../../hooks/useStudent';
-import {
-  deleteStudentAction,
-  updateStudentAction,
-} from '../../../redux/actions/studentsActions';
 import { EditorButtonBlock } from '../../common/EditorButtonBlock';
 import { ViewerBox } from '../../common/ViewerBox';
 import { StudentEditor } from './StudentEditor';
@@ -14,35 +9,38 @@ import { CommonModal } from '../../common/CommonModal';
 import { ModalAddStudent } from './ModalAddStudent';
 import { toastError } from '../../../utils/toastSender';
 import { validateStudent } from './validators';
+import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
 
-export const StudentViewer = (props) => {
+export const StudentViewer = () => {
   const [modalActive, activateModal, inactivateModal] = useModal();
-  const dispatch = useDispatch();
-  const selectedStudent = useSelector((state) => state.ui.selectedStudent);
   const [student, studentHandlers] = useStudent();
+  const { selectedStudent, deleteStudent, updateStudent } = useStudentsStore(
+    (state) => state
+  );
 
   React.useEffect(() => {
     studentHandlers.setStudent(selectedStudent);
   }, [selectedStudent, studentHandlers]);
 
-  const onDelete = (event) => {
-    dispatch(deleteStudentAction(selectedStudent.id));
-  };
+  const onDelete = React.useCallback(() => {
+    deleteStudent(selectedStudent.id);
+  }, [deleteStudent, selectedStudent.id]);
 
-  const onSave = () => {
+  const onSave = React.useCallback(() => {
     try {
+      console.log(student);
       validateStudent(student);
-      dispatch(updateStudentAction(student));
+      updateStudent(student);
     } catch (e) {
       toastError(e.message);
     }
-  };
+  }, [updateStudent, student]);
 
   const disabled = !Boolean(selectedStudent.id);
 
   return (
     <ViewerBox>
-      <Box sx={{ width: '100%' }}>
+      <Box sx={React.useMemo(() => ({ width: '100%' }), [])}>
         <StudentEditor
           handlers={studentHandlers}
           localStudent={student}

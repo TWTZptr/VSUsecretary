@@ -13,8 +13,35 @@ import { USER_ROLES } from '../../constants';
 import { SecretaryTabs } from '../../hoc/SecretaryTabs';
 import { EmployeesPage } from '../../pages/EmployeesPage';
 import { Header } from '../header/Header';
+import { GraduateScriptsPage } from '../../pages/GraduateScriptsPage';
+import { StudentsPage } from '../../pages/StudentsPage';
+import { useCommonStore } from '../../hooks/zustand/commonStore';
+import { useDirectionsStore } from '../../hooks/zustand/useDirectionsStore';
+import { useEmployeesStore } from '../../hooks/zustand/useEmployeesStore';
+import { useGraduateScriptsStore } from '../../hooks/zustand/useGraduateScriptsStore';
+import { useStudentsStore } from '../../hooks/zustand/useStudentsStore';
 
 function App() {
+  const { getAllEducationLevels } = useCommonStore((state) => state);
+  const { getAllDirections } = useDirectionsStore((state) => state);
+  const { getAllEmployees } = useEmployeesStore((state) => state);
+  const { getAllGraduateScripts } = useGraduateScriptsStore((state) => state);
+  const { getAllStudents } = useStudentsStore((state) => state);
+
+  React.useEffect(() => {
+    getAllEducationLevels();
+    getAllDirections();
+    getAllEmployees();
+    getAllGraduateScripts();
+    getAllStudents();
+  }, [
+    getAllEducationLevels,
+    getAllDirections,
+    getAllEmployees,
+    getAllGraduateScripts,
+    getAllStudents,
+  ]);
+
   return (
     <div className="App">
       <AuthProvider>
@@ -46,16 +73,16 @@ function App() {
               </RequireAuth>
             }
           />
-          {/*<Route*/}
-          {/*  path="/graduate-scripts"*/}
-          {/*  element={*/}
-          {/*    <RequireAuth role={USER_ROLES.SECRETARY}>*/}
-          {/*      <SecretaryTabs>*/}
-          {/*        <GraduateScriptsPage />*/}
-          {/*      </SecretaryTabs>*/}
-          {/*    </RequireAuth>*/}
-          {/*  }*/}
-          {/*/>*/}
+          <Route
+            path="/graduate-scripts"
+            element={
+              <RequireAuth role={USER_ROLES.SECRETARY}>
+                <SecretaryTabs>
+                  <GraduateScriptsPage />
+                </SecretaryTabs>
+              </RequireAuth>
+            }
+          />
           <Route
             path="/employees"
             element={
@@ -63,6 +90,24 @@ function App() {
                 <SecretaryTabs>
                   <EmployeesPage />
                 </SecretaryTabs>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/students"
+            element={
+              <RequireAuth role={USER_ROLES.SECRETARY}>
+                <SecretaryTabs>
+                  <StudentsPage />
+                </SecretaryTabs>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/degree-works"
+            element={
+              <RequireAuth role={USER_ROLES.SECRETARY}>
+                <SecretaryTabs></SecretaryTabs>
               </RequireAuth>
             }
           />

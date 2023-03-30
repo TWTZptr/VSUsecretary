@@ -6,12 +6,6 @@ import { DegreeWorksList } from '../components/Tabs/degreeWorks/DegreeWorksList'
 import { useDegreeWorksStore } from '../hooks/zustand/useDegreeWorksStore';
 
 export const DegreeWorksPage = React.memo(() => {
-  const { getAllDegreeWorks } = useDegreeWorksStore((state) => state);
-
-  React.useEffect(() => {
-    getAllDegreeWorks();
-  }, [getAllDegreeWorks]);
-
   return (
     <TabFlexbox>
       <Box>

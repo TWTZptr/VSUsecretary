@@ -1,26 +1,33 @@
-import { INITIAL_TAKE_DAY_STATE } from '../constants';
+import { INITIAL_GRADUATE_SCRIPT_STATE } from '../constants';
 import React from 'react';
 
-export const useTakeDay = (initialState = INITIAL_TAKE_DAY_STATE) => {
-  const [takeDay, setTakeDay] = React.useState(INITIAL_TAKE_DAY_STATE);
+export const useGraduateScript = (
+  initialState = INITIAL_GRADUATE_SCRIPT_STATE
+) => {
+  const [takeDay, setGraduateScript] = React.useState(
+    INITIAL_GRADUATE_SCRIPT_STATE
+  );
 
   const addEmployee = (id) => {
-    setTakeDay({ ...takeDay, employees: [...takeDay.employees, id] });
+    setGraduateScript({ ...takeDay, employees: [...takeDay.employees, id] });
   };
 
   const deleteEmployee = (id) => {
-    setTakeDay({
+    setGraduateScript({
       ...takeDay,
       employees: takeDay.employees.filter((employee) => employee.id !== id),
     });
   };
 
   const addDegreeWork = (id) => {
-    setTakeDay({ ...takeDay, degreeWorks: [...takeDay.degreeWorks, id] });
+    setGraduateScript({
+      ...takeDay,
+      degreeWorks: [...takeDay.degreeWorks, id],
+    });
   };
 
   const deleteDegreeWork = (id) => {
-    setTakeDay({
+    setGraduateScript({
       ...takeDay,
       degreeWorks: takeDay.degreeWorks.filter(
         (degreeWork) => degreeWork.id !== id
@@ -29,13 +36,13 @@ export const useTakeDay = (initialState = INITIAL_TAKE_DAY_STATE) => {
   };
 
   const setDate = (date) => {
-    setTakeDay({ ...takeDay, date });
+    setGraduateScript({ ...takeDay, date });
   };
 
   return [
     takeDay,
     {
-      setTakeDay,
+      setTakeDay: setGraduateScript,
       addEmployee,
       deleteEmployee,
       addDegreeWork,

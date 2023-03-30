@@ -1,24 +1,27 @@
 import { ListItemButton, ListItemText } from '@mui/material';
 import CommonListItem from '../../common/CommonListItem';
-import { useSelector } from 'react-redux';
+import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
+import React from 'react';
 
-export const StudentListItem = (props) => {
-  const group = useSelector((state) => state.groups).find(
-    (group) => props.student.groupId === group.id
+export const StudentListItem = ({ student, onClick, selected }) => {
+  const direction = useDirectionsStore((state) => state.directions).find(
+    (d) => d.id === student.directionId
   );
 
-  const groupName = group ? `${group.number} гр` : '';
+  const onSelfClick = React.useCallback(() => {
+    onClick(student);
+  }, [onClick, student]);
 
   return (
     <CommonListItem
-      key={props.student.id}
+      key={student.id}
       disablePadding
-      onClick={props.onClick}
-      active={props.selected}
+      onClick={onSelfClick}
+      active={selected}
     >
       <ListItemButton>
         <ListItemText
-          primary={`${props.student.lastname} ${props.student.name} ${props.student.patronymic} ${groupName}`}
+          primary={`${student.lastname} ${student.name} ${student.patronymic} ${direction?.shortName}`}
         />
       </ListItemButton>
     </CommonListItem>

@@ -1,29 +1,30 @@
-import { useDispatch } from 'react-redux';
 import { useStudent } from '../../../hooks/useStudent';
-import { createStudentAction } from '../../../redux/actions/studentsActions';
 import { CommonButton } from '../../common/CommonButton';
 import { ModalBox } from '../../common/ModalBox';
 import { StudentEditor } from './StudentEditor';
 import React from 'react';
 import { toastError } from '../../../utils/toastSender';
 import { validateStudent } from './validators';
+import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
+import { useCommonStore } from '../../../hooks/zustand/commonStore';
 
-export const ModalAddStudent = React.forwardRef((props, ref) => {
+export const ModalAddStudent = React.forwardRef(({ onClose }, ref) => {
   const [student, studentHandlers] = useStudent();
-  const dispatch = useDispatch();
+  const { createStudent } = useStudentsStore((state) => state);
+  const { currentYear } = useCommonStore((state) => state);
 
-  const handleAdd = () => {
+  const handleAdd = React.useCallback(() => {
     try {
       validateStudent(student);
-      dispatch(createStudentAction(student));
-      props.onClose();
+      createStudent({ ...student, year: currentYear });
+      onClose();
     } catch (e) {
       toastError(e.message);
     }
-  };
+  }, [onClose, createStudent, student, currentYear]);
 
   return (
-    <ModalBox ref={ref} sx={{ maxWidth: '700px' }}>
+    <ModalBox ref={ref} sx={React.useMemo(() => ({ maxWidth: '700px' }), [])}>
       <StudentEditor handlers={studentHandlers} localStudent={student} />
       <CommonButton onClick={handleAdd}>Добавить</CommonButton>
     </ModalBox>

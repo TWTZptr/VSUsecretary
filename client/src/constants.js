@@ -21,6 +21,7 @@ export const INITIAL_DIRECTION_STATE = {
   code: '',
   shortName: '',
   fullName: '',
+  educationLevelId: '',
 };
 export const INITIAL_STUDENT_STATE = {
   name: '',
@@ -41,7 +42,7 @@ export const INITIAL_EMPLOYEE_STATE = {
   status: '',
   position: '',
 };
-export const INITIAL_TAKE_DAY_STATE = {
+export const INITIAL_GRADUATE_SCRIPT_STATE = {
   date: null,
 };
 export const INITIAL_DEGREE_WORK_STATE = {
@@ -66,4 +67,12 @@ export const USER_ROLES = {
   ADMIN: 'Администратор',
   SECRETARY: 'Секретарь',
   DEANERY: 'Деканат',
+};
+export const INIT_USER = {
+  name: '',
+  id: 0,
+  role: {
+    id: 0,
+    name: '',
+  },
 };

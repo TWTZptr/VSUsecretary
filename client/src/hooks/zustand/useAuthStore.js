@@ -5,15 +5,7 @@ import {
   tryLogout,
   tryRefresh,
 } from '../../services/authService';
-
-const INIT_USER = {
-  name: '',
-  id: 0,
-  role: {
-    id: 0,
-    name: '',
-  },
-};
+import { INIT_USER } from '../../constants';
 
 export const useAuthStore = create((set) => {
   const loginUser = (user) => {

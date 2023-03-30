@@ -1,20 +1,10 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { TakeDayViewer } from '../components/Tabs/takeDays/TakeDayViewer';
-import { TakeDayList } from '../components/Tabs/takeDays/TakeDayList';
+import { GraduateScriptViewer } from '../components/Tabs/graduateScripts/GraduateScriptViewer';
+import { GraduateScriptsList } from '../components/Tabs/graduateScripts/GraduateScriptsList';
 import { ViewerBox } from '../components/common/ViewerBox';
-import { GraduationMode } from '../components/Tabs/takeDays/GraduationMode/GraduationMode';
 
 export const GraduateScriptsPage = (props) => {
-  React.useEffect(() => {
-    // dispatch(getAllTakeDaysAction());
-  }, []);
-
-  let content;
-
-  const startedTakeDay = useSelector((state) => state.ui.startedTakeDay);
-
   const takeDayViewerSx = React.useMemo(
     () => ({ width: '45%', marginLeft: '20px' }),
     []
@@ -25,24 +15,14 @@ export const GraduateScriptsPage = (props) => {
     []
   );
 
-  if (startedTakeDay.id) {
-    content = (
-      <>
-        <GraduationMode takeDay={startedTakeDay} />
-      </>
-    );
-  } else {
-    content = (
-      <>
-        <Box sx={takeDayViewerSx}>
-          <TakeDayViewer />
-        </Box>
-        <Box sx={takeDayListSx}>
-          <TakeDayList />
-        </Box>
-      </>
-    );
-  }
-
-  return props.index === props.value && <ViewerBox left>{content}</ViewerBox>;
+  return (
+    <ViewerBox left>
+      <Box sx={takeDayViewerSx}>
+        <GraduateScriptViewer />
+      </Box>
+      <Box sx={takeDayListSx}>
+        <GraduateScriptsList />
+      </Box>
+    </ViewerBox>
+  );
 };

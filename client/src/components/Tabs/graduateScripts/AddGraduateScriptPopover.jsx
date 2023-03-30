@@ -4,10 +4,11 @@ import { CommonButton } from '../../common/CommonButton';
 import { Popover, TextField } from '@mui/material';
 import { CalendarPicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { createTakeDayAction } from '../../../redux/actions/takeDaysActions';
-import { useDispatch } from 'react-redux';
+import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
 
-export const AddTakeDayPopover = (props) => {
+export const AddGraduateScriptPopover = React.memo(() => {
+  const { createGraduateScript } = useGraduateScriptsStore((state) => state);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const popoverOpen = Boolean(anchorEl);
 
@@ -20,11 +21,9 @@ export const AddTakeDayPopover = (props) => {
   };
 
   const onSelect = (date) => {
-    dispatch(createTakeDayAction({ date }));
+    createGraduateScript({ date });
     onClose();
   };
-
-  const dispatch = useDispatch();
 
   return (
     <>
@@ -33,10 +32,13 @@ export const AddTakeDayPopover = (props) => {
         open={popoverOpen}
         id="addTakeDayPopover"
         anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        anchorOrigin={React.useMemo(
+          () => ({ vertical: 'bottom', horizontal: 'left' }),
+          []
+        )}
         onClose={onClose}
       >
-        <Box sx={{ width: 'auto', margin: 'auto' }}>
+        <Box sx={React.useMemo(() => ({ width: 'auto', margin: 'auto' }), [])}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <CalendarPicker
               orientation="landscape"
@@ -50,4 +52,4 @@ export const AddTakeDayPopover = (props) => {
       </Popover>
     </>
   );
-};
+});
