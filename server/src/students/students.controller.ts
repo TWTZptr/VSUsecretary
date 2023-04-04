@@ -7,12 +7,12 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentsService } from './students.service';
-import { PasswordService } from '../password/password.service';
 import { RoleGuard } from '../auth/guards/role-guard';
 import { RequireRoles } from '../auth/decorators/role-auth.decorator';
 
@@ -43,7 +43,7 @@ export class StudentsController {
   }
 
   @Get()
-  getAllStudents() {
-    return this.studentsService.getAllStudents();
+  getAllStudents(@Query('year') year: number) {
+    return this.studentsService.getAllStudents(year);
   }
 }

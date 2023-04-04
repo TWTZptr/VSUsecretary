@@ -8,7 +8,6 @@ import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
 
 export const StudentEditor = ({ handlers, disabled, localStudent }) => {
   const { directions } = useDirectionsStore((state) => state);
-  console.log(localStudent);
 
   const onLastnameChange = React.useCallback(
     (event) => {

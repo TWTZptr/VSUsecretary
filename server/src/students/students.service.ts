@@ -9,6 +9,7 @@ import { UNEXIST_GROUP_ID_MSG, UNEXIST_STUDENT_ID_MSG } from './constants';
 import { Student } from './students.model';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { DirectionsService } from '../directions/directions.service';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class StudentsService {
@@ -72,10 +73,13 @@ export class StudentsService {
     return id && (await this.getStudentById(id));
   }
 
-  async getAllStudents() {
-    const students = this.studentRepository.findAll({
+  async getAllStudents(year?: number) {
+    const options: FindOptions<Student> = {
       order: ['lastname'],
-    });
-    return students;
+    };
+    if (year) {
+      options.where = { year };
+    }
+    return this.studentRepository.findAll(options);
   }
 }

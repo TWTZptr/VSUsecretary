@@ -12,8 +12,11 @@ const updateStudent = async (student) => {
 
 const deleteStudentById = (id) => sendRequest('delete', `/api/students/${id}`);
 
-const getAllStudents = async () => {
-  const response = await sendRequest('get', '/api/students');
+const getAllStudents = async (year) => {
+  const response = await sendRequest('get', '/api/students', undefined, {
+    params: { year },
+  });
+
   return response.data;
 };
 

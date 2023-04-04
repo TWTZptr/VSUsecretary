@@ -18,6 +18,7 @@ export const sendApiRequest = (type, url, data = {}, config = {}) => {
 
 export const sendRequest = async (type, url, data = {}, config = {}) => {
   try {
+    console.log();
     const response = await sendApiRequest(type, url, data, config);
 
     return { status: response.status, data: response.data, ok: true };

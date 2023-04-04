@@ -20,7 +20,6 @@ interface EmployeeCreationAttributes {
   anotherJob?: string;
   phoneNumber: string;
   email: string;
-  status: string;
 }
 
 @Table({ tableName: 'Employees' })
@@ -71,9 +70,6 @@ export class Employee extends Model<Employee, EmployeeCreationAttributes> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   email: string;
-
-  @Column({ type: DataType.STRING(20), allowNull: false })
-  status: string;
 
   @BelongsToMany(() => GraduateScript, () => EmployeeGraduateScript)
   graduateScripts: Array<

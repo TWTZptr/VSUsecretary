@@ -27,19 +27,21 @@ function App() {
   const { getAllEmployees } = useEmployeesStore((state) => state);
   const { getAllGraduateScripts } = useGraduateScriptsStore((state) => state);
   const { getAllStudents } = useStudentsStore((state) => state);
+  const { currentYear } = useCommonStore((state) => state);
 
   React.useEffect(() => {
     getAllEducationLevels();
     getAllDirections();
     getAllEmployees();
     getAllGraduateScripts();
-    getAllStudents();
+    getAllStudents(currentYear);
   }, [
     getAllEducationLevels,
     getAllDirections,
     getAllEmployees,
     getAllGraduateScripts,
     getAllStudents,
+    currentYear,
   ]);
 
   return (
