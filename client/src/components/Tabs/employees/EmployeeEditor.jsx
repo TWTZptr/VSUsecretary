@@ -5,7 +5,6 @@ import React from 'react';
 import {
   AVAILABLE_ACADEMIC_DEGREES,
   AVAILABLE_ACADEMIC_RANKS,
-  AVAILABLE_EMPLOYEE_STATUSES,
 } from '../../../constants';
 import { PlainSelector } from '../../common/selectors/PlainSelector';
 
@@ -47,7 +46,7 @@ export const EmployeeEditor = (props) => {
 
   const lastLineSx = React.useMemo(
     () => ({
-      width: 200,
+      width: '100%',
     }),
     []
   );
@@ -130,14 +129,6 @@ export const EmployeeEditor = (props) => {
           disabled={props.disabled}
           sx={lastLineSx}
           value={props.localEmployee.academicDegree}
-        />
-        <PlainSelector
-          name="Статус"
-          values={AVAILABLE_EMPLOYEE_STATUSES}
-          onChange={props.handlers.setStatus}
-          disabled={props.disabled}
-          sx={lastLineSx}
-          value={props.localEmployee.status}
         />
       </EditorInputBlock>
     </Box>

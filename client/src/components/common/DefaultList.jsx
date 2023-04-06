@@ -9,6 +9,9 @@ export const DefaultList = React.memo((props) => {
           maxWidth: '400px',
           borderRadius: '2px',
           borderWidth: 0,
+          height: 'auto',
+          maxHeight: '600px',
+          overflowY: 'auto',
           ...props.sx,
         }),
         [props.sx]

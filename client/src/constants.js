@@ -1,4 +1,3 @@
-export const AVAILABLE_EDUCATION_LEVELS = ['Бакалавриат', 'Магистратура'];
 export const AVAILABLE_ACADEMIC_RANKS = ['Доцент', 'Профессор'];
 export const AVAILABLE_ACADEMIC_DEGREES = [
   'д. т. н.',
@@ -6,17 +5,7 @@ export const AVAILABLE_ACADEMIC_DEGREES = [
   'к. т. н.',
   'к. ф. - м. н.',
 ];
-export const AVAILABLE_EMPLOYEE_STATUSES = [
-  'Председатель',
-  'Член комиссии',
-  'Секретарь',
-];
 export const AVAILABLE_WORK_MARKS = ['2', '3', '4', '5'];
-export const INITIAL_GROUP_STATE = {
-  directionId: '',
-  number: '',
-  educationLevel: 'Бакалавриат',
-};
 export const INITIAL_DIRECTION_STATE = {
   code: '',
   shortName: '',

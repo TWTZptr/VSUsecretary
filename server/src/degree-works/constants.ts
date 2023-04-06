@@ -6,3 +6,5 @@ export const UNEXIST_DEGREE_WORK_ID_MSG =
   'Degree work with that id does not exist';
 export const INVALID_IMPLEMENTATION_BOOLEAN_VALUE_MSG =
   'Invalid implementation boolean value';
+
+export const INVALID_DEGREE_WORK_ID_MSG = 'Invalid degree work id';

@@ -1,7 +1,7 @@
 import React from 'react';
-import { DefaultList } from '../../common/DefaultList';
 import { DirectionListItem } from './DirectionListItem';
 import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
+import { FilteredList } from '../../common/FilteredList';
 
 export const DirectionsList = React.memo(() => {
   const { directions, selectedDirection, selectDirection } = useDirectionsStore(
@@ -15,16 +15,23 @@ export const DirectionsList = React.memo(() => {
     [selectDirection]
   );
 
+  const transform = React.useCallback(
+    (direction) => (
+      <DirectionListItem
+        direction={direction}
+        key={direction.id}
+        selected={direction.id === selectedDirection.id}
+        onClick={onClick}
+      />
+    ),
+    [onClick, selectedDirection.id]
+  );
+
   return (
-    <DefaultList>
-      {directions.map((direction) => (
-        <DirectionListItem
-          direction={direction}
-          key={direction.id}
-          selected={direction.id === selectedDirection.id}
-          onClick={onClick}
-        />
-      ))}
-    </DefaultList>
+    <FilteredList
+      filterBy={React.useMemo(() => ['shortName', 'fullName', 'code'], [])}
+      items={directions}
+      transform={transform}
+    />
   );
 });

@@ -20,7 +20,7 @@
     "file-saver": "^2.0.5",
     "joi": "^17.6.0",
     "lvovich": "^2.0.0",
-    "node-sass": "^7.0.1",
+    "node-sass": "^8.0.0",
     "plural-ru": "^2.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

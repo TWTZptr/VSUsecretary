@@ -6,4 +6,5 @@ export const TabFlexbox = styled(Box)(() => ({
   flexDirection: 'row',
   justifyContent: 'start',
   width: '100%',
+  height: '100%',
 }));

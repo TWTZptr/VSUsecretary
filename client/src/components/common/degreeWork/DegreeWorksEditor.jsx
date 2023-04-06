@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux';
 import { EditorInputBlock } from '../EditorInputBlock';
 import { Box } from '@mui/system';
 import {
   INITIAL_EMPLOYEE_STATE,
-  INITIAL_STUDENT_STATE,
   INITIAL_GRADUATE_SCRIPT_STATE,
+  INITIAL_STUDENT_STATE,
 } from '../../../constants';
 import { CommonTextField } from '../CommonTextField';
 import React from 'react';
@@ -13,11 +12,14 @@ import { StudentSelector } from '../selectors/StudentSelector';
 import { EmployeeSelector } from '../selectors/EmplopyeeSelector';
 import { TakeDaySelector } from '../selectors/TakeDaySelector';
 import { ImplementationSwitch } from '../../Tabs/degreeWorks/ImplementationSwitch';
+import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
+import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
+import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
 
 export const DegreeWorksEditor = React.memo((props) => {
-  const students = useSelector((state) => state.students);
-  const employees = useSelector((state) => state.employees);
-  const takeDays = useSelector((state) => state.takeDays);
+  const { students } = useStudentsStore((state) => state);
+  const { employees } = useEmployeesStore((state) => state);
+  const { graduateScripts } = useGraduateScriptsStore((state) => state);
 
   const student = React.useMemo(
     () =>
@@ -29,10 +31,10 @@ export const DegreeWorksEditor = React.memo((props) => {
 
   const takeDay = React.useMemo(
     () =>
-      takeDays.find(
+      graduateScripts.find(
         (takeDay) => takeDay.id === props.localDegreeWork.takeDayId
       ) || INITIAL_GRADUATE_SCRIPT_STATE,
-    [takeDays, props.localDegreeWork.takeDayId]
+    [graduateScripts, props.localDegreeWork.takeDayId]
   );
 
   const reviewer = React.useMemo(
@@ -162,7 +164,7 @@ export const DegreeWorksEditor = React.memo((props) => {
       </EditorInputBlock>
       <EditorInputBlock>
         <TakeDaySelector
-          takeDays={takeDays}
+          takeDays={graduateScripts}
           takeDay={takeDay}
           disabled={props.disabled}
           onChange={handleTakeDayChange}

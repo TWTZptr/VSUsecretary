@@ -29,6 +29,7 @@ export const SecretaryTabs = React.memo(({ children }) => {
       sx={React.useMemo(
         () => ({
           display: 'flex',
+          height: '100%',
         }),
         []
       )}

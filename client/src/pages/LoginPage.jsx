@@ -64,7 +64,7 @@ export const LoginPage = React.memo(() => {
 
       setErr('Неизвестная ошибка');
     },
-    [inputData, auth, navigate]
+    [inputData, auth, navigate, roles]
   );
 
   return (

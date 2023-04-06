@@ -27,7 +27,7 @@ export class DegreeWorksService {
     private graduateScriptsService: GraduateScriptsService,
   ) {}
 
-  async getDegreeWorkById(id: number) {
+  getDegreeWorkById(id: number) {
     return this.degreeWorkRepository.findByPk(id);
   }
 
@@ -66,8 +66,7 @@ export class DegreeWorksService {
   async createDegreeWork(dto: CreateDegreeWorkDto) {
     await this.checkForeignKeys(dto);
 
-    const degreeWork = await this.degreeWorkRepository.create(dto);
-    return degreeWork;
+    return this.degreeWorkRepository.create(dto);
   }
 
   async updateDegreeWork(dto: UpdateDegreeWorkDto) {
@@ -81,8 +80,7 @@ export class DegreeWorksService {
       throw new NotFoundException(UNEXIST_DEGREE_WORK_ID_MSG);
     }
 
-    const degreeWork = this.getDegreeWorkById(dto.id);
-    return degreeWork;
+    return this.getDegreeWorkById(dto.id);
   }
 
   async deleteDegreeWork(id: number) {
@@ -102,10 +100,10 @@ export class DegreeWorksService {
     return degreeWork;
   }
 
-  async getAllDegreeWorks() {
-    const degreeWorks = await this.degreeWorkRepository.findAll({
+  getAllDegreeWorks() {
+    return this.degreeWorkRepository.findAll({
       order: ['theme'],
+      include: ['graduateMarks'],
     });
-    return degreeWorks;
   }
 }

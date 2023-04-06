@@ -3,11 +3,13 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { Employee } from 'src/employees/employees.model';
 import { Student } from 'src/students/students.model';
+import { GraduateMarks } from '../graduate-marks/graduate-marks.model';
 
 interface DegreeWorkCreationAttributes {
   theme: string;
@@ -69,8 +71,11 @@ export class DegreeWork extends Model<
   supervisorId: number;
 
   @BelongsTo(() => Employee, 'supervisorId')
-  supervisor: Employee;
+  supervisor?: Employee;
 
   @BelongsTo(() => Employee, 'reviewerId')
-  reviewer: Employee;
+  reviewer?: Employee;
+
+  @HasOne(() => GraduateMarks, 'degreeWorkId')
+  graduateMarks?: GraduateMarks;
 }
