@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const Header = React.memo(() => {
   const { currentYear, setCurrentYear } = useCommonStore((state) => state);
-  const { logout } = useAuthStore((store) => store);
+  const { logout, user } = useAuthStore((store) => store);
   const navigate = useNavigate();
 
   const onYearChange = React.useCallback(
@@ -97,12 +97,12 @@ export const Header = React.memo(() => {
             sx={React.useMemo(
               () => ({
                 fontSize: '24px',
-                marginRight: '16px',
+                marginRight: '36px',
               }),
               []
             )}
           >
-            Система "Секретарь ГЭК" v1.0.0
+            Вы вошли как: <i>{user.name}</i>
           </Typography>
           <CommonButton onClick={onLogout}>Выйти</CommonButton>
         </Box>

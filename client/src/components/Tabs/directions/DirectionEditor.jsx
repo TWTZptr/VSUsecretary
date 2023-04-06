@@ -85,9 +85,9 @@ export const DirectionEditor = React.memo(
             sx={React.useMemo(() => ({ width: '100%' }), [])}
             disabled={disabled}
           >
-            <InputLabel>Направление</InputLabel>
+            <InputLabel>Академическая степень</InputLabel>
             <Select
-              label="Направление"
+              label="Академическая степень"
               onChange={handleEducationLevelChange}
               value={localDirection.educationLevelId || ''}
             >
