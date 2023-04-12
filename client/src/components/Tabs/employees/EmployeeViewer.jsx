@@ -13,17 +13,22 @@ import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
 
 export const EmployeeViewer = () => {
   const [modalActive, activateModal, inactivateModal] = useModal();
-  const { selectedEmployee, updateEmployee, deleteEmployeeById } =
-    useEmployeesStore((state) => state);
+  const {
+    selectedEmployee,
+    updateEmployee,
+    removeEmployeeById,
+    resetSelectedEmployee,
+  } = useEmployeesStore((state) => state);
   const [employee, employeeHandlers] = useEmployee();
 
   React.useEffect(() => {
     employeeHandlers.setEmployee(selectedEmployee);
-  }, [selectedEmployee]);
+  }, [selectedEmployee, employeeHandlers]);
 
   const onDelete = React.useCallback(() => {
-    deleteEmployeeById(selectedEmployee.id);
-  }, [selectedEmployee, deleteEmployeeById]);
+    removeEmployeeById(selectedEmployee.id);
+    resetSelectedEmployee();
+  }, [selectedEmployee, removeEmployeeById, resetSelectedEmployee]);
 
   const onSave = React.useCallback(() => {
     try {
@@ -38,7 +43,7 @@ export const EmployeeViewer = () => {
 
   return (
     <ViewerBox>
-      <Box sx={React.useMemo(() => ({ width: '100%' }))}>
+      <Box sx={React.useMemo(() => ({ width: '100%' }), [])}>
         <EmployeeEditor
           handlers={employeeHandlers}
           localEmployee={employee}

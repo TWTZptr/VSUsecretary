@@ -102,7 +102,7 @@ export const Header = React.memo(() => {
               []
             )}
           >
-            Вы вошли как: <i>{user.name}</i>
+            Вы вошли как: <i>{user?.name}</i>
           </Typography>
           <CommonButton onClick={onLogout}>Выйти</CommonButton>
         </Box>

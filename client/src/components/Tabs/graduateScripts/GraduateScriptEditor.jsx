@@ -23,9 +23,12 @@ export const GraduateScriptEditor = ({
     useGraduateScriptsStore((state) => state);
   const { startGraduateScript } = useCommonStore((state) => state);
 
-  const onDateChange = React.useCallback((date) => {
-    updateGraduateScript({ ...selectedGraduateScript, date });
-  }, []);
+  const onDateChange = React.useCallback(
+    (date) => {
+      updateGraduateScript({ ...selectedGraduateScript, date });
+    },
+    [selectedGraduateScript, updateGraduateScript]
+  );
 
   const degreeWorks = [];
   const employees = [];
@@ -55,7 +58,7 @@ export const GraduateScriptEditor = ({
 
   const onDeleteGraduateScript = React.useCallback(() => {
     deleteGraduateScript(selectedGraduateScript.id);
-  }, [deleteGraduateScript, selectedTakeDay.id]);
+  }, [deleteGraduateScript, selectedGraduateScript.id]);
 
   return (
     <Box sx={React.useMemo(() => ({ width: '100%' }), [])}>
@@ -63,6 +66,7 @@ export const GraduateScriptEditor = ({
         <Box sx={React.useMemo(() => ({ width: 'auto', margin: 'auto' }), [])}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              views={['day', 'month']}
               label="Дата сдачи"
               value={localGraduateScript.date}
               onChange={onDateChange}

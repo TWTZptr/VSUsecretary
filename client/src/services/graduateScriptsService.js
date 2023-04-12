@@ -26,9 +26,10 @@ const getEmployeesByGraduateScriptId = async (takeDayId) => {
   return response.data;
 };
 
-const setGraduateScriptToEmployee = (takeDayId, employeeId) =>
+const setGraduateScriptToEmployee = (takeDayId, employeeId, role) =>
   sendRequest('post', 'api/employees/takeDays', {
     takeDayId,
+    role,
     employeeId,
   });
 

@@ -4,12 +4,16 @@ import { CreateGraduateScriptDto } from './dto/create-graduate-script.dto';
 import { UpdateGraduateScriptDto } from './dto/update-graduate-script.dto';
 import { GraduateScript } from './graduate-scripts.model';
 import { UNEXIST_TAKEDAY_ID_MSG } from './constants';
+import { EmployeesGraduateScriptsService } from '../employees-graduate-scripts/employees-graduate-scripts.service';
+import { EmployeesService } from '../employees/employees.service';
 
 @Injectable()
 export class GraduateScriptsService {
   constructor(
     @InjectModel(GraduateScript)
     private graduateScriptRepository: typeof GraduateScript,
+    private readonly employeesGraduateScriptsService: EmployeesGraduateScriptsService,
+    private readonly employeesService: EmployeesService,
   ) {}
 
   async createGraduateScript(dto: CreateGraduateScriptDto) {
@@ -55,15 +59,49 @@ export class GraduateScriptsService {
   }
 
   async getAllGraduateScripts() {
-    const graduateScripts = this.graduateScriptRepository.findAll({
+    return this.graduateScriptRepository.findAll({
       order: ['id'],
     });
-    return graduateScripts;
   }
 
   async getAllEmployeesByGraduateScript(id: number) {
-    const graduateScript = await this.findGraduateScriptById(id);
-    const employees = graduateScript.$get('employees');
-    return employees;
+    const employeesGraduateScripts =
+      await this.employeesGraduateScriptsService.getEmployeesIdsByGraduateScriptId(
+        id,
+      );
+
+    const chairmanGraduateScript = employeesGraduateScripts.find(
+      (rec) => rec.role === 'Председатель',
+    );
+    const secretaryGraduateScript = employeesGraduateScripts.find(
+      (rec) => rec.role === 'Секретарь',
+    );
+    const commissionGraduateScript = employeesGraduateScripts.filter(
+      (rec) => rec.role === 'Член комиссии',
+    );
+
+    let chairman = null;
+    let secretary = null;
+    const commission = [];
+
+    if (chairmanGraduateScript) {
+      chairman = this.employeesService.findEmployeeById(
+        chairmanGraduateScript.employeeId,
+      );
+    }
+
+    if (secretaryGraduateScript) {
+      secretary = this.employeesService.findEmployeeById(
+        secretaryGraduateScript.employeeId,
+      );
+    }
+
+    if (commissionGraduateScript.length) {
+      for (const emp of commissionGraduateScript) {
+        commission.push(await this.employeesService.findEmployeeById(emp.id));
+      }
+    }
+
+    return { chairman, secretary, commission };
   }
 }

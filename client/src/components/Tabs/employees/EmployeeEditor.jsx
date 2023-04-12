@@ -2,11 +2,6 @@ import { EditorInputBlock } from '../../common/EditorInputBlock';
 import { Box } from '@mui/material';
 import { CommonTextField } from '../../common/CommonTextField';
 import React from 'react';
-import {
-  AVAILABLE_ACADEMIC_DEGREES,
-  AVAILABLE_ACADEMIC_RANKS,
-} from '../../../constants';
-import { PlainSelector } from '../../common/selectors/PlainSelector';
 
 export const EmployeeEditor = (props) => {
   const handleEmployeeNameChange = React.useCallback(
@@ -21,16 +16,6 @@ export const EmployeeEditor = (props) => {
 
   const handleEmployeePatronymicChange = React.useCallback(
     (event) => props.handlers.setPatronymic(event.target.value),
-    [props.handlers]
-  );
-
-  const handlePositionChange = React.useCallback(
-    (event) => props.handlers.setPosition(event.target.value),
-    [props.handlers]
-  );
-
-  const handleAnotherJobChange = React.useCallback(
-    (event) => props.handlers.setAnotherJob(event.target.value),
     [props.handlers]
   );
 
@@ -80,23 +65,6 @@ export const EmployeeEditor = (props) => {
       </EditorInputBlock>
       <EditorInputBlock>
         <CommonTextField
-          label="Должность"
-          id="position"
-          onChange={handlePositionChange}
-          value={props.localEmployee.position}
-          disabled={props.disabled}
-        />
-        <CommonTextField
-          label="Второе место работы"
-          id="anotherJob"
-          onChange={handleAnotherJobChange}
-          value={props.localEmployee.anotherJob}
-          disabled={props.disabled}
-          sx={flexGrow1Sx}
-        />
-      </EditorInputBlock>
-      <EditorInputBlock>
-        <CommonTextField
           label="Email"
           id="email"
           onChange={handleEmailChange}
@@ -113,24 +81,24 @@ export const EmployeeEditor = (props) => {
           sx={flexGrow1Sx}
         />
       </EditorInputBlock>
-      <EditorInputBlock>
-        <PlainSelector
-          name="Ученое звание"
-          values={AVAILABLE_ACADEMIC_RANKS}
-          onChange={props.handlers.setAcademicRank}
-          disabled={props.disabled}
-          sx={lastLineSx}
-          value={props.localEmployee.academicRank}
-        />
-        <PlainSelector
-          name="Ученая степень"
-          values={AVAILABLE_ACADEMIC_DEGREES}
-          onChange={props.handlers.setAcademicDegree}
-          disabled={props.disabled}
-          sx={lastLineSx}
-          value={props.localEmployee.academicDegree}
-        />
-      </EditorInputBlock>
+      {/*<EditorInputBlock>*/}
+      {/*  <PlainSelector*/}
+      {/*    name="Ученое звание"*/}
+      {/*    values={AVAILABLE_ACADEMIC_RANKS}*/}
+      {/*    onChange={props.handlers.setAcademicRank}*/}
+      {/*    disabled={props.disabled}*/}
+      {/*    sx={lastLineSx}*/}
+      {/*    value={props.localEmployee.academicRank}*/}
+      {/*  />*/}
+      {/*  <PlainSelector*/}
+      {/*    name="Ученая степень"*/}
+      {/*    values={AVAILABLE_ACADEMIC_DEGREES}*/}
+      {/*    onChange={props.handlers.setAcademicDegree}*/}
+      {/*    disabled={props.disabled}*/}
+      {/*    sx={lastLineSx}*/}
+      {/*    value={props.localEmployee.academicDegree}*/}
+      {/*  />*/}
+      {/*</EditorInputBlock>*/}
     </Box>
   );
 };

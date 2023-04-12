@@ -23,13 +23,13 @@ export const INITIAL_EMPLOYEE_STATE = {
   name: '',
   lastname: '',
   patronymic: '',
-  academicDegree: '',
-  academicRank: '',
-  anotherJob: '',
+  // academicDegree: '',
+  // academicRank: '',
+  // anotherJob: '',
   phoneNumber: '',
   email: '',
-  status: '',
-  position: '',
+  // status: '',
+  // position: '',
 };
 export const INITIAL_GRADUATE_SCRIPT_STATE = {
   date: null,
@@ -64,4 +64,9 @@ export const INIT_USER = {
     id: 0,
     name: '',
   },
+};
+export const INITIAL_GRADUATE_SCRIPT_EMPLOYEES_STATE = {
+  commission: [],
+  secretary: null,
+  chairman: null,
 };

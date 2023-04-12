@@ -1,12 +1,13 @@
 import { IconButton, TableBody, TableCell, TableRow } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { formatPerson } from '../../../../helpers/formatters';
+import { useStudentsStore } from '../../../../hooks/zustand/useStudentsStore';
+import { useEmployeesStore } from '../../../../hooks/zustand/useEmployeesStore';
 
 export const DegreeWorkListItems = React.memo((props) => {
-  const students = useSelector((state) => state.students);
-  const employees = useSelector((state) => state.employees);
+  const { students } = useStudentsStore((state) => state);
+  const { employees } = useEmployeesStore((state) => state);
 
   return (
     <TableBody>

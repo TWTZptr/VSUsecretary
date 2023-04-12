@@ -14,10 +14,10 @@ interface EmployeeCreationAttributes {
   name: string;
   lastname: string;
   patronymic: string;
-  academicDegree: string;
-  academicRank: string;
-  position: string;
-  anotherJob?: string;
+  // academicDegree: string;
+  // academicRank: string;
+  // position: string;
+  // anotherJob?: string;
   phoneNumber: string;
   email: string;
 }
@@ -40,26 +40,6 @@ export class Employee extends Model<Employee, EmployeeCreationAttributes> {
 
   @Column({ type: DataType.STRING(50), allowNull: false })
   patronymic: string;
-
-  @Column({
-    type: DataType.STRING(50),
-    allowNull: false,
-    field: 'academic_degree',
-  })
-  academicDegree: string;
-
-  @Column({
-    type: DataType.STRING(50),
-    allowNull: false,
-    field: 'academic_rank',
-  })
-  academicRank: string;
-
-  @Column({ type: DataType.STRING, allowNull: false })
-  position: string;
-
-  @Column({ type: DataType.STRING, allowNull: true, field: 'another_job' })
-  anotherJob: string;
 
   @Column({
     type: DataType.STRING(20),

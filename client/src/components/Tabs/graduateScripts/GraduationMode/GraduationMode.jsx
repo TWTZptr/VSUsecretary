@@ -7,6 +7,7 @@ import { GraduationEnd } from './GraduationEnd/GraduationEnd';
 export const GraduationMode = React.memo((props) => {
   const [end, setEnd] = React.useState(false);
   const takeDay = useSelector((state) => state.ui.startedTakeDay);
+
   const students = useSelector((state) => state.students);
   const groups = useSelector((state) => state.groups);
   const directions = useSelector((state) => state.directions);

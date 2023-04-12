@@ -1,32 +1,34 @@
 import { Box } from '@mui/system';
 import { Popover, Table, TableCell, TableHead, TableRow } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { DefaultList } from '../../../common/DefaultList';
 import { findUnusedItems } from '../../../../helpers/findUnusedItems';
-import { updateDegreeWorkAction } from '../../../../redux/actions/degreeWorksActions';
 import { DegreeWorkListItems } from './DegreeWorkListItems';
 import CommonListItem from '../../../common/CommonListItem';
 import { CommonButton } from '../../../common/CommonButton';
 import { DegreeWorkListItem } from '../../../common/degreeWork/DegreeWorkListItem';
+import { useDegreeWorksStore } from '../../../../hooks/zustand/useDegreeWorksStore';
+import { useGraduateScriptsStore } from '../../../../hooks/zustand/useGraduateScriptsStore';
 
 export const DegreeWorksList = (props) => {
+  const { updateDegreeWork } = useDegreeWorksStore((state) => state);
+
   const handleDeleteDegreeWork = (degreeWork) => {
-    dispatch(updateDegreeWorkAction({ ...degreeWork, takeDayId: null }));
+    updateDegreeWork({ ...degreeWork, takeDayId: null });
   };
-  const allDegreeWorks = useSelector((state) => state.degreeWorks);
-  const selectedTakeDay = useSelector(
-    (state) => state.ui.selectedTakeDayInfo.takeDay
-  );
+
+  const allDegreeWorks = useDegreeWorksStore((state) => state.degreeWorks);
+
+  const { selectedGraduateScript } = useGraduateScriptsStore((state) => state);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const popoverOpen = Boolean(anchorEl);
-  const dispatch = useDispatch();
 
   const currentDegreeWorks =
-    selectedTakeDay.id !== null
+    selectedGraduateScript.id !== null
       ? allDegreeWorks.filter(
-          (degreeWork) => degreeWork.takeDayId === selectedTakeDay.id
+          (degreeWork) => degreeWork.takeDayId === selectedGraduateScript.id
         )
       : [];
 
@@ -46,11 +48,9 @@ export const DegreeWorksList = (props) => {
       if (unusedDegreeWorks.length === 1) {
         setAnchorEl(null);
       }
-      dispatch(
-        updateDegreeWorkAction({ ...degreeWork, takeDayId: selectedTakeDay.id })
-      );
+      updateDegreeWork({ ...degreeWork, takeDayId: selectedGraduateScript.id });
     },
-    [selectedTakeDay]
+    [selectedGraduateScript]
   );
 
   let unusedDegreeWorksListItems;
@@ -72,7 +72,7 @@ export const DegreeWorksList = (props) => {
     );
   }
 
-  const disabled = !Boolean(selectedTakeDay.id);
+  const disabled = !Boolean(selectedGraduateScript.id);
 
   return (
     <Box

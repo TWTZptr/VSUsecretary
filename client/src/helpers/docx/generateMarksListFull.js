@@ -89,7 +89,7 @@ export const generateMarksListFull = ({
             style: 'Heading',
             children: [
               new TextRun({
-                text: `${direction.code} ${direction.fullName} (${group.educationLevel})`,
+                text: `${direction.code} ${direction.fullName} (${direction.educationLevel})`,
                 bold: true,
                 italics: true,
               }),

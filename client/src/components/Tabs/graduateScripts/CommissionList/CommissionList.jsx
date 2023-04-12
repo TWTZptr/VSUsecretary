@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, List, ListItem, ListItemButton, Popover } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { removeEmployeeTakeDay } from '../../../../services/graduateScriptsService';
+import { removeEmployeeGraduateScript } from '../../../../services/graduateScriptsService';
 import { DefaultList } from '../../../common/DefaultList';
 import { EmployeeListItem } from '../../employees/EmployeeListItem';
 import { findUnusedItems } from '../../../../helpers/findUnusedItems';
@@ -12,13 +12,15 @@ export const CommissionList = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleDeleteEmployee = (employeeToDelete) => {
-    removeEmployeeTakeDay(props.takeDayId, employeeToDelete.id).then((res) => {
-      props.setCommission(
-        props.currentCommission.filter(
-          (employee) => employee.id !== employeeToDelete.id
-        )
-      );
-    });
+    removeEmployeeGraduateScript(props.takeDayId, employeeToDelete.id).then(
+      (res) => {
+        props.setCommission(
+          props.currentCommission.filter(
+            (employee) => employee.id !== employeeToDelete.id
+          )
+        );
+      }
+    );
   };
 
   const popoverActivate = (event) => {

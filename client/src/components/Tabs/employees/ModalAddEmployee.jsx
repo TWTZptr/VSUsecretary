@@ -7,24 +7,35 @@ import { toastError } from '../../../utils/toastSender';
 import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
 import React from 'react';
 
-export const ModalAddEmployee = (props) => {
+export const ModalAddEmployee = ({ onClose }) => {
   const [employee, employeeHandlers] = useEmployee();
-  const { createEmployee } = useEmployeesStore((state) => state);
+  const { createEmployee, selectEmployee } = useEmployeesStore(
+    (state) => state
+  );
 
-  const handleAdd = () => {
-    try {
-      validateEmployee(employee);
-      createEmployee(employee);
-      props.onClose();
-    } catch (e) {
-      toastError(e.message);
-    }
-  };
+  const handleAdd = React.useCallback(
+    (e) => {
+      e.preventDefault();
+      try {
+        validateEmployee(employee);
+        createEmployee(employee);
+        selectEmployee(employee);
+        onClose();
+      } catch (e) {
+        toastError(e.message);
+      }
+    },
+    [createEmployee, employee, selectEmployee, onClose]
+  );
 
   return (
-    <ModalBox sx={React.useMemo(() => ({ maxWidth: 600 }))}>
-      <EmployeeEditor handlers={employeeHandlers} localEmployee={employee} />
-      <CommonButton onClick={handleAdd}>Добавить</CommonButton>
+    <ModalBox sx={React.useMemo(() => ({ maxWidth: 600 }), [])}>
+      <form onSubmit={handleAdd}>
+        <EmployeeEditor handlers={employeeHandlers} localEmployee={employee} />
+        <CommonButton onClick={handleAdd} type="submit">
+          Добавить
+        </CommonButton>
+      </form>
     </ModalBox>
   );
 };

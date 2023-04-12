@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware';
 
 // directions
 // createDirection
-// removeDirection
+// removeDirectionById
 // updateDirection
 // getAllDirections
 // getDirectionById
@@ -26,7 +26,7 @@ export const createDefaultStore = (
         ['create' + cap]: async (item) => {
           const res = await create(item);
           if (res) {
-            set({ [plural]: [...get()[plural], item] });
+            set({ [plural]: [...get()[plural], res], ['selected' + cap]: res });
           }
         },
         ['remove' + cap + 'ById']: async (id) => {

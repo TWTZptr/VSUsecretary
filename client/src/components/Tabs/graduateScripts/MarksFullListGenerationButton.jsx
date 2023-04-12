@@ -2,23 +2,25 @@ import { Box } from '@mui/system';
 import { CommonButton } from '../../common/CommonButton';
 import React from 'react';
 import { saveAs } from 'file-saver';
-import { useSelector } from 'react-redux';
 import { generateMarksListFull } from '../../../helpers/docx/generateMarksListFull';
 import { toastError } from '../../../utils/toastSender';
+import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
+import { useDegreeWorksStore } from '../../../hooks/zustand/useDegreeWorksStore';
+import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
+import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
+import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
+import { useGraduateProcessStore } from '../../../hooks/zustand/useGraduateProcessStore';
 
 export const MarksFullListGenerationButton = React.memo((props) => {
-  const takeDay = useSelector((state) => state.ui.selectedTakeDayInfo.takeDay);
+  const { selectedGraduateScript } = useGraduateScriptsStore((state) => state);
 
-  const degreeWorks = useSelector((state) => state.degreeWorks).filter(
-    (degreeWork) => degreeWork.takeDayId === takeDay.id
-  );
+  const { degreeWorks } = useDegreeWorksStore((state) => state);
+  const { students } = useStudentsStore((state) => state);
+  const { directions } = useDirectionsStore((state) => state);
+  const { employees } = useEmployeesStore((state) => state);
 
-  const { students, directions, groups, employees } = useSelector(
-    (state) => state
-  );
-
-  const { chairman, secretary } = useSelector(
-    (state) => state.ui.selectedTakeDayInfo.employees
+  const { chairman, secretary } = useGraduateProcessStore(
+    (state) => state.graduateProcessEmployees
   );
 
   const onClick = React.useCallback(async () => {
@@ -31,27 +33,30 @@ export const MarksFullListGenerationButton = React.memo((props) => {
       return;
     }
 
-    const group = groups.find(
-      (group) => group.id === takeDayStudents[0].groupId
-    );
     const direction = directions.find(
-      (direction) => direction.id === group.directionId
+      (direction) => direction.id === takeDayStudents[0].directionId
     );
 
     const marksListOptions = {
       degreeWorks,
-      takeDay,
+      takeDay: selectedGraduateScript,
       chairman,
       secretary,
-      group,
       direction,
       students: takeDayStudents,
       allEmployees: employees,
     };
 
     const doc = await generateMarksListFull(marksListOptions);
-    saveAs(doc, `${takeDay.date} оценочный лист.docx`);
-  }, [takeDay, chairman, secretary, degreeWorks, students, employees]);
+    saveAs(doc, `${selectedGraduateScript.date} оценочный лист.docx`);
+  }, [
+    selectedGraduateScript,
+    chairman,
+    secretary,
+    degreeWorks,
+    students,
+    employees,
+  ]);
 
   return (
     <Box>

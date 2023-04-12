@@ -89,7 +89,7 @@ export const LoginPage = React.memo(() => {
         []
       )}
     >
-      <form onSubmit={onSubmit} className="login-form">
+      <form onSubmit={onSubmit}>
         <Box>
           <RoleSelector
             values={rolesText}

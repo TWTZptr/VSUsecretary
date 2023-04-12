@@ -2,7 +2,7 @@ import CommonListItem from '../../common/CommonListItem';
 import { ListItemButton, ListItemText } from '@mui/material';
 import React from 'react';
 
-export const TakeDayListItem = ({ graduateScript, onClick, selected }) => {
+export const GraduateScriptItem = ({ graduateScript, onClick, selected }) => {
   const onSelfClick = React.useCallback(() => {
     onClick(graduateScript);
   }, [onClick, graduateScript]);

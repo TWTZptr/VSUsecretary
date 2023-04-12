@@ -41,6 +41,7 @@ export const AddGraduateScriptPopover = React.memo(() => {
         <Box sx={React.useMemo(() => ({ width: 'auto', margin: 'auto' }), [])}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <CalendarPicker
+              views={['day', 'month']}
               orientation="landscape"
               openTo="day"
               label="Дата"

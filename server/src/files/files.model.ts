@@ -26,10 +26,6 @@ export class File extends Model<File, FileCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   path: string;
 
-  @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER, allowNull: false, field: 'owner_id' })
-  ownerId: number;
-
-  @BelongsTo(() => User, 'ownerId')
-  owner: User;
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  year: number;
 }
