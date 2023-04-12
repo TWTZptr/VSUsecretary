@@ -1,19 +1,67 @@
-import { createDefaultStore } from '../../helpers/createDefaultStore';
 import {
   createGraduateScript,
   deleteGraduateScriptById,
-  getAllGraduateScripts,
+  getAllGraduateScripts as getAllScripts,
   updateGraduateScript,
 } from '../../services/graduateScriptsService';
-import { INITIAL_GRADUATE_SCRIPT_STATE } from '../../constants';
+import {
+  INITIAL_COMMISSION_STATE,
+  INITIAL_EMPLOYEE_STATE,
+  INITIAL_GRADUATE_SCRIPT_STATE,
+} from '../../constants';
+import { create as createStore } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
-export const useGraduateScriptsStore = createDefaultStore(
-  'graduateScript',
-  {
-    remove: deleteGraduateScriptById,
-    create: createGraduateScript,
-    getAll: getAllGraduateScripts,
-    update: updateGraduateScript,
-  },
-  INITIAL_GRADUATE_SCRIPT_STATE
+export const useGraduateScriptsStore = createStore(
+  devtools(
+    (set, get) => ({
+      getAllGraduateScripts: async (data) => {
+        const res = await getAllScripts(data);
+        set({ graduateScripts: res });
+      },
+      graduateScripts: [],
+      createGraduateScript: async (graduateScript) => {
+        const res = await createGraduateScript(graduateScript);
+        if (res) {
+          set({
+            graduateScripts: [...get().graduateScripts, res],
+            selectedGraduateScript: res,
+          });
+        }
+      },
+      removeGraduateScript: async (id) => {
+        const res = await deleteGraduateScriptById(id);
+        if (res) {
+          set({
+            graduateScripts: get().graduateScripts.filter(
+              (script) => script.id !== id
+            ),
+          });
+        }
+      },
+      updateGraduateScript: async (script) => {
+        const res = await updateGraduateScript(script);
+        if (res) {
+          set({
+            graduateScripts: get().graduateScripts.map((val) =>
+              val.id === script.id ? res : val
+            ),
+          });
+        }
+      },
+      selectedGraduateScript: INITIAL_GRADUATE_SCRIPT_STATE,
+      resetSelectedGraduateScript: () =>
+        set({ selectedGraduateScript: INITIAL_GRADUATE_SCRIPT_STATE }),
+      selectGraduateScript: (graduateScript) =>
+        set({ selectedGraduateScript: graduateScript }),
+      secretary: INITIAL_EMPLOYEE_STATE,
+      chairman: INITIAL_EMPLOYEE_STATE,
+      commission: INITIAL_COMMISSION_STATE,
+    }),
+    {
+      name: 'GraduateScripts',
+      serialize: { options: true },
+      store: 'GraduateScripts',
+    }
+  )
 );

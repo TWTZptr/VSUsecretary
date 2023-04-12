@@ -4,7 +4,7 @@ import { GraduateScriptViewer } from '../components/Tabs/graduateScripts/Graduat
 import { GraduateScriptsList } from '../components/Tabs/graduateScripts/GraduateScriptsList';
 import { ViewerBox } from '../components/common/ViewerBox';
 
-export const GraduateScriptsPage = (props) => {
+export const GraduateScriptsPage = () => {
   const takeDayViewerSx = React.useMemo(
     () => ({ width: '45%', marginLeft: '20px' }),
     []

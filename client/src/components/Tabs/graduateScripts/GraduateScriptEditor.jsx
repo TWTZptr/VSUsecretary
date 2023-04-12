@@ -13,13 +13,10 @@ import { MarksFullListGenerationButton } from './MarksFullListGenerationButton';
 import { toastError } from '../../../utils/toastSender';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
 import { useCommonStore } from '../../../hooks/zustand/commonStore';
+import { INITIAL_GRADUATE_SCRIPT_EMPLOYEES_STATE } from '../../../constants';
 
-export const GraduateScriptEditor = ({
-  handlers,
-  disabled,
-  localGraduateScript,
-}) => {
-  const { deleteGraduateScript, selectedGraduateScript, updateGraduateScript } =
+export const GraduateScriptEditor = ({ disabled, localGraduateScript }) => {
+  const { removeGraduateScript, selectedGraduateScript, updateGraduateScript } =
     useGraduateScriptsStore((state) => state);
   const { startGraduateScript } = useCommonStore((state) => state);
 
@@ -31,7 +28,7 @@ export const GraduateScriptEditor = ({
   );
 
   const degreeWorks = [];
-  const employees = [];
+  const employees = INITIAL_GRADUATE_SCRIPT_EMPLOYEES_STATE;
   const selectedTakeDay = {};
 
   const startTakeDayHandler = React.useCallback(() => {
@@ -44,21 +41,31 @@ export const GraduateScriptEditor = ({
       return;
     }
 
-    if (
-      !employees.chairman ||
-      !employees.secretary ||
-      !employees.commission.length
-    ) {
+    const commissionLength = employees.commission.reduce(
+      (prev, curr) => (prev + curr.id ? 1 : 0),
+      0
+    );
+
+    if (!employees.chairman || !employees.secretary || commissionLength < 3) {
       toastError('Не указан(ы) председатель/секретарь/член комиссии');
       return;
     }
 
     startGraduateScript(selectedTakeDay);
-  }, [selectedTakeDay.id, degreeWorks, localGraduateScript]);
+  }, [
+    selectedTakeDay.id,
+    degreeWorks,
+    localGraduateScript,
+    employees.chairman,
+    employees.secretary,
+    employees.commission,
+    startGraduateScript,
+    selectedTakeDay,
+  ]);
 
   const onDeleteGraduateScript = React.useCallback(() => {
-    deleteGraduateScript(selectedGraduateScript.id);
-  }, [deleteGraduateScript, selectedGraduateScript.id]);
+    removeGraduateScript(selectedGraduateScript.id);
+  }, [removeGraduateScript, selectedGraduateScript.id]);
 
   return (
     <Box sx={React.useMemo(() => ({ width: '100%' }), [])}>

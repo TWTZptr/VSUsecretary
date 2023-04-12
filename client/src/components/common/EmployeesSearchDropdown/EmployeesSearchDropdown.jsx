@@ -3,22 +3,36 @@ import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
 import { Box } from '@mui/system';
 import { CommonTextField } from '../CommonTextField';
 import { EmployeesSearchDropdownItem } from './EmployeesSearchDropdownItem';
+import { EmployeesSearchDropdownAdd } from './EmployeesSearchDropdownAdd';
+import { CommonModal } from '../CommonModal';
+import { ModalAddEmployee } from '../../Tabs/employees/ModalAddEmployee';
+import { useModal } from '../../../hooks/useModal';
 
 export const EmployeesSearchDropdown = React.memo(
   ({ selectedEmployee, onSelectEmployee, label, disabled }) => {
     const { employees } = useEmployeesStore((state) => state);
     const [text, setText] = React.useState('');
     const [dropdownHidden, setDropdownHidden] = React.useState(true);
+    const [modalActive, activateModal, inactivateModal] = useModal();
 
-    const filteredEmployees = React.useMemo(
-      () =>
-        employees.filter((employee) =>
-          `${employee.name} ${employee.lastname} ${employee.patronymic}`.includes(
-            text
-          )
-        ),
-      [text, employees]
-    );
+    const filteredEmployees = React.useMemo(() => {
+      if (!text.length) {
+        return employees;
+      }
+      return employees.filter((employee) =>
+        `${employee.name} ${employee.lastname} ${employee.patronymic}`.includes(
+          text
+        )
+      );
+    }, [text, employees]);
+
+    React.useEffect(() => {
+      if (selectedEmployee.id) {
+        setText(
+          `${selectedEmployee.name} ${selectedEmployee.lastname} ${selectedEmployee.patronymic}`
+        );
+      }
+    }, [selectedEmployee]);
 
     const onChange = React.useCallback((event) => {
       setText(event.target.value);
@@ -35,7 +49,7 @@ export const EmployeesSearchDropdown = React.memo(
 
     const onTextAreaClick = React.useCallback(() => {
       setDropdownHidden(false);
-    }, [setDropdownHidden, setText]);
+    }, [setDropdownHidden]);
 
     const closeDropdownOnClickOutside = React.useCallback(() => {
       setDropdownHidden(true);
@@ -58,6 +72,8 @@ export const EmployeesSearchDropdown = React.memo(
           value={text}
           disabled={disabled}
           onClick={onTextAreaClick}
+          sx={React.useMemo(() => ({ width: '350px' }), [])}
+          variant="standard"
         />
         <Box
           sx={React.useMemo(
@@ -84,7 +100,11 @@ export const EmployeesSearchDropdown = React.memo(
               />
             );
           })}
+          <EmployeesSearchDropdownAdd onClick={activateModal} />
         </Box>
+        <CommonModal active={modalActive} onClose={inactivateModal}>
+          <ModalAddEmployee onClose={inactivateModal} />
+        </CommonModal>
       </Box>
     );
   }

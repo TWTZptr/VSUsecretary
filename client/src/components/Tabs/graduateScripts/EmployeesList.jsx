@@ -1,20 +1,23 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { INITIAL_EMPLOYEE_STATE } from '../../../constants';
+import {
+  INITIAL_COMMISSION_STATE,
+  INITIAL_EMPLOYEE_STATE,
+} from '../../../constants';
 import {
   removeEmployeeGraduateScript,
   setGraduateScriptToEmployee,
 } from '../../../services/graduateScriptsService';
-import { CommissionList } from './CommissionList/CommissionList';
-import { CommonFormControl } from '../../common/CommonFormControl';
-import { InputLabel, MenuItem, Select } from '@mui/material';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
 import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
 import { useGraduateProcessStore } from '../../../hooks/zustand/useGraduateProcessStore';
 import { EmployeesSearchDropdown } from '../../common/EmployeesSearchDropdown/EmployeesSearchDropdown';
+import { CommissionMember } from './CommissionMember';
 
-export const EmployeesList = (props) => {
-  const [currentCommission, setCurrentCommission] = React.useState([]);
+export const EmployeesList = ({ disabled }) => {
+  const [currentCommission, setCurrentCommission] = React.useState(
+    INITIAL_COMMISSION_STATE
+  );
   const [currentSecretary, setCurrentSecretary] = React.useState(
     INITIAL_EMPLOYEE_STATE
   );
@@ -46,7 +49,7 @@ export const EmployeesList = (props) => {
     });
   };
 
-  const handleSecretaryTakeDayChange = (event) => {
+  const handleSecretaryEducateScriptChange = (event) => {
     const secretaryId = event.target.value;
     const secretary = allEmployees.find(
       (secretary) => secretary.id === secretaryId
@@ -67,14 +70,15 @@ export const EmployeesList = (props) => {
     });
   };
 
-  const handleAddEmployeeToCommission = (employee) => {
-    setCurrentCommission([...currentCommission, employee]);
-    setGraduateScriptToEmployee(
-      'Член комиссии',
-      selectedGraduateScript.id,
-      employee.id
-    );
-  };
+  const handleCommissionMemberEducateScriptChange = React.useCallback(
+    (index, member) => {
+      setCurrentCommission((prev) => {
+        prev.splice(index, 1, member);
+        return prev;
+      });
+    },
+    [setCurrentCommission]
+  );
 
   React.useEffect(() => {
     if (selectedGraduateScript.id) {
@@ -93,12 +97,12 @@ export const EmployeesList = (props) => {
       if (graduateProcessEmployees.commission.length) {
         setCurrentCommission(graduateProcessEmployees.commission);
       } else {
-        setCurrentCommission([]);
+        setCurrentCommission(INITIAL_COMMISSION_STATE);
       }
     } else {
       setCurrentChairman(INITIAL_EMPLOYEE_STATE);
       setCurrentSecretary(INITIAL_EMPLOYEE_STATE);
-      setCurrentCommission([]);
+      setCurrentCommission(INITIAL_COMMISSION_STATE);
     }
   }, [graduateProcessEmployees, selectedGraduateScript.id]);
 
@@ -107,47 +111,38 @@ export const EmployeesList = (props) => {
       sx={React.useMemo(
         () => ({
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           justifyContent: 'space-between',
           width: '100%',
         }),
         []
       )}
     >
-      <EmployeesSearchDropdown
-        onSelectEmployee={handleChairmanEducateScriptChange}
-        selectedEmployee={currentChairman}
-        label="Председатель"
-        disabled={props.disabled}
-      />
-      {/*<CommonFormControl*/}
-      {/*  sx={React.useMemo(() => ({ minWidth: '200px' }), [])}*/}
-      {/*  disabled={props.disabled}*/}
-      {/*>*/}
-      {/*  <InputLabel>Секретарь</InputLabel>*/}
-      {/*  <Select*/}
-      {/*    label="Секретарь"*/}
-      {/*    onChange={handleSecretaryTakeDayChange}*/}
-      {/*    value={currentSecretary.id || ''}*/}
-      {/*  >*/}
-      {/*    {allEmployees.map((employee) => {*/}
-      {/*      return (*/}
-      {/*        <MenuItem value={employee.id} key={employee.id}>*/}
-      {/*          {employee.lastname} {employee.name[0]}.{' '}*/}
-      {/*          {employee.patronymic[0]}.*/}
-      {/*        </MenuItem>*/}
-      {/*      );*/}
-      {/*    })}*/}
-      {/*  </Select>*/}
-      {/*</CommonFormControl>*/}
-      <CommissionList
-        currentCommission={currentCommission}
-        setCommission={setCurrentCommission}
-        takeDayId={selectedGraduateScript.id}
-        commissionMembers={allEmployees}
-        handleAdd={handleAddEmployeeToCommission}
-        disabled={props.disabled}
-      />
+      <Box>
+        {currentCommission.map((member, index) => (
+          <CommissionMember
+            key={index}
+            disabled={disabled}
+            index={index}
+            currentMember={member}
+            onChange={handleCommissionMemberEducateScriptChange}
+          />
+        ))}
+      </Box>
+      <Box>
+        <EmployeesSearchDropdown
+          onSelectEmployee={handleChairmanEducateScriptChange}
+          selectedEmployee={currentChairman}
+          label="Председатель"
+          disabled={disabled}
+        />
+        <EmployeesSearchDropdown
+          onSelectEmployee={handleSecretaryEducateScriptChange}
+          selectedEmployee={currentSecretary}
+          label="Секретарь"
+          disabled={disabled}
+        />
+      </Box>
     </Box>
   );
 };
