@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { EmployeeGraduateScript } from './employees-graduate-scripts.model';
+import { EMPLOYEE_ROLES } from './enums';
 
 @Injectable()
 export class EmployeesGraduateScriptsService {
@@ -19,7 +20,57 @@ export class EmployeesGraduateScriptsService {
   async getEmployeesIdsByGraduateScriptId(graduateScriptId: number) {
     return this.employeeGraduateScriptRepository.findAll({
       where: { graduateScriptId },
-      attributes: ['employeeId'],
+    });
+  }
+
+  private async setEmployee(
+    employeeId: number,
+    graduateScriptId: number,
+    employeeRole: EMPLOYEE_ROLES.SECRETARY | EMPLOYEE_ROLES.CHAIRMAN,
+  ) {
+    const currentEmployee = await this.employeeGraduateScriptRepository.findOne(
+      {
+        where: { employeeId, role: employeeRole },
+      },
+    );
+
+    if (currentEmployee) {
+      await currentEmployee.destroy();
+    }
+
+    return this.employeeGraduateScriptRepository.create({
+      graduateScriptId,
+      employeeId,
+      role: employeeRole,
+    });
+  }
+
+  setChairman(employeeId: number, graduateScriptId: number) {
+    return this.setEmployee(
+      employeeId,
+      graduateScriptId,
+      EMPLOYEE_ROLES.CHAIRMAN,
+    );
+  }
+
+  setSecretary(employeeId: number, graduateScriptId: number) {
+    return this.setEmployee(
+      employeeId,
+      graduateScriptId,
+      EMPLOYEE_ROLES.SECRETARY,
+    );
+  }
+
+  setCommissionMember(
+    employeeId: number,
+    graduateScriptId: number,
+    index: number,
+  ) {
+    return this.employeeGraduateScriptRepository.create({
+      employeeId,
+      graduateScriptId,
+      role: EMPLOYEE_ROLES.COMMISSION_MEMBER,
+      index,
     });
   }
 }

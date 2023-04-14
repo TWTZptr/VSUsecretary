@@ -1,1 +1,2 @@
-export const UNEXIST_TAKEDAY_ID_MSG = 'Take day with that id does not exist';
+export const UNEXIST_GRADUATE_SCRIPT_ID_MSG =
+  'Graduate script with that id does not exist';

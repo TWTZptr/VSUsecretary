@@ -7,7 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { EmployeesService } from 'src/employees/employees.service';
 import { UNEXIST_STUDENT_ID_MSG } from 'src/students/constants';
 import { StudentsService } from 'src/students/students.service';
-import { UNEXIST_TAKEDAY_ID_MSG } from 'src/graduate-scripts/constants';
+import { UNEXIST_GRADUATE_SCRIPT_ID_MSG } from 'src/graduate-scripts/constants';
 import { GraduateScriptsService } from 'src/graduate-scripts/graduate-scripts.service';
 import {
   UNEXIST_DEGREE_WORK_ID_MSG,
@@ -59,7 +59,7 @@ export class DegreeWorksService {
         dto.graduateScriptId,
       ))
     ) {
-      throw new BadRequestException(UNEXIST_TAKEDAY_ID_MSG);
+      throw new BadRequestException(UNEXIST_GRADUATE_SCRIPT_ID_MSG);
     }
   }
 

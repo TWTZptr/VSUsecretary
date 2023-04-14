@@ -12,6 +12,7 @@ interface EmployeeGraduateScriptCreationAttributes {
   employeeId: number;
   graduateScriptId: number;
   role: string;
+  index: number;
 }
 
 @Table({ tableName: 'EmployeesGraduateScripts' })
@@ -47,6 +48,7 @@ export class EmployeeGraduateScript extends Model<
   @Column({
     type: DataType.STRING(50),
     allowNull: false,
+    defaultValue: '',
     field: 'academic_degree',
   })
   academicDegree: string;
@@ -54,13 +56,22 @@ export class EmployeeGraduateScript extends Model<
   @Column({
     type: DataType.STRING(50),
     allowNull: false,
+    defaultValue: '',
     field: 'academic_rank',
   })
   academicRank: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: '' })
   position: string;
 
-  @Column({ type: DataType.STRING, allowNull: true, field: 'another_job' })
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+    field: 'another_job',
+    defaultValue: '',
+  })
   anotherJob: string;
+
+  @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
+  index: number;
 }
