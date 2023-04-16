@@ -9,22 +9,31 @@ import { ModalAddEmployee } from '../../Tabs/employees/ModalAddEmployee';
 import { useModal } from '../../../hooks/useModal';
 
 export const EmployeesSearchDropdown = React.memo(
-  ({ selectedEmployee, onSelectEmployee, label, disabled }) => {
+  ({ selectedEmployee, onSelectEmployee, label, disabled, exclude }) => {
     const { employees } = useEmployeesStore((state) => state);
     const [text, setText] = React.useState('');
     const [dropdownHidden, setDropdownHidden] = React.useState(true);
     const [modalActive, activateModal, inactivateModal] = useModal();
 
     const filteredEmployees = React.useMemo(() => {
-      if (!text.length) {
-        return employees;
+      let availableEmployees = employees;
+
+      if (exclude && exclude.length) {
+        availableEmployees = employees.filter(
+          (emp) => !exclude.some((e) => e.id === emp.id)
+        );
       }
-      return employees.filter((employee) =>
+
+      if (!text.length) {
+        return availableEmployees;
+      }
+
+      return availableEmployees.filter((employee) =>
         `${employee.name} ${employee.lastname} ${employee.patronymic}`.includes(
           text
         )
       );
-    }, [text, employees]);
+    }, [exclude, text, employees]);
 
     React.useEffect(() => {
       if (selectedEmployee.id) {

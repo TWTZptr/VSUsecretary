@@ -2,6 +2,7 @@ import {
   createGraduateScript,
   deleteGraduateScriptById,
   getAllGraduateScripts as getAllScripts,
+  getEmployeesByGraduateScriptId,
   updateGraduateScript,
 } from '../../services/graduateScriptsService';
 import {
@@ -36,6 +37,10 @@ export const useGraduateScriptsStore = createStore(
             graduateScripts: get().graduateScripts.filter(
               (script) => script.id !== id
             ),
+            selectedGraduateScript: INITIAL_GRADUATE_SCRIPT_STATE,
+            secretary: INITIAL_EMPLOYEE_STATE,
+            chairman: INITIAL_EMPLOYEE_STATE,
+            commission: INITIAL_COMMISSION_STATE,
           });
         }
       },
@@ -52,11 +57,35 @@ export const useGraduateScriptsStore = createStore(
       selectedGraduateScript: INITIAL_GRADUATE_SCRIPT_STATE,
       resetSelectedGraduateScript: () =>
         set({ selectedGraduateScript: INITIAL_GRADUATE_SCRIPT_STATE }),
-      selectGraduateScript: (graduateScript) =>
-        set({ selectedGraduateScript: graduateScript }),
+      selectGraduateScript: (graduateScript) => {
+        set({ selectedGraduateScript: graduateScript });
+        get().getAllEmployees();
+      },
       secretary: INITIAL_EMPLOYEE_STATE,
       chairman: INITIAL_EMPLOYEE_STATE,
       commission: INITIAL_COMMISSION_STATE,
+      degreeWorks: [],
+      setSecretary: (secretary) =>
+        set({ secretary: secretary || INITIAL_EMPLOYEE_STATE }),
+      setChairman: (chairman) =>
+        set({ chairman: chairman || INITIAL_EMPLOYEE_STATE }),
+      setCommission: (commission) =>
+        set({
+          commission: commission.length ? commission : INITIAL_COMMISSION_STATE,
+        }),
+      getAllEmployees: async () => {
+        const selected = get().selectedGraduateScript;
+        if (!selected.id) {
+          return;
+        }
+
+        const employees = await getEmployeesByGraduateScriptId(selected.id);
+        get().setSecretary(employees.secretary);
+        get().setChairman(employees.chairman);
+        get().setCommission(
+          employees.commission.map((e) => (e ? e : INITIAL_EMPLOYEE_STATE))
+        );
+      },
     }),
     {
       name: 'GraduateScripts',

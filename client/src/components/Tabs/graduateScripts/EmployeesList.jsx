@@ -1,110 +1,65 @@
 import { Box } from '@mui/system';
 import React from 'react';
 import {
-  INITIAL_COMMISSION_STATE,
-  INITIAL_EMPLOYEE_STATE,
-} from '../../../constants';
-import {
-  removeEmployeeGraduateScript,
-  setGraduateScriptToEmployee,
+  setGraduateScriptChairman,
+  setGraduateScriptCommissionMember,
+  setGraduateScriptSecretary,
 } from '../../../services/graduateScriptsService';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
-import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
-import { useGraduateProcessStore } from '../../../hooks/zustand/useGraduateProcessStore';
 import { EmployeesSearchDropdown } from '../../common/EmployeesSearchDropdown/EmployeesSearchDropdown';
 import { CommissionMember } from './CommissionMember';
 
-export const EmployeesList = ({ disabled }) => {
-  const [currentCommission, setCurrentCommission] = React.useState(
-    INITIAL_COMMISSION_STATE
-  );
-  const [currentSecretary, setCurrentSecretary] = React.useState(
-    INITIAL_EMPLOYEE_STATE
-  );
-  const [currentChairman, setCurrentChairman] = React.useState(
-    INITIAL_EMPLOYEE_STATE
-  );
+export const EmployeesList = React.memo(({ disabled }) => {
+  const {
+    selectedGraduateScript,
+    chairman,
+    secretary,
+    commission,
+    setSecretary,
+    setChairman,
+    setCommission,
+  } = useGraduateScriptsStore((state) => state);
 
-  const { selectedGraduateScript } = useGraduateScriptsStore((state) => state);
-  const { graduateProcessEmployees } = useGraduateProcessStore(
-    (state) => state
-  );
-
-  const allEmployees = useEmployeesStore((state) => state.employees);
-
-  const handleChairmanEducateScriptChange = (chairman) => {
-    if (currentChairman.id !== null) {
-      removeEmployeeGraduateScript(
-        selectedGraduateScript.id,
-        currentChairman.id
+  const handleChairmanEducateScriptChange = React.useCallback(
+    (chairman) => {
+      setGraduateScriptChairman(selectedGraduateScript.id, chairman.id).then(
+        () => {
+          setChairman(chairman);
+        }
       );
-    }
+    },
+    [setChairman, selectedGraduateScript.id]
+  );
 
-    setGraduateScriptToEmployee(
-      'Председатель',
-      selectedGraduateScript.id,
-      chairman.id
-    ).then((res) => {
-      setCurrentChairman(chairman);
-    });
-  };
-
-  const handleSecretaryEducateScriptChange = (event) => {
-    const secretaryId = event.target.value;
-    const secretary = allEmployees.find(
-      (secretary) => secretary.id === secretaryId
-    );
-    if (currentSecretary.id !== null) {
-      removeEmployeeGraduateScript(
-        selectedGraduateScript.id,
-        currentSecretary.id
+  const handleSecretaryEducateScriptChange = React.useCallback(
+    (secretary) => {
+      setGraduateScriptSecretary(selectedGraduateScript.id, secretary.id).then(
+        () => {
+          setSecretary(secretary);
+        }
       );
-    }
-
-    setGraduateScriptToEmployee(
-      'Секретарь',
-      selectedGraduateScript.id,
-      secretaryId
-    ).then((res) => {
-      setCurrentSecretary(secretary);
-    });
-  };
+    },
+    [selectedGraduateScript.id, setSecretary]
+  );
 
   const handleCommissionMemberEducateScriptChange = React.useCallback(
     (index, member) => {
-      setCurrentCommission((prev) => {
-        prev.splice(index, 1, member);
-        return prev;
+      setGraduateScriptCommissionMember(
+        selectedGraduateScript.id,
+        member.id,
+        index
+      ).then(() => {
+        commission.splice(index, 1, member);
+        setCommission(commission);
       });
     },
-    [setCurrentCommission]
+    [setCommission, selectedGraduateScript.id, commission]
   );
 
-  React.useEffect(() => {
-    if (selectedGraduateScript.id) {
-      if (graduateProcessEmployees.chairman) {
-        setCurrentChairman(graduateProcessEmployees.chairman);
-      } else {
-        setCurrentChairman(INITIAL_EMPLOYEE_STATE);
-      }
-
-      if (graduateProcessEmployees.secretary) {
-        setCurrentSecretary(graduateProcessEmployees.secretary);
-      } else {
-        setCurrentSecretary(INITIAL_EMPLOYEE_STATE);
-      }
-
-      if (graduateProcessEmployees.commission.length) {
-        setCurrentCommission(graduateProcessEmployees.commission);
-      } else {
-        setCurrentCommission(INITIAL_COMMISSION_STATE);
-      }
-    } else {
-      setCurrentChairman(INITIAL_EMPLOYEE_STATE);
-      setCurrentSecretary(INITIAL_EMPLOYEE_STATE);
-      setCurrentCommission(INITIAL_COMMISSION_STATE);
-    }
-  }, [graduateProcessEmployees, selectedGraduateScript.id]);
+  const employeesToExclude = React.useMemo(
+    () => [chairman, secretary, ...commission],
+    [chairman, secretary, commission]
+  );
 
   return (
     <Box
@@ -119,7 +74,7 @@ export const EmployeesList = ({ disabled }) => {
       )}
     >
       <Box>
-        {currentCommission.map((member, index) => (
+        {commission.map((member, index) => (
           <CommissionMember
             key={index}
             disabled={disabled}
@@ -132,17 +87,17 @@ export const EmployeesList = ({ disabled }) => {
       <Box>
         <EmployeesSearchDropdown
           onSelectEmployee={handleChairmanEducateScriptChange}
-          selectedEmployee={currentChairman}
+          selectedEmployee={chairman}
           label="Председатель"
           disabled={disabled}
         />
         <EmployeesSearchDropdown
           onSelectEmployee={handleSecretaryEducateScriptChange}
-          selectedEmployee={currentSecretary}
+          selectedEmployee={secretary}
           label="Секретарь"
           disabled={disabled}
         />
       </Box>
     </Box>
   );
-};
+});

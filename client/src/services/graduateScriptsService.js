@@ -18,20 +18,13 @@ const getAllGraduateScripts = async () => {
   return response.data;
 };
 
-const getEmployeesByGraduateScriptId = async (takeDayId) => {
+const getEmployeesByGraduateScriptId = async (graduateScriptId) => {
   const response = await sendRequest(
     'get',
-    `/api/graduate-scripts/${takeDayId}/employees`
+    `/api/graduate-scripts/${graduateScriptId}/employees`
   );
   return response.data;
 };
-
-const setGraduateScriptToEmployee = (takeDayId, employeeId, role) =>
-  sendRequest('post', 'api/employees/takeDays', {
-    takeDayId,
-    role,
-    employeeId,
-  });
 
 const removeEmployeeGraduateScript = (takeDayId, employeeId) =>
   sendRequest('delete', `api/employees/${employeeId}/takeDays/${takeDayId}`);
@@ -42,13 +35,39 @@ const addDegreeWorkToGraduateScript = (takeDayId, degreeWorkId) =>
     id: degreeWorkId,
   });
 
+const setGraduateScriptSecretary = (graduateScriptId, secretaryId) =>
+  sendRequest('post', `api/graduate-scripts/${graduateScriptId}/secretary`, {
+    employeeId: secretaryId,
+  });
+
+const setGraduateScriptChairman = (graduateScriptId, chairmanId) =>
+  sendRequest('post', `api/graduate-scripts/${graduateScriptId}/chairman`, {
+    employeeId: chairmanId,
+  });
+
+const setGraduateScriptCommissionMember = (
+  graduateScriptId,
+  employeeId,
+  index
+) =>
+  sendRequest(
+    'post',
+    `api/graduate-scripts/${graduateScriptId}/commission-member`,
+    {
+      index,
+      employeeId,
+    }
+  );
+
 export {
   createGraduateScript,
   updateGraduateScript,
   deleteGraduateScriptById,
   getAllGraduateScripts,
   getEmployeesByGraduateScriptId,
-  setGraduateScriptToEmployee,
   removeEmployeeGraduateScript,
   addDegreeWorkToGraduateScript,
+  setGraduateScriptSecretary,
+  setGraduateScriptChairman,
+  setGraduateScriptCommissionMember,
 };

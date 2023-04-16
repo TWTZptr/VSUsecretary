@@ -83,9 +83,16 @@ export class GraduateScriptsService {
     const secretaryGraduateScript = employeesGraduateScripts.find(
       (rec) => rec.role === EMPLOYEE_ROLES.SECRETARY,
     );
-    const commissionGraduateScript = employeesGraduateScripts.filter(
+
+    const commissionGraduateScript = Array(5).fill(null);
+
+    const unsortedEmployees = employeesGraduateScripts.filter(
       (rec) => rec.role === EMPLOYEE_ROLES.COMMISSION_MEMBER,
     );
+
+    for (const emp of unsortedEmployees) {
+      commissionGraduateScript[emp.index] = emp;
+    }
 
     let chairman = null;
     let secretary = null;
@@ -103,9 +110,13 @@ export class GraduateScriptsService {
       );
     }
 
-    if (commissionGraduateScript.length) {
-      for (const emp of commissionGraduateScript) {
-        commission.push(await this.employeesService.findEmployeeById(emp.id));
+    for (const emp of commissionGraduateScript) {
+      if (emp) {
+        commission.push(
+          await this.employeesService.findEmployeeById(emp.employeeId),
+        );
+      } else {
+        commission.push(emp);
       }
     }
 
@@ -113,14 +124,25 @@ export class GraduateScriptsService {
   }
 
   async validateEmployeeAndGraduateScriptExist(employeeId, graduateScriptId) {
+    const existRecord =
+      await this.employeesGraduateScriptsService.getEmployeeGraduateScript(
+        employeeId,
+        graduateScriptId,
+      );
+
+    if (existRecord) {
+      await existRecord.destroy();
+      return;
+    }
+
     const employee = await this.employeesService.isEmployeeExists(employeeId);
     if (!employee) {
-      return new BadRequestException(UNEXIST_EMPLOYEE_ID_MSG);
+      throw new BadRequestException(UNEXIST_EMPLOYEE_ID_MSG);
     }
 
     const graduateScript = await this.findGraduateScriptById(graduateScriptId);
     if (!graduateScript) {
-      return new BadRequestException(UNEXIST_GRADUATE_SCRIPT_ID_MSG);
+      throw new BadRequestException(UNEXIST_GRADUATE_SCRIPT_ID_MSG);
     }
   }
 

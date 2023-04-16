@@ -73,4 +73,13 @@ export class EmployeesGraduateScriptsService {
       index,
     });
   }
+
+  getEmployeeGraduateScript(employeeId: number, graduateScriptId: number) {
+    return this.employeeGraduateScriptRepository.findOne({
+      where: {
+        employeeId,
+        graduateScriptId,
+      },
+    });
+  }
 }

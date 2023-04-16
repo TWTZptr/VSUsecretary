@@ -8,6 +8,30 @@ export const useGraduateScript = (
     INITIAL_GRADUATE_SCRIPT_STATE
   );
 
+  const handlers = React.useMemo(
+    () => ({
+      addEmployee: (id) => {
+        setGraduateScript((takeDay) => ({
+          ...takeDay,
+          employees: [...takeDay.employees, id],
+        }));
+      },
+      deleteEmployee: (id) => {
+        setGraduateScript((takeDay) => ({
+          ...takeDay,
+          employees: takeDay.employees.filter((employee) => employee.id !== id),
+        }));
+      },
+      addDegreeWork: (id) => {
+        setGraduateScript((takeDay) => ({
+          ...takeDay,
+          degreeWorks: [...takeDay.degreeWorks, id],
+        }));
+      },
+    }),
+    []
+  );
+
   const addEmployee = (id) => {
     setGraduateScript({ ...takeDay, employees: [...takeDay.employees, id] });
   };
@@ -35,9 +59,9 @@ export const useGraduateScript = (
     });
   };
 
-  const setDate = (date) => {
-    setGraduateScript({ ...takeDay, date });
-  };
+  const setDate = React.useCallback((date) => {
+    setGraduateScript((takeDay) => ({ ...takeDay, date }));
+  }, []);
 
   return [
     takeDay,
