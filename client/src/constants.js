@@ -72,3 +72,11 @@ export const INITIAL_GRADUATE_SCRIPT_EMPLOYEES_STATE = {
   secretary: null,
   chairman: null,
 };
+export const INITIAL_EXTRA_EMPLOYEE_INFO_STATE = {
+  employeeId: 0,
+  graduateScriptId: 0,
+  academicDegree: '',
+  position: '',
+  anotherJob: '',
+  academicRank: '',
+};

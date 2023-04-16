@@ -13,6 +13,8 @@ import { EmployeesService } from '../employees/employees.service';
 import { UNEXIST_EMPLOYEE_ID_MSG } from '../employees/constants';
 import { EMPLOYEE_ROLES } from '../employees-graduate-scripts/enums';
 import { SetGraduateScriptCommissionMemberDto } from './dto/set-graduatescript-commission-member.dto';
+import { Op } from 'sequelize';
+import { SetEmployeeExtraInfoDto } from './dto/set-employee-extra-info.dto';
 
 @Injectable()
 export class GraduateScriptsService {
@@ -65,9 +67,21 @@ export class GraduateScriptsService {
     return id && (await this.getGraduateScriptById(id));
   }
 
-  async getAllGraduateScripts() {
+  getAllGraduateScripts(year?: number) {
+    if (!year) {
+      return this.graduateScriptRepository.findAll({
+        order: ['id'],
+      });
+    }
+
     return this.graduateScriptRepository.findAll({
       order: ['id'],
+      where: {
+        date: {
+          [Op.gte]: `${year}-01-01`,
+          [Op.lte]: `${year}-12-31`,
+        },
+      },
     });
   }
 
@@ -189,6 +203,25 @@ export class GraduateScriptsService {
       employeeId,
       graduateScriptId,
       index,
+    );
+  }
+
+  saveExtraEmployeeInfo(
+    employeeId: number,
+    graduateScriptId: number,
+    setEmployeeExtraInfoDto: SetEmployeeExtraInfoDto,
+  ) {
+    return this.employeesGraduateScriptsService.saveExtraInfo(
+      employeeId,
+      graduateScriptId,
+      setEmployeeExtraInfoDto,
+    );
+  }
+
+  getExtraEmployeeInfo(employeeId: number, graduateScriptId: number) {
+    return this.employeesGraduateScriptsService.getEmployeeGraduateScript(
+      employeeId,
+      graduateScriptId,
     );
   }
 }

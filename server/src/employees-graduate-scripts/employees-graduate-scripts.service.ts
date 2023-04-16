@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { EmployeeGraduateScript } from './employees-graduate-scripts.model';
 import { EMPLOYEE_ROLES } from './enums';
+import { SetEmployeeExtraInfoDto } from '../graduate-scripts/dto/set-employee-extra-info.dto';
 
 @Injectable()
 export class EmployeesGraduateScriptsService {
@@ -81,5 +82,18 @@ export class EmployeesGraduateScriptsService {
         graduateScriptId,
       },
     });
+  }
+
+  saveExtraInfo(
+    employeeId: number,
+    graduateScriptId: number,
+    setEmployeeExtraInfoDto: SetEmployeeExtraInfoDto,
+  ) {
+    return this.employeeGraduateScriptRepository.update(
+      setEmployeeExtraInfoDto,
+      {
+        where: { employeeId, graduateScriptId },
+      },
+    );
   }
 }

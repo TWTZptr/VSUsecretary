@@ -1,6 +1,4 @@
-import { Length, IsNotEmpty } from 'class-validator';
-import {
-} from '../constants';
+import { IsNotEmpty, Length } from 'class-validator';
 
 export class CreateDirectionDto {
   @IsNotEmpty()

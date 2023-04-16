@@ -34,7 +34,7 @@ function App() {
     getAllEducationLevels();
     getAllDirections();
     getAllEmployees();
-    getAllGraduateScripts();
+    getAllGraduateScripts(currentYear);
     getAllStudents(currentYear);
   }, [
     getAllEducationLevels,

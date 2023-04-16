@@ -2,17 +2,15 @@ import { Box } from '@mui/system';
 import { EditorInputBlock } from '../../common/EditorInputBlock';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { TextField } from '@mui/material';
-import React from 'react';
-import { DegreeWorksList } from './DegreeWorksList/DegreeWorksList';
-import { EmployeesList } from './EmployeesList';
+import { Tab, Tabs, TextField } from '@mui/material';
 import DangerousButton from '../../common/DangerousButton';
 import { CommonButton } from '../../common/CommonButton';
 import { AddGraduateScriptPopover } from './AddGraduateScriptPopover';
-import { MarksFullListGenerationButton } from './MarksFullListGenerationButton';
 import { toastError } from '../../../utils/toastSender';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
 import { useCommonStore } from '../../../hooks/zustand/commonStore';
+import React from 'react';
+import { CurrentGraduateScriptTab } from './CurrentGraduateScriptTab';
 
 export const GraduateScriptEditor = ({ disabled }) => {
   const {
@@ -25,6 +23,14 @@ export const GraduateScriptEditor = ({ disabled }) => {
     degreeWorks,
   } = useGraduateScriptsStore((state) => state);
   const { startGraduateScript } = useCommonStore((state) => state);
+  const [currentTab, setCurrentTab] = React.useState(1);
+
+  const onTabChange = React.useCallback(
+    (e, newTab) => {
+      setCurrentTab(newTab);
+    },
+    [setCurrentTab]
+  );
 
   const onDateChange = React.useCallback(
     (date) => {
@@ -88,24 +94,18 @@ export const GraduateScriptEditor = ({ disabled }) => {
           </LocalizationProvider>
         </Box>
       </EditorInputBlock>
-      <DegreeWorksList />
-      <EditorInputBlock>
-        <Box
-          sx={React.useMemo(
-            () => ({
-              display: 'flex',
-              flexDirection: 'row',
-              marginTop: '20px',
-            }),
-            []
-          )}
-        >
-          <EmployeesList disabled={disabled} />
-        </Box>
-      </EditorInputBlock>
-      <EditorInputBlock>
-        <MarksFullListGenerationButton disabled={disabled} />
-      </EditorInputBlock>
+      <Box
+        sx={React.useMemo(
+          () => ({ display: 'flex', justifyContent: 'center' }),
+          []
+        )}
+      >
+        <Tabs value={currentTab} onChange={onTabChange}>
+          <Tab label="Состав комиссии" />
+          <Tab label="Работы" />
+        </Tabs>
+      </Box>
+      <CurrentGraduateScriptTab disabled={disabled} index={currentTab} />
       <EditorInputBlock>
         <CommonButton onClick={startTakeDayHandler} disabled={disabled}>
           Начать защиту

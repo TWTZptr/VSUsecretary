@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CreateGraduateScriptDto } from './dto/create-graduate-script.dto';
@@ -16,6 +17,7 @@ import { RoleGuard } from '../auth/guards/role-guard';
 import { RequireRoles } from '../auth/decorators/role-auth.decorator';
 import { SetGraduateScriptSingleEmployeeDto } from './dto/set-graduate-script-single-employee.dto';
 import { SetGraduateScriptCommissionMemberDto } from './dto/set-graduatescript-commission-member.dto';
+import { SetEmployeeExtraInfoDto } from './dto/set-employee-extra-info.dto';
 
 @Controller('graduate-scripts')
 @UseGuards(RoleGuard)
@@ -31,7 +33,7 @@ export class GraduateScriptsController {
   }
 
   @Get(':id')
-  getGraduateScriptById(@Param('id') id: number) {
+  getGraduateScriptById(@Param('id', ParseIntPipe) id: number) {
     return this.graduateScriptsService.findGraduateScriptById(id);
   }
 
@@ -46,8 +48,8 @@ export class GraduateScriptsController {
   }
 
   @Get()
-  getAllGraduateScripts() {
-    return this.graduateScriptsService.getAllGraduateScripts();
+  getAllGraduateScripts(@Query('year', ParseIntPipe) year: number) {
+    return this.graduateScriptsService.getAllGraduateScripts(year);
   }
 
   @Get(':graduateScriptId/employees')
@@ -89,6 +91,30 @@ export class GraduateScriptsController {
     return this.graduateScriptsService.setGraduateScriptCommissionMember(
       graduateScriptId,
       setGraduateScriptSecretaryDto,
+    );
+  }
+
+  @Patch(':graduateScriptId/employees/:employeeId')
+  saveExtraEmployeeInfo(
+    @Param('graduateScriptId', ParseIntPipe) graduateScriptId: number,
+    @Param('employeeId', ParseIntPipe) employeeId: number,
+    @Body() dto: SetEmployeeExtraInfoDto,
+  ) {
+    return this.graduateScriptsService.saveExtraEmployeeInfo(
+      employeeId,
+      graduateScriptId,
+      dto,
+    );
+  }
+
+  @Get(':graduateScriptId/employees/:employeeId')
+  getExtraEmployeeInfo(
+    @Param('graduateScriptId', ParseIntPipe) graduateScriptId: number,
+    @Param('employeeId', ParseIntPipe) employeeId: number,
+  ) {
+    return this.graduateScriptsService.getExtraEmployeeInfo(
+      employeeId,
+      graduateScriptId,
     );
   }
 }

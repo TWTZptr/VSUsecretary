@@ -4,13 +4,7 @@ import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScrip
 import { GraduateScriptEditor } from './GraduateScriptEditor';
 
 export const GraduateScriptViewer = () => {
-  const { selectedGraduateScript, getAllEmployees } = useGraduateScriptsStore(
-    (state) => state
-  );
-
-  React.useEffect(() => {
-    getAllEmployees();
-  }, [getAllEmployees]);
+  const { selectedGraduateScript } = useGraduateScriptsStore((state) => state);
 
   const disabled = !Boolean(selectedGraduateScript.id);
 

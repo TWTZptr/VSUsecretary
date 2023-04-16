@@ -8,7 +8,11 @@ export const EmployeesSearchDropdownItem = React.memo(
     }, [employee, onClick]);
 
     return (
-      <MenuItem value={employee.id} onClick={onSelfClick}>
+      <MenuItem
+        value={employee.id}
+        onClick={onSelfClick}
+        style={React.useMemo(() => ({ textOverflow: 'ellipsis' }), [])}
+      >
         {employee.name} {employee.lastname} {employee.patronymic}
       </MenuItem>
     );

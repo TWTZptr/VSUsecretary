@@ -9,7 +9,7 @@ import { CommonTextField } from '../CommonTextField';
 import React from 'react';
 import { MarkSelector } from '../selectors/MarkSelector';
 import { StudentSelector } from '../selectors/StudentSelector';
-import { EmployeeSelector } from '../selectors/EmplopyeeSelector';
+import { EmployeeSelector } from '../selectors/EmployeeSelector';
 import { TakeDaySelector } from '../selectors/TakeDaySelector';
 import { ImplementationSwitch } from '../../Tabs/degreeWorks/ImplementationSwitch';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';

@@ -1,8 +1,8 @@
 import React from 'react';
-import { EmployeesSearchDropdown } from '../../common/EmployeesSearchDropdown/EmployeesSearchDropdown';
+import { EmployeesSearchDropdown } from '../../../common/EmployeesSearchDropdown/EmployeesSearchDropdown';
 
 export const CommissionMember = React.memo(
-  ({ index, onChange, currentMember, disabled }) => {
+  ({ index, onChange, currentMember, disabled, exclude, onDelete }) => {
     const onSelfChange = React.useCallback(
       (member) => {
         onChange(index, member);
@@ -16,6 +16,8 @@ export const CommissionMember = React.memo(
         selectedEmployee={currentMember}
         label={`Член комиссии ${index + 1}`}
         disabled={disabled}
+        exclude={exclude}
+        onDelete={onDelete}
       />
     );
   }

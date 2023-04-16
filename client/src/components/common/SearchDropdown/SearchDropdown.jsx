@@ -1,15 +1,36 @@
 import React from 'react';
 import { Box } from '@mui/system';
-import { CommonTextField } from '../CommonTextField';
 import { EmployeesSearchDropdownAdd } from '../EmployeesSearchDropdown/EmployeesSearchDropdownAdd';
 import { CommonModal } from '../CommonModal';
 import { useModal } from '../../../hooks/useModal';
+import { TextField } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 
 export const SearchDropdown = React.memo(
-  ({ items, label, disabled, ItemComponent, onSelect, ModalComponent }) => {
+  ({
+    label,
+    disabled,
+    ItemComponent,
+    onSelect,
+    onDelete,
+    ModalCreateComponent,
+    selectedItem,
+    ModalEditExtraInfoComponent,
+    textFormatter,
+    itemsCallback,
+  }) => {
     const [text, setText] = React.useState('');
     const [dropdownHidden, setDropdownHidden] = React.useState(true);
-    const [modalActive, activateModal, inactivateModal] = useModal();
+    const [createModalActive, activateCreateModal, inactivateCreateModal] =
+      useModal();
+    const [editModalActive, activateEditModal, inactivateEditModal] =
+      useModal();
+
+    const items = React.useMemo(
+      () => itemsCallback(text),
+      [itemsCallback, text]
+    );
 
     const onTextAreaClick = React.useCallback(() => {
       setDropdownHidden(false);
@@ -19,18 +40,92 @@ export const SearchDropdown = React.memo(
       setText(event.target.value);
     }, []);
 
+    const closeDropdownOnClickOutside = React.useCallback(() => {
+      setDropdownHidden(true);
+    }, []);
+
+    React.useEffect(() => {
+      if (selectedItem && selectedItem.id) {
+        setText(textFormatter(selectedItem));
+      } else {
+        setText('');
+      }
+    }, [selectedItem, textFormatter]);
+
+    React.useEffect(() => {
+      if (dropdownHidden) {
+        document.removeEventListener('click', closeDropdownOnClickOutside);
+      } else {
+        document.addEventListener('click', closeDropdownOnClickOutside);
+      }
+    }, [dropdownHidden, closeDropdownOnClickOutside]);
+
+    const onDeleteItem = React.useCallback(
+      () => selectedItem.id && onDelete(selectedItem),
+      [onDelete, selectedItem]
+    );
+
     return (
       <Box sx={React.useMemo(() => ({ width: 'auto' }), [])}>
-        <CommonTextField
-          label={label}
-          id={label}
-          onChange={onTextChange}
-          value={text}
-          disabled={disabled}
-          onClick={onTextAreaClick}
-          sx={React.useMemo(() => ({ width: '350px' }), [])}
-          variant="standard"
-        />
+        <Box
+          sx={React.useMemo(
+            () => ({
+              display: 'flex',
+              flexDirection: 'row',
+            }),
+            []
+          )}
+        >
+          <TextField
+            label={label}
+            id={label}
+            onChange={onTextChange}
+            value={text}
+            disabled={disabled}
+            onClick={onTextAreaClick}
+            sx={React.useMemo(
+              () => ({ width: '60%', margin: '0 10px', minWidth: '300px' }),
+              []
+            )}
+            variant="standard"
+          />
+          <FormatAlignJustifyIcon
+            sx={React.useMemo(
+              () => ({
+                marginTop: '20px',
+                backgroundColor: 'white',
+                zIndex: '1',
+                opacity: disabled ? '0.2' : '',
+                ':hover': disabled
+                  ? ''
+                  : {
+                      cursor: 'pointer',
+                      backgroundColor: '#f5f5f5',
+                    },
+              }),
+              [disabled]
+            )}
+            onClick={activateEditModal}
+          />
+          <CloseIcon
+            sx={React.useMemo(
+              () => ({
+                marginTop: '20px',
+                backgroundColor: 'white',
+                zIndex: '1',
+                opacity: disabled ? '0.2' : '',
+                ':hover': disabled
+                  ? ''
+                  : {
+                      cursor: 'pointer',
+                      backgroundColor: '#f5f5f5',
+                    },
+              }),
+              [disabled]
+            )}
+            onClick={onDeleteItem}
+          />
+        </Box>
         <Box
           sx={React.useMemo(
             () => ({
@@ -56,10 +151,16 @@ export const SearchDropdown = React.memo(
               />
             );
           })}
-          <EmployeesSearchDropdownAdd onClick={activateModal} />
+          <EmployeesSearchDropdownAdd onClick={activateCreateModal} />
         </Box>
-        <CommonModal active={modalActive} onClose={inactivateModal}>
-          <ModalComponent onClose={inactivateModal} />
+        <CommonModal active={createModalActive} onClose={inactivateCreateModal}>
+          <ModalCreateComponent onClose={inactivateCreateModal} />
+        </CommonModal>
+        <CommonModal active={editModalActive} onClose={inactivateEditModal}>
+          <ModalEditExtraInfoComponent
+            onClose={inactivateEditModal}
+            selectedId={selectedItem.id}
+          />
         </CommonModal>
       </Box>
     );

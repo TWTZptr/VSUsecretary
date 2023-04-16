@@ -6,7 +6,7 @@ import { CommonTextField } from '../../../../common/CommonTextField';
 import { GRADUATION_INITIAL_STATE } from '../../../../../constants';
 import { EndGraduationButton } from './EndGraduationButton';
 import { useSelector } from 'react-redux';
-import { EmployeeSelector } from '../../../../common/selectors/EmplopyeeSelector';
+import { EmployeeSelector } from '../../../../common/selectors/EmployeeSelector';
 
 export const GraduationEditor = React.memo((props) => {
   const allGraduations = props.allGraduations;
