@@ -76,7 +76,7 @@ export class StudentsService {
 
   async getAllStudents(year?: number) {
     const options: FindOptions<Student> = {
-      order: ['lastname'],
+      order: ['index'],
       include: ['degreeWork'],
     };
     if (year) {
