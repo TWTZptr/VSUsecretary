@@ -42,7 +42,6 @@ import { GraduateMarksModule } from './graduate-marks/graduate-marks.module';
     PasswordModule,
     AuthModule,
     FilesModule,
-    GraduateMarksModule,
   ],
   controllers: [],
   providers: [],

@@ -3,13 +3,11 @@ import {
   Column,
   DataType,
   ForeignKey,
-  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { Employee } from 'src/employees/employees.model';
 import { Student } from 'src/students/students.model';
-import { GraduateMarks } from '../graduate-marks/graduate-marks.model';
 
 interface DegreeWorkCreationAttributes {
   theme: string;
@@ -19,6 +17,7 @@ interface DegreeWorkCreationAttributes {
   supervisorMark: number;
   reviewerMark: number;
   implementation: boolean;
+  studentId: number;
 }
 
 @Table({ tableName: 'DegreeWorks' })
@@ -56,6 +55,10 @@ export class DegreeWork extends Model<
   })
   mark: number;
 
+  @ForeignKey(() => Student)
+  @Column({ type: DataType.INTEGER, allowNull: false, field: 'student_id' })
+  studentId: number;
+
   @Column({ type: DataType.INTEGER, allowNull: true, field: 'reviewer_mark' })
   reviewerMark: number;
 
@@ -76,6 +79,6 @@ export class DegreeWork extends Model<
   @BelongsTo(() => Employee, 'reviewerId')
   reviewer?: Employee;
 
-  @HasOne(() => GraduateMarks, 'degreeWorkId')
-  graduateMarks?: GraduateMarks;
+  @BelongsTo(() => Student, 'studentId')
+  student: Student;
 }

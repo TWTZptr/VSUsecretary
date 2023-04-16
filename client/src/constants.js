@@ -17,19 +17,14 @@ export const INITIAL_STUDENT_STATE = {
   lastname: '',
   patronymic: '',
   publications: '',
-  groupId: '',
+  directionId: '',
 };
 export const INITIAL_EMPLOYEE_STATE = {
   name: '',
   lastname: '',
   patronymic: '',
-  // academicDegree: '',
-  // academicRank: '',
-  // anotherJob: '',
   phoneNumber: '',
   email: '',
-  // status: '',
-  // position: '',
 };
 export const INITIAL_GRADUATE_SCRIPT_STATE = {
   date: null,

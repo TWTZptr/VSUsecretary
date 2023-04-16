@@ -2,7 +2,7 @@ import React from 'react';
 import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
 import { EmployeesSearchDropdownItem } from './EmployeesSearchDropdownItem';
 import { ModalAddEmployee } from '../../Tabs/employees/ModalAddEmployee';
-import { SearchDropdown } from '../SearchDropdown/SearchDropdown';
+import { CustomSearchDropdown } from '../SearchDropdown/CustomSearchDropdown';
 import { Box } from '@mui/system';
 import { ModalEditExtraInfo } from '../../Tabs/graduateScripts/ModalEditExtraInfo/ModalEditExtraInfo';
 
@@ -48,7 +48,7 @@ export const EmployeesSearchDropdown = React.memo(
 
     return (
       <Box sx={React.useMemo(() => ({ marginTop: '10px' }), [])}>
-        <SearchDropdown
+        <CustomSearchDropdown
           disabled={disabled}
           onSelect={onSelectEmployee}
           ItemComponent={EmployeesSearchDropdownItem}

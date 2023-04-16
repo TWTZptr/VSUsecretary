@@ -7,7 +7,7 @@ import { TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 
-export const SearchDropdown = React.memo(
+export const CustomSearchDropdown = React.memo(
   ({
     label,
     disabled,

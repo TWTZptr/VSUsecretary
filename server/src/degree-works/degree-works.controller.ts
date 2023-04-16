@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { DegreeWorksService } from './degree-works.service';
@@ -42,7 +43,7 @@ export class DegreeWorksController {
   }
 
   @Get()
-  getAllDegreeWorks() {
-    return this.degreeWorksService.getAllDegreeWorks();
+  getAllDegreeWorks(@Query('year', ParseIntPipe) year?: number) {
+    return this.degreeWorksService.getAllDegreeWorks(year);
   }
 }

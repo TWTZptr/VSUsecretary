@@ -1,7 +1,6 @@
 import { DefaultList } from './DefaultList';
 import React from 'react';
 import { Box } from '@mui/system';
-import { CommonTextField } from './CommonTextField';
 import { TextField } from '@mui/material';
 
 export const FilteredList = React.memo(({ sx, filterBy, transform, items }) => {

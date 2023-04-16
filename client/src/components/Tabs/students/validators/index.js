@@ -28,9 +28,6 @@ const schema = Joi.object({
     'number.empty': 'Количество публикаций не должно быть пустым',
     'number.min': 'Количество публикаций не могут быть отрицательным',
   }),
-  groupId: Joi.number().messages({
-    'number.base': `Группа не указана`,
-  }),
   year: Joi.number().optional(),
   directionId: Joi.number().optional().messages({
     'number.empty': 'Направление не указано',

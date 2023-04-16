@@ -43,7 +43,7 @@ export class StudentsController {
   }
 
   @Get()
-  getAllStudents(@Query('year') year: number) {
+  getAllStudents(@Query('year', ParseIntPipe) year: number) {
     return this.studentsService.getAllStudents(year);
   }
 }

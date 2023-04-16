@@ -5,25 +5,31 @@ import { Popover, TextField } from '@mui/material';
 import { CalendarPicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
+import { useCommonStore } from '../../../hooks/zustand/commonStore';
 
 export const AddGraduateScriptPopover = React.memo(() => {
   const { createGraduateScript } = useGraduateScriptsStore((state) => state);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const popoverOpen = Boolean(anchorEl);
+  const { setCurrentYear } = useCommonStore((state) => state);
 
-  const onOpen = (event) => {
+  const onOpen = React.useCallback((event) => {
     setAnchorEl(event.target);
-  };
+  }, []);
 
-  const onClose = () => {
+  const onClose = React.useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
-  const onSelect = (date) => {
-    createGraduateScript({ date });
-    onClose();
-  };
+  const onSelect = React.useCallback(
+    (date) => {
+      createGraduateScript({ date });
+      setCurrentYear(date.getFullYear());
+      onClose();
+    },
+    [createGraduateScript, setCurrentYear, onClose]
+  );
 
   return (
     <>
@@ -41,7 +47,6 @@ export const AddGraduateScriptPopover = React.memo(() => {
         <Box sx={React.useMemo(() => ({ width: 'auto', margin: 'auto' }), [])}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <CalendarPicker
-              views={['day', 'month']}
               orientation="landscape"
               openTo="day"
               label="Дата"

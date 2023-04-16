@@ -51,6 +51,7 @@ export const useGraduateScriptsStore = createStore(
             graduateScripts: get().graduateScripts.map((val) =>
               val.id === script.id ? res : val
             ),
+            selectedGraduateScript: res,
           });
         }
       },

@@ -47,9 +47,8 @@ export class CreateDegreeWorkDto {
   readonly implementation: boolean;
 
   @IsInt()
-  @ToOptionalInt()
-  @IsOptional()
-  readonly studentId?: number;
+  @IsNotEmpty()
+  readonly studentId: number;
 
   @IsInt()
   @ToOptionalInt()
@@ -60,9 +59,4 @@ export class CreateDegreeWorkDto {
   @ToOptionalInt()
   @IsOptional()
   readonly supervisorId?: number;
-
-  @IsInt()
-  @IsOptional()
-  @ToOptionalInt()
-  readonly graduateScriptId?: number;
 }

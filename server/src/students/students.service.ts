@@ -19,9 +19,8 @@ export class StudentsService {
   ) {}
 
   async createStudent(dto: CreateStudentDto) {
-    //FIXME: dto.groupId ===  0 не пройдет проверку
     if (
-      dto.directionId &&
+      dto.directionId !== undefined &&
       (await this.directionsService.isDirectionExists(dto.directionId))
     ) {
       throw new BadRequestException(UNEXIST_GROUP_ID_MSG);
@@ -49,7 +48,9 @@ export class StudentsService {
       throw new NotFoundException(UNEXIST_STUDENT_ID_MSG);
     }
 
-    return this.studentRepository.findByPk(dto.id);
+    return this.studentRepository.findByPk(dto.id, {
+      include: ['degreeWork'],
+    });
   }
 
   async deleteStudentById(id: number) {
@@ -76,6 +77,7 @@ export class StudentsService {
   async getAllStudents(year?: number) {
     const options: FindOptions<Student> = {
       order: ['lastname'],
+      include: ['degreeWork'],
     };
     if (year) {
       options.where = { year };

@@ -67,9 +67,4 @@ export class UpdateDegreeWorkDto {
   @ToOptionalInt()
   @IsOptional()
   readonly reviewerId?: number;
-
-  @IsInt()
-  @ToOptionalInt()
-  @IsOptional()
-  readonly graduateScriptId?: number;
 }

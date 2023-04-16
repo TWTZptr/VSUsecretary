@@ -13,8 +13,10 @@ const updateDegreeWork = async (degreeWork) => {
 const deleteDegreeWorkById = (id) =>
   sendRequest('delete', `/api/degree-works/${id}`);
 
-const getAllDegreeWorks = async () => {
-  const response = await sendRequest('get', `/api/degree-works`);
+const getAllDegreeWorks = async (year) => {
+  const response = await sendRequest('get', `/api/degree-works`, undefined, {
+    params: { year },
+  });
   return response.data;
 };
 

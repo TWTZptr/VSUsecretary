@@ -17,6 +17,7 @@ import {
 import { DegreeWork } from './degree-work.model';
 import { CreateDegreeWorkDto } from './dto/create-degree-work.dto';
 import { UpdateDegreeWorkDto } from './dto/update-degree-work.dto';
+import { Student } from '../students/students.model';
 
 @Injectable()
 export class DegreeWorksService {
@@ -51,15 +52,6 @@ export class DegreeWorksService {
       !(await this.employeesService.isEmployeeExists(dto.reviewerId))
     ) {
       throw new BadRequestException(UNEXIST_REWIEVER_ID_MSG);
-    }
-
-    if (
-      dto.graduateScriptId &&
-      !(await this.graduateScriptsService.isGraduateScriptExists(
-        dto.graduateScriptId,
-      ))
-    ) {
-      throw new BadRequestException(UNEXIST_GRADUATE_SCRIPT_ID_MSG);
     }
   }
 
@@ -100,10 +92,18 @@ export class DegreeWorksService {
     return degreeWork;
   }
 
-  getAllDegreeWorks() {
+  getAllDegreeWorks(year?: number) {
     return this.degreeWorkRepository.findAll({
       order: ['theme'],
-      include: ['graduateMarks'],
+      where: {
+        '$student.year$': year,
+      },
+      include: [
+        {
+          model: Student,
+          as: 'student',
+        },
+      ],
     });
   }
 }

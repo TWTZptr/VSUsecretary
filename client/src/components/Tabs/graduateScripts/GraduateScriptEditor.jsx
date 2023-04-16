@@ -32,11 +32,18 @@ export const GraduateScriptEditor = ({ disabled }) => {
     [setCurrentTab]
   );
 
+  const { setCurrentYear } = useCommonStore((state) => state);
+
   const onDateChange = React.useCallback(
     (date) => {
+      if (!date) {
+        return;
+      }
+
+      setCurrentYear(date.getFullYear());
       updateGraduateScript({ ...selectedGraduateScript, date });
     },
-    [selectedGraduateScript, updateGraduateScript]
+    [selectedGraduateScript, updateGraduateScript, setCurrentYear]
   );
 
   const startTakeDayHandler = React.useCallback(() => {
@@ -79,7 +86,6 @@ export const GraduateScriptEditor = ({ disabled }) => {
         <Box sx={React.useMemo(() => ({ width: 'auto', margin: 'auto' }), [])}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              views={['day', 'month']}
               label="Дата сдачи"
               value={selectedGraduateScript.date}
               onChange={onDateChange}
@@ -89,6 +95,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
                   {...params}
                 />
               )}
+              for
               disabled={disabled}
             />
           </LocalizationProvider>
@@ -102,7 +109,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
       >
         <Tabs value={currentTab} onChange={onTabChange}>
           <Tab label="Состав комиссии" />
-          <Tab label="Работы" />
+          <Tab label="Студенты" />
         </Tabs>
       </Box>
       <CurrentGraduateScriptTab disabled={disabled} index={currentTab} />

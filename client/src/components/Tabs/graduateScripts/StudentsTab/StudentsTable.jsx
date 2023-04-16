@@ -2,40 +2,35 @@ import { Box } from '@mui/system';
 import { Popover, Table, TableCell, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { DefaultList } from '../../../common/DefaultList';
 import { findUnusedItems } from '../../../../helpers/findUnusedItems';
-import { DegreeWorkListItems } from './DegreeWorkListItems';
-import CommonListItem from '../../../common/CommonListItem';
+import { StudentsListItems } from './StudentsTableItems';
 import { CommonButton } from '../../../common/CommonButton';
-import { DegreeWorkListItem } from '../../../common/degreeWork/DegreeWorkListItem';
-import { useDegreeWorksStore } from '../../../../hooks/zustand/useDegreeWorksStore';
 import { useGraduateScriptsStore } from '../../../../hooks/zustand/useGraduateScriptsStore';
+import { StudentsPopover } from './StudentsPopover';
+import { useStudentsStore } from '../../../../hooks/zustand/useStudentsStore';
 
-export const DegreeWorksList = (props) => {
-  const { updateDegreeWork } = useDegreeWorksStore((state) => state);
-
-  const handleDeleteDegreeWork = (degreeWork) => {
-    updateDegreeWork({ ...degreeWork, takeDayId: null });
-  };
-
-  const allDegreeWorks = useDegreeWorksStore((state) => state.degreeWorks);
+export const StudentsTable = React.memo(() => {
+  const { students, updateStudent } = useStudentsStore((state) => state);
 
   const { selectedGraduateScript } = useGraduateScriptsStore((state) => state);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const popoverOpen = Boolean(anchorEl);
 
-  const currentDegreeWorks =
-    selectedGraduateScript.id !== null
-      ? allDegreeWorks.filter(
-          (degreeWork) => degreeWork.takeDayId === selectedGraduateScript.id
-        )
-      : [];
+  const onRemoveStudent = React.useCallback(
+    (student) => {
+      updateStudent({ ...student, graduateScriptId: null });
+    },
+    [updateStudent]
+  );
 
-  const unusedDegreeWorks = findUnusedItems(
-    allDegreeWorks,
-    currentDegreeWorks
-  ).filter((degreeWork) => degreeWork.takeDayId === null);
+  const usedStudents = selectedGraduateScript.id
+    ? students.filter(
+        (student) => student.graduateScriptId === selectedGraduateScript.id
+      )
+    : [];
+
+  const unusedStudents = findUnusedItems(students, usedStudents);
 
   const popoverActivate = (event) => {
     setAnchorEl(event.target);
@@ -44,33 +39,17 @@ export const DegreeWorksList = (props) => {
   const anchorRef = React.useRef();
 
   const onClick = React.useCallback(
-    (degreeWork) => {
-      if (unusedDegreeWorks.length === 1) {
+    (student) => {
+      if (unusedStudents.length === 1) {
         setAnchorEl(null);
       }
-      updateDegreeWork({ ...degreeWork, takeDayId: selectedGraduateScript.id });
+      updateStudent({
+        ...student,
+        graduateScriptId: selectedGraduateScript.id,
+      });
     },
-    [selectedGraduateScript]
+    [selectedGraduateScript, unusedStudents.length]
   );
-
-  let unusedDegreeWorksListItems;
-  if (unusedDegreeWorks.length) {
-    unusedDegreeWorksListItems = unusedDegreeWorks.map((degreeWork) => {
-      return (
-        <DegreeWorkListItem
-          degreeWork={degreeWork}
-          key={degreeWork.id}
-          onClick={onClick}
-        />
-      );
-    });
-  } else {
-    unusedDegreeWorksListItems = (
-      <CommonListItem>
-        <i>Пусто</i>
-      </CommonListItem>
-    );
-  }
 
   const disabled = !Boolean(selectedGraduateScript.id);
 
@@ -106,10 +85,7 @@ export const DegreeWorksList = (props) => {
             ></TableCell>
           </TableRow>
         </TableHead>
-        <DegreeWorkListItems
-          degreeWorks={currentDegreeWorks}
-          handler={handleDeleteDegreeWork}
-        />
+        <StudentsListItems students={usedStudents} onDelete={onRemoveStudent} />
       </Table>
       <CommonButton onClick={popoverActivate} disabled={disabled}>
         <AddIcon ref={anchorRef} />
@@ -121,10 +97,8 @@ export const DegreeWorksList = (props) => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         onClose={() => setAnchorEl(null)}
       >
-        <Box>
-          <DefaultList>{unusedDegreeWorksListItems}</DefaultList>
-        </Box>
+        <StudentsPopover students={unusedStudents} onSelect={onClick} />
       </Popover>
     </Box>
   );
-};
+});
