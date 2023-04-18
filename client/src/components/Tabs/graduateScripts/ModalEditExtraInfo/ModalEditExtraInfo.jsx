@@ -26,7 +26,6 @@ export const ModalEditExtraInfo = React.memo(({ onClose, selectedId }) => {
     (e) => {
       e.preventDefault();
       try {
-        console.log(extraInfo);
         validateExtraInfo(extraInfo);
         saveExtraInfo(extraInfo).then(() => {
           onClose();

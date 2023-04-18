@@ -2,12 +2,13 @@ import { useAuthStore } from '../hooks/zustand/useAuthStore';
 import { USER_ROLES } from '../constants';
 import { Navigate, useLocation } from 'react-router-dom';
 import { AdminPage } from './AdminPage';
+import { DeaneryPage } from './DeaneryPage';
 
 export const UserMainPage = () => {
   const auth = useAuthStore();
   const location = useLocation();
 
-  switch (auth.user.role.name) {
+  switch (auth.user?.role?.name) {
     case USER_ROLES.ADMIN:
       return <AdminPage />;
 
@@ -15,7 +16,7 @@ export const UserMainPage = () => {
       return <Navigate to="/directions" state={{ from: location }} replace />;
 
     case USER_ROLES.DEANERY:
-      return <></>;
+      return <DeaneryPage />;
 
     default:
       return <></>;
