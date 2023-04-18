@@ -17,7 +17,6 @@ interface StudentCreationAttributes {
   patronymic: string;
   year: number;
   publications: number;
-  index: number;
 }
 
 @Table({ tableName: 'Students' })
@@ -48,7 +47,7 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: true })
   order?: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   index: number;
 
   @ForeignKey(() => Direction)

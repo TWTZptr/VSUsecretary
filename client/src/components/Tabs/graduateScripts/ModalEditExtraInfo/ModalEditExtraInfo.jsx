@@ -18,15 +18,15 @@ export const ModalEditExtraInfo = React.memo(({ onClose, selectedId }) => {
 
   React.useEffect(() => {
     getExtraInfo(selectedId, selectedGraduateScript.id).then((res) => {
-      console.log(res);
       extraInfoHandlers.setExtraEmployeeInfo(res);
     });
-  }, []);
+  }, [extraInfoHandlers, selectedGraduateScript.id, selectedId]);
 
   const onSave = React.useCallback(
     (e) => {
       e.preventDefault();
       try {
+        console.log(extraInfo);
         validateExtraInfo(extraInfo);
         saveExtraInfo(extraInfo).then(() => {
           onClose();
@@ -40,11 +40,15 @@ export const ModalEditExtraInfo = React.memo(({ onClose, selectedId }) => {
 
   return (
     <ModalBox sx={React.useMemo(() => ({ maxWidth: 700 }), [])}>
-      <ExtraInfoEditor
-        handlers={extraInfoHandlers}
-        localExtraInfo={extraInfo}
-      />
-      <CommonButton onClick={onSave}>Добавить</CommonButton>
+      <form onSubmit={onSave}>
+        <ExtraInfoEditor
+          handlers={extraInfoHandlers}
+          localExtraInfo={extraInfo}
+        />
+        <CommonButton onClick={onSave} type="submit">
+          Сохранить
+        </CommonButton>
+      </form>
     </ModalBox>
   );
 });

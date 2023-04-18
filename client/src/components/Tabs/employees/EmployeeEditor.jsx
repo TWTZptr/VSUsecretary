@@ -29,13 +29,6 @@ export const EmployeeEditor = (props) => {
     [props.handlers]
   );
 
-  const lastLineSx = React.useMemo(
-    () => ({
-      width: '100%',
-    }),
-    []
-  );
-
   const flexGrow1Sx = React.useMemo(() => ({ flexGrow: 1 }), []);
 
   return (
@@ -81,24 +74,6 @@ export const EmployeeEditor = (props) => {
           sx={flexGrow1Sx}
         />
       </EditorInputBlock>
-      {/*<EditorInputBlock>*/}
-      {/*  <PlainSelector*/}
-      {/*    name="Ученое звание"*/}
-      {/*    values={AVAILABLE_ACADEMIC_RANKS}*/}
-      {/*    onChange={props.handlers.setAcademicRank}*/}
-      {/*    disabled={props.disabled}*/}
-      {/*    sx={lastLineSx}*/}
-      {/*    value={props.localEmployee.academicRank}*/}
-      {/*  />*/}
-      {/*  <PlainSelector*/}
-      {/*    name="Ученая степень"*/}
-      {/*    values={AVAILABLE_ACADEMIC_DEGREES}*/}
-      {/*    onChange={props.handlers.setAcademicDegree}*/}
-      {/*    disabled={props.disabled}*/}
-      {/*    sx={lastLineSx}*/}
-      {/*    value={props.localEmployee.academicDegree}*/}
-      {/*  />*/}
-      {/*</EditorInputBlock>*/}
     </Box>
   );
 };

@@ -28,7 +28,6 @@ export const StudentViewer = () => {
 
   const onSave = React.useCallback(() => {
     try {
-      console.log(student);
       validateStudent(student);
       updateStudent(student);
     } catch (e) {

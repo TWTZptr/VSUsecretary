@@ -60,10 +60,17 @@ export const CustomSearchDropdown = React.memo(
       }
     }, [dropdownHidden, closeDropdownOnClickOutside]);
 
+    const onOpenModal = React.useCallback(
+      () => selectedItem.id && activateEditModal(),
+      [selectedItem.id, activateEditModal]
+    );
+
     const onDeleteItem = React.useCallback(
       () => selectedItem.id && onDelete(selectedItem),
       [onDelete, selectedItem]
     );
+
+    const buttonsDisabled = !selectedItem.id;
 
     return (
       <Box sx={React.useMemo(() => ({ width: 'auto' }), [])}>
@@ -95,17 +102,18 @@ export const CustomSearchDropdown = React.memo(
                 marginTop: '20px',
                 backgroundColor: 'white',
                 zIndex: '1',
-                opacity: disabled ? '0.2' : '',
-                ':hover': disabled
-                  ? ''
-                  : {
-                      cursor: 'pointer',
-                      backgroundColor: '#f5f5f5',
-                    },
+                opacity: disabled || buttonsDisabled ? '0.2' : '',
+                ':hover':
+                  disabled || buttonsDisabled
+                    ? ''
+                    : {
+                        cursor: 'pointer',
+                        backgroundColor: '#f5f5f5',
+                      },
               }),
-              [disabled]
+              [disabled, buttonsDisabled]
             )}
-            onClick={activateEditModal}
+            onClick={onOpenModal}
           />
           <CloseIcon
             sx={React.useMemo(
@@ -113,15 +121,16 @@ export const CustomSearchDropdown = React.memo(
                 marginTop: '20px',
                 backgroundColor: 'white',
                 zIndex: '1',
-                opacity: disabled ? '0.2' : '',
-                ':hover': disabled
-                  ? ''
-                  : {
-                      cursor: 'pointer',
-                      backgroundColor: '#f5f5f5',
-                    },
+                opacity: disabled || buttonsDisabled ? '0.2' : '',
+                ':hover':
+                  disabled || buttonsDisabled
+                    ? ''
+                    : {
+                        cursor: 'pointer',
+                        backgroundColor: '#f5f5f5',
+                      },
               }),
-              [disabled]
+              [disabled, buttonsDisabled]
             )}
             onClick={onDeleteItem}
           />

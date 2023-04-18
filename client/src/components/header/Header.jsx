@@ -1,34 +1,20 @@
 import React from 'react';
 import { Box } from '@mui/system';
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from '@mui/material';
-import { useCommonStore } from '../../hooks/zustand/commonStore';
+import { Typography } from '@mui/material';
 import { CommonButton } from '../common/CommonButton';
 import { useAuthStore } from '../../hooks/zustand/useAuthStore';
 import { useNavigate } from 'react-router-dom';
+import { USER_ROLES } from '../../constants';
+import { YearSelect } from './YearSelect';
+
+const sx = {
+  fontSize: '24px',
+  marginRight: '36px',
+};
 
 export const Header = React.memo(() => {
-  const { currentYear, setCurrentYear } = useCommonStore((state) => state);
   const { logout, user } = useAuthStore((store) => store);
   const navigate = useNavigate();
-
-  const onYearChange = React.useCallback(
-    (event) => {
-      setCurrentYear(event.target.value);
-    },
-    [setCurrentYear]
-  );
-
-  const from = new Date().getFullYear() - 10;
-  const years = Array.from(
-    { length: 20 },
-    (_, index) => index + from
-  ).reverse();
 
   const onLogout = React.useCallback(async () => {
     await logout();
@@ -53,36 +39,13 @@ export const Header = React.memo(() => {
         )}
       >
         <Box>
-          <FormControl fullWidth>
-            <InputLabel>Год</InputLabel>
-            <Select
-              label="Год"
-              onChange={onYearChange}
-              value={currentYear}
-              sx={React.useMemo(
-                () => ({
-                  maxHeight: '44px',
-                }),
-                []
-              )}
-              MenuProps={React.useMemo(
-                () => ({
-                  PaperProps: {
-                    style: {
-                      maxHeight: '300px',
-                    },
-                  },
-                }),
-                []
-              )}
-            >
-              {years.map((year) => (
-                <MenuItem value={year} key={year}>
-                  {year}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {user?.role?.name !== USER_ROLES.ADMIN ? (
+            <YearSelect />
+          ) : (
+            <Typography sx={sx}>
+              <b>Панель администратора</b>
+            </Typography>
+          )}
         </Box>
         <Box
           sx={React.useMemo(
@@ -93,15 +56,7 @@ export const Header = React.memo(() => {
             []
           )}
         >
-          <Typography
-            sx={React.useMemo(
-              () => ({
-                fontSize: '24px',
-                marginRight: '36px',
-              }),
-              []
-            )}
-          >
+          <Typography sx={sx}>
             Вы вошли как: <i>{user?.name}</i>
           </Typography>
           <CommonButton onClick={onLogout}>Выйти</CommonButton>

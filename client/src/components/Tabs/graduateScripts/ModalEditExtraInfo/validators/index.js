@@ -3,7 +3,7 @@ import Joi from 'joi';
 const schema = Joi.object({
   employeeId: Joi.number(),
   graduateScriptId: Joi.number(),
-  position: Joi.string().min(3).messages({
+  position: Joi.string().allow('').min(3).messages({
     'string.base': 'Должность должна быть текстом',
     'string.empty': 'Должность не должна быть пустой',
     'string.min': 'Должностьне должна быть короче 3-х символов',
@@ -15,15 +15,14 @@ const schema = Joi.object({
     'string.min': 'Второе место работы не должно быть короче 3-х символов',
     'string.max': 'Второе место работы должно быть короче 50 символов',
   }),
-
-  academicDegree: Joi.string().messages({
+  academicDegree: Joi.string().allow('').messages({
     'any.required':
       'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
     'string.base':
       'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
     'string.empty': 'Ученое звание не указано',
   }),
-  academicRank: Joi.string().messages({
+  academicRank: Joi.string().allow('').optional().messages({
     'any.required':
       'Внутренняя ошибка. Попробуйте обновить страницу и попробовать снова',
     'string.base':

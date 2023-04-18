@@ -27,9 +27,11 @@ export const sendRequest = async (type, url, data = {}, config = {}) => {
         const response = await sendRequest(type, url, data, config);
         return { status: response.status, data: response.data, ok: true };
       }
+      console.log(err.response);
 
       return {
         status: err.response?.status,
+        msg: err.response?.data?.message,
         ok: false,
       };
     } else {

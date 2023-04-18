@@ -9,7 +9,7 @@ export class PasswordService {
     return bcrypt.hash(password, salt);
   }
 
-  compare(password: string, hash: string): Promise<Boolean> {
+  compare(password: string, hash: string): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }
 }

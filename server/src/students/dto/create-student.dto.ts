@@ -20,8 +20,4 @@ export class CreateStudentDto {
   @IsInt()
   @IsNotEmpty()
   readonly directionId: number;
-
-  @IsInt()
-  @IsNotEmpty()
-  readonly index: number;
 }
