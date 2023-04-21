@@ -1,8 +1,9 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
-interface FileCreationAttributes {
+export interface FileCreationAttributes {
   name: string;
   year: number;
+  storageName: string;
 }
 
 @Table({ tableName: 'Files' })
@@ -17,6 +18,9 @@ export class File extends Model<File, FileCreationAttributes> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
+
+  @Column({ type: DataType.STRING, allowNull: false })
+  storageName: string;
 
   @Column({ type: DataType.INTEGER, allowNull: false })
   year: number;

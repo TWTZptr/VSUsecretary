@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -48,5 +49,10 @@ export class FilesController {
     }
 
     return this.filesService.saveFile(file, dto.year);
+  }
+
+  @Delete(':id')
+  async deleteFile(@Param('id', ParseIntPipe) id: number) {
+    return this.filesService.deleteFileById(id);
   }
 }
