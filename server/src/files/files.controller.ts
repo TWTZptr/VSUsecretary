@@ -20,6 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { EMPTY_FILE_PROVIDED_MSG } from '../graduate-scripts/constants';
 import { UploadFileDto } from './dto/UploadFile.dto';
 import { Response } from 'express';
+import { ParseStudentsDto } from './dto/ParseStudents.dto';
 
 @Controller('files')
 @UseGuards(RoleGuard)
@@ -52,7 +53,15 @@ export class FilesController {
   }
 
   @Delete(':id')
-  async deleteFile(@Param('id', ParseIntPipe) id: number) {
+  deleteFile(@Param('id', ParseIntPipe) id: number) {
     return this.filesService.deleteFileById(id);
+  }
+
+  @Post(':id/parse-students')
+  parseStudents(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: ParseStudentsDto,
+  ) {
+    return this.filesService.parseAndSaveStudents(id, dto.directionId);
   }
 }

@@ -3,7 +3,7 @@ import { Column, DataType, Model, Table } from 'sequelize-typescript';
 export interface FileCreationAttributes {
   name: string;
   year: number;
-  storageName: string;
+  uuid: string;
 }
 
 @Table({ tableName: 'Files' })
@@ -20,7 +20,7 @@ export class File extends Model<File, FileCreationAttributes> {
   name: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  storageName: string;
+  uuid: string;
 
   @Column({ type: DataType.INTEGER, allowNull: false })
   year: number;

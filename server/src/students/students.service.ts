@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateStudentDto } from './dto/create-student.dto';
-import { UNEXIST_GROUP_ID_MSG, UNEXIST_STUDENT_ID_MSG } from './constants';
+import { UNEXIST_DIRECTION_ID_MSG, UNEXIST_STUDENT_ID_MSG } from './constants';
 import { Student } from './students.model';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { DirectionsService } from '../directions/directions.service';
@@ -23,7 +23,7 @@ export class StudentsService {
       dto.directionId !== undefined &&
       (await this.directionsService.isDirectionExists(dto.directionId))
     ) {
-      throw new BadRequestException(UNEXIST_GROUP_ID_MSG);
+      throw new BadRequestException(UNEXIST_DIRECTION_ID_MSG);
     }
     return this.studentRepository.create(dto);
   }
@@ -37,7 +37,7 @@ export class StudentsService {
       dto.directionId &&
       (await this.directionsService.isDirectionExists(dto.directionId))
     ) {
-      throw new BadRequestException(UNEXIST_GROUP_ID_MSG);
+      throw new BadRequestException(UNEXIST_DIRECTION_ID_MSG);
     }
 
     const [affectedCount] = await this.studentRepository.update(dto, {

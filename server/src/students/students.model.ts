@@ -44,9 +44,6 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   publications: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: true })
-  order?: number;
-
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   index: number;
 

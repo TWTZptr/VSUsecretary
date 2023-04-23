@@ -38,6 +38,8 @@ export const StudentEditor = ({ handlers, disabled, localStudent }) => {
     [handlers]
   );
 
+  console.log(localStudent);
+
   return (
     <Box>
       <EditorInputBlock>
