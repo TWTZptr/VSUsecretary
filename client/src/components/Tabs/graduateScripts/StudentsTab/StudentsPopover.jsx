@@ -2,6 +2,7 @@ import React from 'react';
 import { DefaultList } from '../../../common/DefaultList';
 import { StudentsPopoverItem } from './StudentsPopoverItem';
 import { TextField } from '@mui/material';
+import CommonListItem from '../../../common/CommonListItem';
 
 export const StudentsPopover = React.memo(({ onSelect, students }) => {
   const [text, setText] = React.useState('');
@@ -35,13 +36,19 @@ export const StudentsPopover = React.memo(({ onSelect, students }) => {
         variant="filled"
       />
       <DefaultList>
-        {filteredStudents.map((student) => (
-          <StudentsPopoverItem
-            key={student.id}
-            student={student}
-            onClick={onSelect}
-          />
-        ))}
+        {filteredStudents.length ? (
+          filteredStudents.map((student) => (
+            <StudentsPopoverItem
+              key={student.id}
+              student={student}
+              onClick={onSelect}
+            />
+          ))
+        ) : (
+          <CommonListItem>
+            <i>Пусто</i>
+          </CommonListItem>
+        )}
       </DefaultList>
     </>
   );
