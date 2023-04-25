@@ -9,7 +9,7 @@ import { UNEXIST_DIRECTION_ID_MSG, UNEXIST_STUDENT_ID_MSG } from './constants';
 import { Student } from './students.model';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { DirectionsService } from '../directions/directions.service';
-import { FindOptions } from 'sequelize';
+import { FindOptions, Op } from 'sequelize';
 
 @Injectable()
 export class StudentsService {
@@ -63,7 +63,9 @@ export class StudentsService {
   }
 
   async findStudentById(id: number) {
-    const student = await this.getStudentById(id);
+    const student = await this.studentRepository.findByPk(id, {
+      include: ['degreeWork'],
+    });
     if (!student) {
       throw new NotFoundException(UNEXIST_STUDENT_ID_MSG);
     }
@@ -82,6 +84,19 @@ export class StudentsService {
     if (year) {
       options.where = { year };
     }
+    return this.studentRepository.findAll(options);
+  }
+
+  getAllStudentsWithNoGraduateScript(year?: number) {
+    const options: FindOptions<Student> = {
+      order: ['index'],
+      include: ['degreeWork'],
+      where: {
+        graduateScriptId: null,
+        year,
+      },
+    };
+
     return this.studentRepository.findAll(options);
   }
 }

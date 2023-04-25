@@ -47,7 +47,7 @@ export const EmployeesList = React.memo(({ disabled }) => {
             return;
           }
 
-          const memberIndex = commission.indexOf((m) => m.id === employee.id);
+          const memberIndex = commission.findIndex((m) => m.id === employee.id);
           setCommissionMember(null, memberIndex);
         }
       ),
@@ -89,7 +89,8 @@ export const EmployeesList = React.memo(({ disabled }) => {
 
   const employeesToExclude = React.useMemo(
     () => [chairman, secretary, ...commission],
-    [chairman, secretary, commission]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [chairman, secretary, ...commission.map((m) => m.id)]
   );
 
   return (

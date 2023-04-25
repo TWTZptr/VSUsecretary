@@ -1,10 +1,10 @@
 import {
-  Model,
-  Table,
+  BelongsToMany,
   Column,
   DataType,
-  BelongsToMany,
   HasMany,
+  Model,
+  Table,
 } from 'sequelize-typescript';
 import { DegreeWork } from 'src/degree-works/degree-work.model';
 import { EmployeeGraduateScript } from 'src/employees-graduate-scripts/employees-graduate-scripts.model';
@@ -14,10 +14,6 @@ interface EmployeeCreationAttributes {
   name: string;
   lastname: string;
   patronymic: string;
-  // academicDegree: string;
-  // academicRank: string;
-  // position: string;
-  // anotherJob?: string;
   phoneNumber: string;
   email: string;
 }
@@ -61,4 +57,10 @@ export class Employee extends Model<Employee, EmployeeCreationAttributes> {
 
   @HasMany(() => DegreeWork, 'reviewerId')
   degreeWorksAsReviewer: DegreeWork[];
+
+  @HasMany(() => DegreeWork, 'firstQuestionAuthorId')
+  firstQuestionDegreeWorks: DegreeWork[];
+
+  @HasMany(() => DegreeWork, 'secondQuestionAuthorId')
+  secondQuestionDegreeWorks: DegreeWork[];
 }

@@ -23,15 +23,13 @@ export const DegreeWorkViewer = React.memo(() => {
     degreeWorkHandlers.setDegreeWork(selectedDegreeWork);
   }, [selectedDegreeWork, degreeWorkHandlers]);
 
-  const onDelete = React.useCallback(
-    () => removeDegreeWorkById(selectedDegreeWork.id),
-    [selectedDegreeWork.id, removeDegreeWorkById]
-  );
+  const onDelete = React.useCallback(async () => {
+    await removeDegreeWorkById(selectedDegreeWork.id);
+  }, [selectedDegreeWork.id, removeDegreeWorkById]);
 
   const onSave = React.useCallback(() => {
     try {
       validateDegreeWork(degreeWork);
-
       updateDegreeWork(degreeWork);
     } catch (e) {
       toastError(e.message);

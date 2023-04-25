@@ -28,6 +28,10 @@ export class CreateDegreeWorkDto {
   @IsNotEmpty()
   readonly supervisorMark: number;
 
+  @IsNotEmpty()
+  @IsOptional()
+  readonly reviewer?: string;
+
   @IsInt()
   @Min(0)
   @Max(5)

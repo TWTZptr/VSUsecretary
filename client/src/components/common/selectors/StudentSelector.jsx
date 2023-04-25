@@ -4,6 +4,7 @@ import React from 'react';
 
 export const StudentSelector = React.memo((props) => {
   const label = props.label || 'Студент';
+
   return (
     <CommonFormControl sx={{ width: '100%' }} disabled={props.disabled}>
       <InputLabel>{label}</InputLabel>

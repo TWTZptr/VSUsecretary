@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/system';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteFile, getAllFilesByYear } from '../../../services/filesService';
-import { useCommonStore } from '../../../hooks/zustand/commonStore';
+import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 import { sendFiles } from '../../../utils/sendFiles';
 import { FilesListItem } from './FilesListItem';
 import { CommonModal } from '../CommonModal';

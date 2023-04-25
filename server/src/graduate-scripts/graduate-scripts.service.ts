@@ -15,6 +15,7 @@ import { EMPLOYEE_ROLES } from '../employees-graduate-scripts/enums';
 import { SetGraduateScriptCommissionMemberDto } from './dto/set-graduatescript-commission-member.dto';
 import { Op } from 'sequelize';
 import { SetEmployeeExtraInfoDto } from './dto/set-employee-extra-info.dto';
+import { StudentsService } from '../students/students.service';
 
 @Injectable()
 export class GraduateScriptsService {
@@ -23,6 +24,7 @@ export class GraduateScriptsService {
     private graduateScriptRepository: typeof GraduateScript,
     private readonly employeesGraduateScriptsService: EmployeesGraduateScriptsService,
     private readonly employeesService: EmployeesService,
+    private readonly studentsService: StudentsService,
   ) {}
 
   async createGraduateScript(dto: CreateGraduateScriptDto) {
@@ -223,5 +225,17 @@ export class GraduateScriptsService {
       employeeId,
       graduateScriptId,
     );
+  }
+
+  async getStudentsByGraduateScriptId(graduateScriptId: number) {
+    const graduateScript = await this.findGraduateScriptById(graduateScriptId);
+    if (!graduateScript) {
+      throw new BadRequestException(UNEXIST_GRADUATE_SCRIPT_ID_MSG);
+    }
+
+    return graduateScript.$get('students', {
+      include: ['degreeWork'],
+      order: ['index'],
+    });
   }
 }

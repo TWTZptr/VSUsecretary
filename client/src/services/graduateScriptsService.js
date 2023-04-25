@@ -79,6 +79,17 @@ const getExtraInfo = async (employeeId, graduateScriptId) => {
   }
 };
 
+const getStudentsByGraduateScriptId = async (graduateScriptId) => {
+  const res = await sendRequest(
+    'get',
+    `/api/graduate-scripts/${graduateScriptId}/students`
+  );
+
+  if (res.ok) {
+    return res.data;
+  }
+};
+
 export {
   createGraduateScript,
   updateGraduateScript,
@@ -88,6 +99,7 @@ export {
   getEmployeesByGraduateScriptId,
   removeEmployeeGraduateScript,
   setGraduateScriptSecretary,
+  getStudentsByGraduateScriptId,
   setGraduateScriptChairman,
   setGraduateScriptCommissionMember,
   saveExtraInfo,

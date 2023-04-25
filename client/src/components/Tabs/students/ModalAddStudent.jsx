@@ -6,7 +6,7 @@ import React from 'react';
 import { toastError } from '../../../utils/toastSender';
 import { validateStudent } from './validators';
 import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
-import { useCommonStore } from '../../../hooks/zustand/commonStore';
+import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 
 export const ModalAddStudent = React.forwardRef(({ onClose }, ref) => {
   const [student, studentHandlers] = useStudent();

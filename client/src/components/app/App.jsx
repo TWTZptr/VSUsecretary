@@ -15,7 +15,7 @@ import { EmployeesPage } from '../../pages/EmployeesPage';
 import { Header } from '../header/Header';
 import { GraduateScriptsPage } from '../../pages/GraduateScriptsPage';
 import { StudentsPage } from '../../pages/StudentsPage';
-import { useCommonStore } from '../../hooks/zustand/commonStore';
+import { useCommonStore } from '../../hooks/zustand/useCommonStore';
 import { useDirectionsStore } from '../../hooks/zustand/useDirectionsStore';
 import { useEmployeesStore } from '../../hooks/zustand/useEmployeesStore';
 import { useGraduateScriptsStore } from '../../hooks/zustand/useGraduateScriptsStore';
@@ -23,6 +23,7 @@ import { useStudentsStore } from '../../hooks/zustand/useStudentsStore';
 import { DegreeWorksPage } from '../../pages/DegreeWorksPage';
 import { useDegreeWorksStore } from '../../hooks/zustand/useDegreeWorksStore';
 import { FilesPage } from '../../pages/FilesPage';
+import { GraduateProcessPage } from '../../pages/GraduateProcessPage';
 
 function App() {
   const { getAllEducationLevels } = useCommonStore((state) => state);
@@ -128,6 +129,14 @@ function App() {
                 <SecretaryTabs>
                   <FilesPage parse />
                 </SecretaryTabs>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/graduate-process"
+            element={
+              <RequireAuth role={USER_ROLES.SECRETARY}>
+                <GraduateProcessPage />
               </RequireAuth>
             }
           />

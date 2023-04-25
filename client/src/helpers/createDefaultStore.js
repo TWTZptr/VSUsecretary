@@ -27,6 +27,7 @@ export const createDefaultStore = (
           const res = await create(item);
           if (res) {
             set({ [plural]: [...get()[plural], res], ['selected' + cap]: res });
+            return res;
           }
         },
         ['remove' + cap + 'ById']: async (id) => {

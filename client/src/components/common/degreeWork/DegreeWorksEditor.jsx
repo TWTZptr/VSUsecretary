@@ -29,20 +29,17 @@ export const DegreeWorksEditor = React.memo((props) => {
     [students, props.localDegreeWork.studentId]
   );
 
+  const unusedStudents = React.useMemo(
+    () => students.filter((s) => !s.degreeWork || s.id === student.id),
+    [students, student.id]
+  );
+
   const takeDay = React.useMemo(
     () =>
       graduateScripts.find(
         (takeDay) => takeDay.id === props.localDegreeWork.takeDayId
       ) || INITIAL_GRADUATE_SCRIPT_STATE,
     [graduateScripts, props.localDegreeWork.takeDayId]
-  );
-
-  const reviewer = React.useMemo(
-    () =>
-      employees.find(
-        (employee) => employee.id === props.localDegreeWork.reviewerId
-      ) || INITIAL_EMPLOYEE_STATE,
-    [employees, props.localDegreeWork.reviewerId]
   );
 
   const supervisor = React.useMemo(
@@ -79,7 +76,7 @@ export const DegreeWorksEditor = React.memo((props) => {
   );
 
   const handleReviewerChange = React.useCallback(
-    (event) => props.handlers.setReviewerId(event.target.value),
+    (event) => props.handlers.setReviewer(event.target.value),
     [props.handlers]
   );
 
@@ -126,7 +123,7 @@ export const DegreeWorksEditor = React.memo((props) => {
       </EditorInputBlock>
       <EditorInputBlock>
         <StudentSelector
-          students={students}
+          students={unusedStudents}
           student={student}
           disabled={props.disabled}
           onChange={handleStudentChange}
@@ -148,12 +145,13 @@ export const DegreeWorksEditor = React.memo((props) => {
         />
       </EditorInputBlock>
       <EditorInputBlock>
-        <EmployeeSelector
-          employees={employees}
-          employee={reviewer}
-          disabled={props.disabled}
-          onChange={handleReviewerChange}
+        <CommonTextField
           label="Рецензент"
+          id="reviewer"
+          onChange={handleReviewerChange}
+          value={props.localDegreeWork.reviewer}
+          disabled={props.disabled}
+          sx={React.useMemo(() => ({ flexGrow: 1, minWidth: '500px' }), [])}
         />
         <MarkSelector
           label="Оценка"

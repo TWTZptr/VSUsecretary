@@ -20,8 +20,8 @@ export const useDegreeWork = (initialState = INITIAL_DEGREE_WORK_STATE) => {
       setPagesNumber: (pagesNumber) => {
         setDegreeWork((prevState) => ({ ...prevState, pagesNumber }));
       },
-      setReviewerId: (reviewerId) => {
-        setDegreeWork((prevState) => ({ ...prevState, reviewerId }));
+      setReviewer: (reviewer) => {
+        setDegreeWork((prevState) => ({ ...prevState, reviewer }));
       },
       setSupervisorId: (supervisorId) => {
         setDegreeWork((prevState) => ({ ...prevState, supervisorId }));

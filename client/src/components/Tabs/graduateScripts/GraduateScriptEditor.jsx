@@ -8,7 +8,7 @@ import { CommonButton } from '../../common/CommonButton';
 import { AddGraduateScriptPopover } from './AddGraduateScriptPopover';
 import { toastError } from '../../../utils/toastSender';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
-import { useCommonStore } from '../../../hooks/zustand/commonStore';
+import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 import React from 'react';
 import { CurrentGraduateScriptTab } from './CurrentGraduateScriptTab';
 
@@ -20,7 +20,6 @@ export const GraduateScriptEditor = ({ disabled }) => {
     commission,
     chairman,
     secretary,
-    degreeWorks,
   } = useGraduateScriptsStore((state) => state);
   const { startGraduateScript } = useCommonStore((state) => state);
   const [currentTab, setCurrentTab] = React.useState(1);
@@ -47,17 +46,8 @@ export const GraduateScriptEditor = ({ disabled }) => {
   );
 
   const startTakeDayHandler = React.useCallback(() => {
-    if (
-      !degreeWorks.filter(
-        (degreeWork) => degreeWork.takeDayId === selectedGraduateScript.id
-      ).length
-    ) {
-      toastError('Не добавлено ни одной работы!');
-      return;
-    }
-
     const commissionLength = commission.reduce(
-      (prev, curr) => (prev + curr.id ? 1 : 0),
+      (prev, curr) => prev + (curr.id ? 1 : 0),
       0
     );
 
@@ -68,7 +58,6 @@ export const GraduateScriptEditor = ({ disabled }) => {
 
     startGraduateScript(selectedGraduateScript);
   }, [
-    degreeWorks,
     chairman,
     secretary,
     commission,

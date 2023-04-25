@@ -7,7 +7,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { EmployeesService } from 'src/employees/employees.service';
 import { UNEXIST_STUDENT_ID_MSG } from 'src/students/constants';
 import { StudentsService } from 'src/students/students.service';
-import { UNEXIST_GRADUATE_SCRIPT_ID_MSG } from 'src/graduate-scripts/constants';
 import { GraduateScriptsService } from 'src/graduate-scripts/graduate-scripts.service';
 import {
   UNEXIST_DEGREE_WORK_ID_MSG,
@@ -25,7 +24,6 @@ export class DegreeWorksService {
     @InjectModel(DegreeWork) private degreeWorkRepository: typeof DegreeWork,
     private studentsService: StudentsService,
     private employeesService: EmployeesService,
-    private graduateScriptsService: GraduateScriptsService,
   ) {}
 
   getDegreeWorkById(id: number) {
@@ -45,13 +43,6 @@ export class DegreeWorksService {
       !(await this.employeesService.isEmployeeExists(dto.supervisorId))
     ) {
       throw new BadRequestException(UNEXIST_SUPERVISOR_ID_MSG);
-    }
-
-    if (
-      dto.reviewerId &&
-      !(await this.employeesService.isEmployeeExists(dto.reviewerId))
-    ) {
-      throw new BadRequestException(UNEXIST_REWIEVER_ID_MSG);
     }
   }
 
@@ -104,6 +95,21 @@ export class DegreeWorksService {
           as: 'student',
         },
       ],
+    });
+  }
+
+  getAllDegreeWorksByGraduateScriptId(graduateScriptId: number) {
+    return this.degreeWorkRepository.findAll({
+      order: ['$student.lastname$', '$student.name$'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+        },
+      ],
+      where: {
+        '$student.graduateScriptId$': graduateScriptId,
+      },
     });
   }
 }

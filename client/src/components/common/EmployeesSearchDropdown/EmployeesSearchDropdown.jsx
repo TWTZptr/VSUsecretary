@@ -38,9 +38,9 @@ export const EmployeesSearchDropdown = React.memo(
         }
 
         return availableEmployees.filter((employee) =>
-          `${employee.name} ${employee.lastname} ${employee.patronymic}`.includes(
-            text
-          )
+          `${employee.name} ${employee.lastname} ${employee.patronymic}`
+            .toLowerCase()
+            .includes(text.toLowerCase())
         );
       },
       [employees, exclude]

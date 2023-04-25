@@ -17,7 +17,7 @@ export const CommissionMember = React.memo(
         label={`Член комиссии ${index + 1}`}
         disabled={disabled}
         exclude={exclude}
-        onDelete={onDelete}
+        onDeleteEmployee={onDelete}
       />
     );
   }

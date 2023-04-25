@@ -4,7 +4,7 @@ import React from 'react';
 import { EditorInputBlock } from '../../common/EditorInputBlock';
 import { CommonFormControl } from '../../common/CommonFormControl';
 import { InputLabel, MenuItem, Select } from '@mui/material';
-import { useCommonStore } from '../../../hooks/zustand/commonStore';
+import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 
 export const DirectionEditor = React.memo(
   ({

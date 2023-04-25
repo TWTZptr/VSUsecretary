@@ -15,7 +15,6 @@ interface DegreeWorkCreationAttributes {
   pagesNumber: number;
   originality: number;
   supervisorMark: number;
-  reviewerMark: number;
   implementation: boolean;
   studentId: number;
 }
@@ -49,12 +48,6 @@ export class DegreeWork extends Model<
   })
   supervisorMark: number;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-  })
-  mark: number;
-
   @ForeignKey(() => Student)
   @Column({ type: DataType.INTEGER, allowNull: false, field: 'student_id' })
   studentId: number;
@@ -66,8 +59,8 @@ export class DegreeWork extends Model<
   implementation: boolean;
 
   @ForeignKey(() => Employee)
-  @Column({ type: DataType.INTEGER, allowNull: true, field: 'reviewer_id' })
-  reviewerId: number;
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: '' })
+  reviewer: string;
 
   @ForeignKey(() => Employee)
   @Column({ type: DataType.INTEGER, allowNull: true, field: 'supervisor_id' })
@@ -76,9 +69,64 @@ export class DegreeWork extends Model<
   @BelongsTo(() => Employee, 'supervisorId')
   supervisor?: Employee;
 
-  @BelongsTo(() => Employee, 'reviewerId')
-  reviewer?: Employee;
-
   @BelongsTo(() => Student, 'studentId')
   student: Student;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    defaultValue: '',
+    field: 'first_question',
+  })
+  firstQuestion: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    defaultValue: '',
+    field: 'second_question',
+  })
+  secondQuestion: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    defaultValue: '',
+  })
+  notes: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    defaultValue: '',
+  })
+  summary: string;
+
+  @ForeignKey(() => Employee)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+    field: 'first_question_author_id',
+  })
+  firstQuestionAuthorId: number;
+
+  @ForeignKey(() => Employee)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+    field: 'second_question_author_id',
+  })
+  secondQuestionAuthorId: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  mark: number;
+
+  @BelongsTo(() => Employee, 'firstQuestionAuthorId')
+  firstQuestionAuthor: Employee;
+
+  @BelongsTo(() => Employee, 'secondQuestionAuthorId')
+  secondQuestionAuthor: Employee;
 }

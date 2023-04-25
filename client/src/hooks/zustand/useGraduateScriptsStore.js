@@ -3,6 +3,7 @@ import {
   deleteGraduateScriptById,
   getAllGraduateScripts as getAllScripts,
   getEmployeesByGraduateScriptId,
+  getStudentsByGraduateScriptId,
   updateGraduateScript,
 } from '../../services/graduateScriptsService';
 import {
@@ -61,11 +62,17 @@ export const useGraduateScriptsStore = createStore(
       selectGraduateScript: (graduateScript) => {
         set({ selectedGraduateScript: graduateScript });
         get().getAllEmployees();
+        get().getAllStudents();
       },
       secretary: INITIAL_EMPLOYEE_STATE,
       chairman: INITIAL_EMPLOYEE_STATE,
       commission: INITIAL_COMMISSION_STATE,
-      degreeWorks: [],
+      getAllStudents: async () => {
+        const students = await getStudentsByGraduateScriptId(
+          get().selectedGraduateScript.id
+        );
+        set({ students });
+      },
       setSecretary: (secretary) =>
         set({ secretary: secretary || INITIAL_EMPLOYEE_STATE }),
       setChairman: (chairman) =>
@@ -92,6 +99,7 @@ export const useGraduateScriptsStore = createStore(
           employees.commission.map((e) => (e ? e : INITIAL_EMPLOYEE_STATE))
         );
       },
+      students: [],
     }),
     {
       name: 'GraduateScripts',

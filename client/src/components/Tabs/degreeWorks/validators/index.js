@@ -37,7 +37,7 @@ const schema = Joi.object({
   studentId: Joi.number().messages({
     'number.base': `Студент не указан`,
   }),
-  reviewerId: Joi.number().allow(null).messages({
+  reviewer: Joi.string().allow('').messages({
     'number.base': `Рецензент не указан`,
   }),
   supervisorId: Joi.number().messages({
@@ -46,8 +46,7 @@ const schema = Joi.object({
   takeDayId: Joi.number().messages({
     'number.base': `День сдачи не указан`,
   }),
-  mark: Joi.number(),
-});
+}).unknown(true);
 
 export const validateDegreeWork = (degreeWork) => {
   const validationResult = schema.validate(degreeWork);

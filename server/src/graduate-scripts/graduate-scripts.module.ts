@@ -6,6 +6,7 @@ import { GraduateScript } from './graduate-scripts.model';
 import { AuthModule } from '../auth/auth.module';
 import { EmployeesModule } from '../employees/employees.module';
 import { EmployeesGraduateScriptsModule } from '../employees-graduate-scripts/employees-graduate-scripts.module';
+import { StudentsModule } from '../students/students.module';
 
 @Module({
   controllers: [GraduateScriptsController],
@@ -15,6 +16,7 @@ import { EmployeesGraduateScriptsModule } from '../employees-graduate-scripts/em
     forwardRef(() => AuthModule),
     forwardRef(() => EmployeesModule),
     EmployeesGraduateScriptsModule,
+    StudentsModule,
   ],
   exports: [GraduateScriptsService],
 })

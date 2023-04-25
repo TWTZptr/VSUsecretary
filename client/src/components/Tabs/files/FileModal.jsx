@@ -11,7 +11,7 @@ import {
 import { Box } from '@mui/system';
 import { parseStudentsFromFile } from '../../../services/filesService';
 import { toastError, toastSuccessful } from '../../../utils/toastSender';
-import { useCommonStore } from '../../../hooks/zustand/commonStore';
+import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
 
 export const FileModal = React.forwardRef(({ file }, ref) => {

@@ -117,4 +117,13 @@ export class GraduateScriptsController {
       graduateScriptId,
     );
   }
+
+  @Get(':graduateScriptId/students')
+  getStudentsByGraduateScriptId(
+    @Param('graduateScriptId', ParseIntPipe) graduateScriptId: number,
+  ) {
+    return this.graduateScriptsService.getStudentsByGraduateScriptId(
+      graduateScriptId,
+    );
+  }
 }

@@ -2,35 +2,47 @@ import { Box } from '@mui/system';
 import { Popover, Table, TableCell, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { findUnusedItems } from '../../../../helpers/findUnusedItems';
 import { StudentsListItems } from './StudentsTableItems';
 import { CommonButton } from '../../../common/CommonButton';
 import { useGraduateScriptsStore } from '../../../../hooks/zustand/useGraduateScriptsStore';
 import { StudentsPopover } from './StudentsPopover';
 import { useStudentsStore } from '../../../../hooks/zustand/useStudentsStore';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getAllStudentsWithNoGraduateScript } from '../../../../services/studentsService';
+import { useCommonStore } from '../../../../hooks/zustand/useCommonStore';
 
 export const StudentsTable = React.memo(() => {
-  const { students, updateStudent } = useStudentsStore((state) => state);
+  const { updateStudent } = useStudentsStore((state) => state);
 
-  const { selectedGraduateScript } = useGraduateScriptsStore((state) => state);
+  const { selectedGraduateScript, students, getAllStudents } =
+    useGraduateScriptsStore((state) => state);
+  const { currentYear } = useCommonStore((state) => state);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const queryClient = useQueryClient();
   const popoverOpen = Boolean(anchorEl);
 
   const onRemoveStudent = React.useCallback(
-    (student) => {
-      updateStudent({ ...student, graduateScriptId: null });
+    async (student) => {
+      await updateStudent({ ...student, graduateScriptId: null });
+      const promises = [
+        queryClient.invalidateQueries([
+          'studentsWithNoGraduateScript',
+          currentYear,
+        ]),
+        getAllStudents(),
+      ];
+
+      await Promise.all(promises);
     },
-    [updateStudent]
+    [updateStudent, currentYear, queryClient, getAllStudents]
   );
 
-  const usedStudents = selectedGraduateScript.id
-    ? students.filter(
-        (student) => student.graduateScriptId === selectedGraduateScript.id
-      )
-    : [];
-
-  const unusedStudents = findUnusedItems(students, usedStudents);
+  const { data: unusedStudents } = useQuery({
+    queryKey: ['studentsWithNoGraduateScript', currentYear],
+    queryFn: () => getAllStudentsWithNoGraduateScript(currentYear),
+    initialData: [],
+  });
 
   const popoverActivate = (event) => {
     setAnchorEl(event.target);
@@ -39,16 +51,36 @@ export const StudentsTable = React.memo(() => {
   const anchorRef = React.useRef();
 
   const onClick = React.useCallback(
-    (student) => {
+    async (student) => {
       if (unusedStudents.length === 1) {
         setAnchorEl(null);
       }
-      updateStudent({
+
+      await updateStudent({
         ...student,
         graduateScriptId: selectedGraduateScript.id,
+        index: students.length,
       });
+
+      const promises = [
+        getAllStudents(),
+        queryClient.invalidateQueries([
+          'studentsWithNoGraduateScript',
+          currentYear,
+        ]),
+      ];
+
+      await Promise.all(promises);
     },
-    [selectedGraduateScript, unusedStudents.length]
+    [
+      selectedGraduateScript,
+      unusedStudents.length,
+      updateStudent,
+      currentYear,
+      queryClient,
+      getAllStudents,
+      students.length,
+    ]
   );
 
   const disabled = !Boolean(selectedGraduateScript.id);
@@ -85,7 +117,7 @@ export const StudentsTable = React.memo(() => {
             ></TableCell>
           </TableRow>
         </TableHead>
-        <StudentsListItems students={usedStudents} onDelete={onRemoveStudent} />
+        <StudentsListItems students={students} onDelete={onRemoveStudent} />
       </Table>
       <CommonButton onClick={popoverActivate} disabled={disabled}>
         <AddIcon ref={anchorRef} />

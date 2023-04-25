@@ -54,8 +54,7 @@ export class EmployeesService {
     graduateScript: GraduateScript,
   ) {
     await employee.$add('graduateScripts', graduateScript);
-    const updatedEmployee = this.getEmployeeById(employee.id);
-    return updatedEmployee;
+    return this.getEmployeeById(employee.id);
   }
 
   async removeEmployeeGraduateScript(

@@ -5,7 +5,7 @@ import { Popover, TextField } from '@mui/material';
 import { CalendarPicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
-import { useCommonStore } from '../../../hooks/zustand/commonStore';
+import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 
 export const AddGraduateScriptPopover = React.memo(() => {
   const { createGraduateScript } = useGraduateScriptsStore((state) => state);

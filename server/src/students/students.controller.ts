@@ -32,6 +32,11 @@ export class StudentsController {
     return this.studentsService.updateStudent(studentDto);
   }
 
+  @Get('no-graduate-script')
+  getStudentsWithNoGraduateScript(@Query('year', ParseIntPipe) year: number) {
+    return this.studentsService.getAllStudentsWithNoGraduateScript(year);
+  }
+
   @Get(':id')
   getStudentById(@Param('id') id: number) {
     return this.studentsService.findStudentById(id);

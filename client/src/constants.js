@@ -37,6 +37,7 @@ export const INITIAL_DEGREE_WORK_STATE = {
   originality: '',
   supervisorMark: null,
   implementation: false,
+  reviewer: '',
   reviewerMark: null,
 };
 export const GRADUATION_INITIAL_STATE = {

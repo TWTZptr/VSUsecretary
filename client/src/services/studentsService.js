@@ -20,4 +20,26 @@ const getAllStudents = async (year) => {
   return response.data;
 };
 
-export { createStudent, updateStudent, deleteStudentById, getAllStudents };
+const getStudentById = (id) => sendRequest('get', `/api/students/${id}`);
+
+const getAllStudentsWithNoGraduateScript = async (year) => {
+  const response = await sendRequest(
+    'get',
+    '/api/students/no-graduate-script',
+    undefined,
+    {
+      params: { year },
+    }
+  );
+
+  return response.data;
+};
+
+export {
+  createStudent,
+  updateStudent,
+  deleteStudentById,
+  getAllStudents,
+  getStudentById,
+  getAllStudentsWithNoGraduateScript,
+};
