@@ -11,7 +11,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAllStudentsWithNoGraduateScript } from '../../../../services/studentsService';
 import { useCommonStore } from '../../../../hooks/zustand/useCommonStore';
 
-export const StudentsTable = React.memo(() => {
+export const StudentsTable = React.memo(({ disabled }) => {
   const { updateStudent } = useStudentsStore((state) => state);
 
   const { selectedGraduateScript, students, getAllStudents } =
@@ -50,6 +50,11 @@ export const StudentsTable = React.memo(() => {
 
   const anchorRef = React.useRef();
 
+  const onPopoverClose = React.useCallback(
+    () => setAnchorEl(null),
+    [setAnchorEl]
+  );
+
   const onClick = React.useCallback(
     async (student) => {
       if (unusedStudents.length === 1) {
@@ -83,8 +88,6 @@ export const StudentsTable = React.memo(() => {
     ]
   );
 
-  const disabled = !Boolean(selectedGraduateScript.id);
-
   return (
     <Box
       sx={React.useMemo(
@@ -117,7 +120,11 @@ export const StudentsTable = React.memo(() => {
             ></TableCell>
           </TableRow>
         </TableHead>
-        <StudentsListItems students={students} onDelete={onRemoveStudent} />
+        <StudentsListItems
+          students={students}
+          onDelete={onRemoveStudent}
+          disabled={disabled}
+        />
       </Table>
       <CommonButton onClick={popoverActivate} disabled={disabled}>
         <AddIcon ref={anchorRef} />
@@ -127,7 +134,7 @@ export const StudentsTable = React.memo(() => {
         id="popover"
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        onClose={() => setAnchorEl(null)}
+        onClose={onPopoverClose}
       >
         <StudentsPopover students={unusedStudents} onSelect={onClick} />
       </Popover>

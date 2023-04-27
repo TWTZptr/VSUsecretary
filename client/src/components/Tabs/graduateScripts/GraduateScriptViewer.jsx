@@ -6,7 +6,8 @@ import { GraduateScriptEditor } from './GraduateScriptEditor';
 export const GraduateScriptViewer = () => {
   const { selectedGraduateScript } = useGraduateScriptsStore((state) => state);
 
-  const disabled = !Boolean(selectedGraduateScript.id);
+  const disabled =
+    !Boolean(selectedGraduateScript.id) || selectedGraduateScript.complete;
 
   return (
     <ViewerBox>

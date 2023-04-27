@@ -7,7 +7,7 @@ export const CurrentGraduateScriptTab = React.memo(({ index, disabled }) => {
     case 0:
       return <EmployeesList disabled={disabled} />;
     case 1:
-      return <StudentsTable />;
+      return <StudentsTable disabled={disabled} />;
     default:
       return <></>;
   }

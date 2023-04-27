@@ -39,15 +39,13 @@ export const INITIAL_DEGREE_WORK_STATE = {
   implementation: false,
   reviewer: '',
   reviewerMark: null,
-};
-export const GRADUATION_INITIAL_STATE = {
-  first: '',
-  firstAuthor: INITIAL_EMPLOYEE_STATE,
-  second: '',
-  secondAuthor: INITIAL_EMPLOYEE_STATE,
-  overview: '',
-  remarks: '',
-  mark: '',
+  summary: '',
+  notes: '',
+  firstQuestion: '',
+  secondQuestion: '',
+  firstQuestionAuthorId: null,
+  secondQuestionAuthorId: null,
+  mark: null,
 };
 export const USER_ROLES = {
   ADMIN: 'Администратор',

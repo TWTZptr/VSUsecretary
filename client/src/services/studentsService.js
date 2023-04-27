@@ -35,6 +35,11 @@ const getAllStudentsWithNoGraduateScript = async (year) => {
   return response.data;
 };
 
+const swapStudentIndexes = async (student1, student2) => {
+  [student1.index, student2.index] = [student2.index, student1.index];
+  return [await updateStudent(student1), await updateStudent(student2)];
+};
+
 export {
   createStudent,
   updateStudent,
@@ -42,4 +47,5 @@ export {
   getAllStudents,
   getStudentById,
   getAllStudentsWithNoGraduateScript,
+  swapStudentIndexes,
 };

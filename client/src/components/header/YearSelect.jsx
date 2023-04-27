@@ -6,7 +6,9 @@ const from = new Date().getFullYear() - 10;
 const years = Array.from({ length: 20 }, (_, index) => index + from).reverse();
 
 export const YearSelect = React.memo(() => {
-  const { currentYear, setCurrentYear } = useCommonStore((state) => state);
+  const { currentYear, setCurrentYear, startedGraduateScript } = useCommonStore(
+    (state) => state
+  );
 
   const onYearChange = React.useCallback(
     (event) => {
@@ -16,7 +18,7 @@ export const YearSelect = React.memo(() => {
   );
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth disabled={!!startedGraduateScript}>
       <InputLabel>Год</InputLabel>
       <Select
         label="Год"

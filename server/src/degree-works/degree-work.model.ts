@@ -11,7 +11,6 @@ import { Student } from 'src/students/students.model';
 
 interface DegreeWorkCreationAttributes {
   theme: string;
-  mark: number;
   pagesNumber: number;
   originality: number;
   supervisorMark: number;

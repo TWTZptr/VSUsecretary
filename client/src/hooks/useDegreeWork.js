@@ -38,8 +38,29 @@ export const useDegreeWork = (initialState = INITIAL_DEGREE_WORK_STATE) => {
       setImplementation: (implementation) => {
         setDegreeWork((prevState) => ({ ...prevState, implementation }));
       },
-      setTakeDayId: (takeDayId) => {
-        setDegreeWork((prevState) => ({ ...prevState, takeDayId }));
+      setSummary: (summary) => {
+        setDegreeWork((prevState) => ({ ...prevState, summary }));
+      },
+      setNotes: (notes) => {
+        setDegreeWork((prevState) => ({ ...prevState, notes }));
+      },
+      setFirstQuestion: (firstQuestion) => {
+        setDegreeWork((prevState) => ({ ...prevState, firstQuestion }));
+      },
+      setSecondQuestion: (secondQuestion) => {
+        setDegreeWork((prevState) => ({ ...prevState, secondQuestion }));
+      },
+      setFirstQuestionAuthorId: (firstQuestionAuthorId) => {
+        setDegreeWork((prevState) => ({ ...prevState, firstQuestionAuthorId }));
+      },
+      setSecondQuestionAuthorId: (secondQuestionAuthorId) => {
+        setDegreeWork((prevState) => ({
+          ...prevState,
+          secondQuestionAuthorId,
+        }));
+      },
+      setMark: (mark) => {
+        setDegreeWork((prevState) => ({ ...prevState, mark }));
       },
     };
   }, []);

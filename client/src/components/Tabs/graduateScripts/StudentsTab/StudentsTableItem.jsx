@@ -6,6 +6,7 @@ import { useEmployeesStore } from '../../../../hooks/zustand/useEmployeesStore';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Box } from '@mui/system';
+import { useGraduateScriptsStore } from '../../../../hooks/zustand/useGraduateScriptsStore';
 
 const arrowsSx = {
   cursor: 'pointer',
@@ -14,73 +15,91 @@ const arrowsSx = {
   },
 };
 
-export const StudentsTableItem = React.memo(({ student, onDelete }) => {
-  const studentName = student ? formatPerson(student) : <i>Не указан</i>;
-  const { employees } = useEmployeesStore((state) => state);
+const iconButtonSx = {
+  padding: 0,
+};
 
-  const onSelfClick = React.useCallback(() => {
-    onDelete(student);
-  }, [student, onDelete]);
+export const StudentsTableItem = React.memo(
+  ({ student, onDelete, disabled }) => {
+    const studentName = student ? formatPerson(student) : <i>Не указан</i>;
+    const { employees } = useEmployeesStore((state) => state);
+    const { upStudent, downStudent } = useGraduateScriptsStore(
+      (state) => state
+    );
 
-  const supervisor = employees.find(
-    (employee) => employee.id === student.degreeWork.supervisorId
-  );
+    const onSelfClick = React.useCallback(() => {
+      onDelete(student);
+    }, [student, onDelete]);
 
-  const supervisorName = supervisor ? (
-    formatPerson(supervisor)
-  ) : (
-    <i>Не указан</i>
-  );
+    const supervisor = employees.find(
+      (employee) => employee.id === student.degreeWork.supervisorId
+    );
 
-  const onUp = React.useCallback(() => {
-    // TODO
-  }, []);
+    const supervisorName = supervisor ? (
+      formatPerson(supervisor)
+    ) : (
+      <i>Не указан</i>
+    );
 
-  const onDown = React.useCallback(() => {
-    // TODO
-  }, []);
+    const onUp = React.useCallback(async () => {
+      await upStudent(student);
+    }, [student, upStudent]);
 
-  return (
-    <TableRow
-      key={student.id}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-    >
-      <TableCell>{student.degreeWork.theme}</TableCell>
-      <TableCell>{studentName}</TableCell>
-      <TableCell>{supervisorName}</TableCell>
-      <TableCell>
-        <Box
-          sx={React.useMemo(
-            () => ({
-              display: 'flex',
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'space-between',
-            }),
-            []
-          )}
-        >
-          <IconButton edge="end" aria-label="delete" onClick={onSelfClick}>
-            <DeleteIcon onClick={onSelfClick} />
-          </IconButton>
+    const onDown = React.useCallback(async () => {
+      await downStudent(student);
+    }, [student, downStudent]);
+
+    return (
+      <TableRow
+        key={student.id}
+        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      >
+        <TableCell>{student.degreeWork.theme}</TableCell>
+        <TableCell>{studentName}</TableCell>
+        <TableCell>{supervisorName}</TableCell>
+        <TableCell>
           <Box
             sx={React.useMemo(
               () => ({
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'space-between',
               }),
               []
             )}
           >
-            <ArrowDropUpIcon fontSize="small" sx={arrowsSx} onClick={onUp} />
-            <ArrowDropDownIcon
-              fontSize="small"
-              sx={arrowsSx}
-              onClick={onDown}
-            />
+            <IconButton
+              edge="end"
+              aria-label="delete"
+              onClick={onSelfClick}
+              disabled={disabled}
+            >
+              <DeleteIcon />
+            </IconButton>
+            <Box
+              sx={React.useMemo(
+                () => ({
+                  display: 'flex',
+                  flexDirection: 'column',
+                }),
+                []
+              )}
+            >
+              <IconButton onClick={onUp} sx={iconButtonSx} disabled={disabled}>
+                <ArrowDropUpIcon fontSize="small" sx={arrowsSx} />
+              </IconButton>
+              <IconButton
+                onClick={onDown}
+                sx={iconButtonSx}
+                disabled={disabled}
+              >
+                <ArrowDropDownIcon fontSize="small" sx={arrowsSx} />
+              </IconButton>
+            </Box>
           </Box>
-        </Box>
-      </TableCell>
-    </TableRow>
-  );
-});
+        </TableCell>
+      </TableRow>
+    );
+  }
+);

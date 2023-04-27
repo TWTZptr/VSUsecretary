@@ -235,7 +235,7 @@ export class GraduateScriptsService {
 
     return graduateScript.$get('students', {
       include: ['degreeWork'],
-      order: ['index'],
+      order: ['index', 'lastname'],
     });
   }
 }

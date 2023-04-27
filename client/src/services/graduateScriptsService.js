@@ -5,8 +5,12 @@ const createGraduateScript = async (takeDay) => {
   return response.data;
 };
 
-const updateGraduateScript = async (takeDay) => {
-  const response = await sendRequest('patch', '/api/graduate-scripts', takeDay);
+const updateGraduateScript = async (graduateScript) => {
+  const response = await sendRequest(
+    'patch',
+    '/api/graduate-scripts',
+    graduateScript
+  );
   return response.data;
 };
 
@@ -90,6 +94,9 @@ const getStudentsByGraduateScriptId = async (graduateScriptId) => {
   }
 };
 
+const completeGraduateScript = async (graduateScriptId) =>
+  updateGraduateScript({ id: graduateScriptId, complete: true });
+
 export {
   createGraduateScript,
   updateGraduateScript,
@@ -103,4 +110,5 @@ export {
   setGraduateScriptChairman,
   setGraduateScriptCommissionMember,
   saveExtraInfo,
+  completeGraduateScript,
 };

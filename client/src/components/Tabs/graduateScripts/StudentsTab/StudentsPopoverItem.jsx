@@ -2,7 +2,6 @@ import React from 'react';
 import CommonListItem from '../../../common/CommonListItem';
 import { ListItemButton, ListItemText } from '@mui/material';
 import { formatPerson } from '../../../../helpers/formatters';
-import { useDegreeWorksStore } from '../../../../hooks/zustand/useDegreeWorksStore';
 
 export const StudentsPopoverItem = React.memo(({ onClick, student }) => {
   const onSelfClick = React.useCallback(() => {

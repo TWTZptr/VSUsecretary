@@ -13,6 +13,7 @@ import {
 } from '../../constants';
 import { create as createStore } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { swapStudentIndexes } from '../../services/studentsService';
 
 export const useGraduateScriptsStore = createStore(
   devtools(
@@ -72,6 +73,26 @@ export const useGraduateScriptsStore = createStore(
           get().selectedGraduateScript.id
         );
         set({ students });
+      },
+      upStudent: async (student1) => {
+        const student1Index = get().students.findIndex((s) => s === student1);
+        if (!student1Index) {
+          return;
+        }
+
+        const student2 = get().students[student1Index - 1];
+        await swapStudentIndexes(student1, student2);
+        await get().getAllStudents();
+      },
+      downStudent: async (student1) => {
+        const student1Index = get().students.findIndex((s) => s === student1);
+        if (student1Index === get().students.length - 1) {
+          return;
+        }
+
+        const student2 = get().students[student1Index + 1];
+        await swapStudentIndexes(student1, student2);
+        await get().getAllStudents();
       },
       setSecretary: (secretary) =>
         set({ secretary: secretary || INITIAL_EMPLOYEE_STATE }),
