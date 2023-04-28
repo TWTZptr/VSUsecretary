@@ -84,7 +84,7 @@ export const StudentEditor = ({ handlers, disabled, localStudent }) => {
           >
             {directions.map((direction) => (
               <MenuItem value={direction.id} key={direction.id}>
-                {direction.shortName}
+                {direction.code} {direction.shortName}
               </MenuItem>
             ))}
           </Select>
