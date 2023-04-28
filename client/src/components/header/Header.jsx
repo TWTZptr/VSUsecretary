@@ -12,8 +12,24 @@ const sx = {
   marginRight: '36px',
 };
 
+const headlineSx = {
+    width: '100%',
+    height: '60px',
+    backgroundColor: 'rgba(143,143,143,0.65)',
+    padding: '10px 20px',
+    textAlign: 'left',
+    display: 'flex',
+    justifyContent: 'space-between',
+    boxSizing: 'border-box',
+}
+
+const flexSx = {
+    display: 'flex',
+    flexDirection: 'row',
+}
+
 export const Header = React.memo(() => {
-  const { logout, user } = useAuthStore((store) => store);
+  const { logout, user, authenticated } = useAuthStore((store) => store);
   const navigate = useNavigate();
 
   const onLogout = React.useCallback(async () => {
@@ -21,22 +37,14 @@ export const Header = React.memo(() => {
     navigate('/login');
   }, [logout, navigate]);
 
+  if (!authenticated) {
+      return <></>
+  }
+
   return (
     <header>
       <Box
-        sx={React.useMemo(
-          () => ({
-            width: '100%',
-            height: '60px',
-            backgroundColor: 'rgba(143,143,143,0.65)',
-            padding: '10px 20px',
-            textAlign: 'left',
-            display: 'flex',
-            justifyContent: 'space-between',
-            boxSizing: 'border-box',
-          }),
-          []
-        )}
+        sx={headlineSx}
       >
         <Box>
           {user?.role?.name !== USER_ROLES.ADMIN ? (
@@ -48,13 +56,7 @@ export const Header = React.memo(() => {
           )}
         </Box>
         <Box
-          sx={React.useMemo(
-            () => ({
-              display: 'flex',
-              flexDirection: 'row',
-            }),
-            []
-          )}
+          sx={flexSx}
         >
           <Typography sx={sx}>
             Вы вошли как: <i>{user?.name}</i>
