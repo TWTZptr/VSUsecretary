@@ -35,7 +35,7 @@ const schema = Joi.object({
   order: Joi.optional(),
   degreeWorkId: Joi.optional(),
   graduateScriptId: Joi.optional(),
-});
+}).unknown(true);
 
 export const validateStudent = (student) => {
   const validationResult = schema.validate(student);

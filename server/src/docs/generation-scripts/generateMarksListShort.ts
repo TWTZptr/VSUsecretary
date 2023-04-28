@@ -11,7 +11,7 @@ import {
   UnderlineType,
   WidthType,
 } from 'docx';
-import { formatDate, formatMark, formatPerson } from '../formatters';
+import { formatDate, formatMark, formatPerson } from './formatters';
 
 export const generateMarksListShort = ({
   takeDay,
@@ -191,7 +191,7 @@ export const generateMarksListShort = ({
               }),
               ...students.map((student) => {
                 const degreeWork = degreeWorks.find(
-                  (degreeWork) => degreeWork.studentId === student.id
+                  (degreeWork) => degreeWork.studentId === student.id,
                 );
                 const graduationInfo = graduations.get(degreeWork.id);
                 number++;
@@ -224,7 +224,7 @@ export const generateMarksListShort = ({
                           style: 'TableText',
                           children: [
                             new TextRun(
-                              `${student.lastname} ${student.name} ${student.patronymic}`
+                              `${student.lastname} ${student.name} ${student.patronymic}`,
                             ),
                           ],
                         }),
@@ -240,7 +240,7 @@ export const generateMarksListShort = ({
                           style: 'TableText',
                           children: [
                             new TextRun(
-                              `${formatMark(degreeWork.supervisorMark)}`
+                              `${formatMark(degreeWork.supervisorMark)}`,
                             ),
                           ],
                         }),
@@ -256,7 +256,7 @@ export const generateMarksListShort = ({
                           style: 'TableText',
                           children: [
                             new TextRun(
-                              `${formatMark(degreeWork.reviewerMark)}`
+                              `${formatMark(degreeWork.reviewerMark)}`,
                             ),
                           ],
                         }),

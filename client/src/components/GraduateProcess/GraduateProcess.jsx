@@ -8,6 +8,9 @@ import { GraduateProcessDegreeWorkInfo } from './GraduateProcessDegreeWorkInfo';
 import { useCommonStore } from '../../hooks/zustand/useCommonStore';
 import { CommonButton } from '../common/CommonButton';
 import { completeGraduateScript } from '../../services/graduateScriptsService';
+import { graduateProcessEndCheck } from './graduateProcessEndCheck';
+import { toastError } from '../../utils/toastSender';
+import { useGraduateScriptsStore } from '../../hooks/zustand/useGraduateScriptsStore';
 
 const flexSx = {
   width: '100%',
@@ -28,9 +31,10 @@ export const GraduateProcess = React.memo(() => {
   const { students, setSelectedStudent, selectedStudent, updateDegreeWork } =
     useGraduateProcessStore((state) => state);
 
-  const { startedGraduateScript, startGraduateScript } = useCommonStore(
-    (state) => state
-  );
+  const { startedGraduateScript, startGraduateScript, currentYear } =
+    useCommonStore((state) => state);
+
+  const { getAllGraduateScripts } = useGraduateScriptsStore((state) => state);
 
   const onStudentSelect = React.useCallback(
     (student) => {
@@ -46,7 +50,7 @@ export const GraduateProcess = React.memo(() => {
       setSelectedStudent,
       selectedDegreeWork,
       updateDegreeWork,
-      startedGraduateScript.id,
+      startedGraduateScript?.id,
     ]
   );
 
@@ -55,13 +59,22 @@ export const GraduateProcess = React.memo(() => {
       updateDegreeWork(selectedDegreeWork, startedGraduateScript.id);
     }
 
+    if (!graduateProcessEndCheck(students)) {
+      toastError('Не все работы полностью заполнены!');
+      return;
+    }
+
     await completeGraduateScript(startedGraduateScript.id);
+    await getAllGraduateScripts(currentYear);
     startGraduateScript(null);
   }, [
     startGraduateScript,
     selectedDegreeWork,
-    startedGraduateScript.id,
+    startedGraduateScript?.id,
     updateDegreeWork,
+    students,
+    getAllGraduateScripts,
+    currentYear,
   ]);
 
   return (

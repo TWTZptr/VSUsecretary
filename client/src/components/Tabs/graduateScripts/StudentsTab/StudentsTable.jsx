@@ -64,7 +64,7 @@ export const StudentsTable = React.memo(({ disabled }) => {
       await updateStudent({
         ...student,
         graduateScriptId: selectedGraduateScript.id,
-        index: students.length,
+        index: students.length + 1,
       });
 
       const promises = [

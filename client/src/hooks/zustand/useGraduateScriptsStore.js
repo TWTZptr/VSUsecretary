@@ -20,7 +20,16 @@ export const useGraduateScriptsStore = createStore(
     (set, get) => ({
       getAllGraduateScripts: async (data) => {
         const res = await getAllScripts(data);
-        set({ graduateScripts: res });
+        if (res) {
+          set({ graduateScripts: res });
+
+          if (get().selectedGraduateScript.id) {
+            const selectedGraduateScript = res.find(
+              (script) => script.id === get().selectedGraduateScript.id
+            );
+            set({ selectedGraduateScript });
+          }
+        }
       },
       graduateScripts: [],
       createGraduateScript: async (graduateScript) => {

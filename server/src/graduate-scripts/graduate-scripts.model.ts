@@ -11,7 +11,7 @@ import { Employee } from 'src/employees/employees.model';
 import { Student } from '../students/students.model';
 
 interface GraduateScriptCreationAttributes {
-  date: Date;
+  date: string;
 }
 
 @Table({ tableName: 'GraduateScripts' })
@@ -28,7 +28,7 @@ export class GraduateScript extends Model<
   id: number;
 
   @Column({ type: DataType.DATEONLY, allowNull: false })
-  date: Date;
+  date: string;
 
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
   complete: boolean;

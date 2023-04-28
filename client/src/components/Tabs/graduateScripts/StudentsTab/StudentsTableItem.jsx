@@ -5,8 +5,11 @@ import React from 'react';
 import { useEmployeesStore } from '../../../../hooks/zustand/useEmployeesStore';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { Box } from '@mui/system';
 import { useGraduateScriptsStore } from '../../../../hooks/zustand/useGraduateScriptsStore';
+import { generateProtocolAppendixDoc } from '../../../../services/docsService';
+import { saveAs } from 'file-saver';
 
 const arrowsSx = {
   cursor: 'pointer',
@@ -26,6 +29,18 @@ export const StudentsTableItem = React.memo(
     const { upStudent, downStudent } = useGraduateScriptsStore(
       (state) => state
     );
+
+    const { selectedGraduateScript } = useGraduateScriptsStore(
+      (state) => state
+    );
+
+    const onAppendixGenerate = React.useCallback(async () => {
+      const res = await generateProtocolAppendixDoc(student.id);
+      saveAs(
+        res.data,
+        `${student.index}_${student.lastname}_приложение к протоколу заседания ГЭК по защите ВКР.docx`
+      );
+    }, [student.id, student.index, student.lastname]);
 
     const onSelfClick = React.useCallback(() => {
       onDelete(student);
@@ -70,12 +85,17 @@ export const StudentsTableItem = React.memo(
             )}
           >
             <IconButton
-              edge="end"
+              onClick={onAppendixGenerate}
+              disabled={!selectedGraduateScript.complete}
+            >
+              <AttachFileIcon fontSize="small" />
+            </IconButton>
+            <IconButton
               aria-label="delete"
               onClick={onSelfClick}
               disabled={disabled}
             >
-              <DeleteIcon />
+              <DeleteIcon fontSize="small" />
             </IconButton>
             <Box
               sx={React.useMemo(

@@ -238,4 +238,20 @@ export class GraduateScriptsService {
       order: ['index', 'lastname'],
     });
   }
+
+  async getGraduateScriptNumber(graduateScriptId: number) {
+    const graduateScript = await this.findGraduateScriptById(graduateScriptId);
+    const startOfTheYear = `${graduateScript.date.slice(0, 4)}-01-01`;
+
+    const graduateScriptsPrev = await this.graduateScriptRepository.findAll({
+      where: {
+        date: {
+          [Op.gte]: startOfTheYear,
+          [Op.lt]: graduateScript.date,
+        },
+      },
+    });
+
+    return graduateScriptsPrev.length + 1;
+  }
 }

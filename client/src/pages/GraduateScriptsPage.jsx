@@ -9,12 +9,12 @@ import { Navigate } from 'react-router-dom';
 export const GraduateScriptsPage = React.memo(() => {
   const { startedGraduateScript } = useCommonStore((state) => state);
 
-  const takeDayViewerSx = React.useMemo(
+  const graduateScriptViewerSx = React.useMemo(
     () => ({ width: '45%', marginLeft: '20px' }),
     []
   );
 
-  const takeDayListSx = React.useMemo(
+  const graduateScriptsListSx = React.useMemo(
     () => ({ width: '30%', marginLeft: '20px' }),
     []
   );
@@ -25,10 +25,10 @@ export const GraduateScriptsPage = React.memo(() => {
 
   return (
     <ViewerBox left>
-      <Box sx={takeDayViewerSx}>
+      <Box sx={graduateScriptViewerSx}>
         <GraduateScriptViewer />
       </Box>
-      <Box sx={takeDayListSx}>
+      <Box sx={graduateScriptsListSx}>
         <GraduateScriptsList />
       </Box>
     </ViewerBox>

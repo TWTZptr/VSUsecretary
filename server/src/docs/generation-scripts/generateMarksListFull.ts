@@ -16,12 +16,11 @@ import {
   formatDate,
   formatPerson,
   formatPublicationsCount,
-} from '../formatters';
+} from './formatters';
 
 export const generateMarksListFull = ({
   takeDay,
   direction,
-  group,
   degreeWorks,
   students,
   allEmployees,
@@ -197,11 +196,11 @@ export const generateMarksListFull = ({
               }),
               ...students.map((student) => {
                 const degreeWork = degreeWorks.find(
-                  (degreeWork) => degreeWork.studentId === student.id
+                  (degreeWork) => degreeWork.studentId === student.id,
                 );
                 number1++;
                 const supervisor = allEmployees.find(
-                  (employee) => employee.id === degreeWork.supervisorId
+                  (employee) => employee.id === degreeWork.supervisorId,
                 );
 
                 return new TableRow({
@@ -234,7 +233,7 @@ export const generateMarksListFull = ({
                           style: 'DefaultText',
                           children: [
                             new TextRun(
-                              `${student.lastname} ${student.name} ${student.patronymic}`
+                              `${student.lastname} ${student.name} ${student.patronymic}`,
                             ),
                           ],
                         }),
@@ -279,7 +278,9 @@ export const generateMarksListFull = ({
                           style: 'DefaultText',
                           children: [
                             new TextRun(
-                              `${formatPublicationsCount(student.publications)}`
+                              `${formatPublicationsCount(
+                                student.publications,
+                              )}`,
                             ),
                           ],
                         }),
@@ -417,7 +418,7 @@ export const generateMarksListFull = ({
                       new Paragraph({
                         style: 'DefaultText',
                         children: [new TextRun('оценка ГЭК')],
-                        bold: true,
+                        // bold: true,
                       }),
                     ],
                   }),
@@ -425,7 +426,7 @@ export const generateMarksListFull = ({
               }),
               ...students.map((student) => {
                 const degreeWork = degreeWorks.find(
-                  (degreeWork) => degreeWork.studentId === student.id
+                  (degreeWork) => degreeWork.studentId === student.id,
                 );
                 number2++;
 
@@ -459,7 +460,7 @@ export const generateMarksListFull = ({
                           style: 'DefaultText',
                           children: [
                             new TextRun(
-                              `${student.lastname} ${student.name} ${student.patronymic}`
+                              `${student.lastname} ${student.name} ${student.patronymic}`,
                             ),
                           ],
                         }),
@@ -542,7 +543,7 @@ export const generateMarksListFull = ({
                         new Paragraph({
                           style: 'DefaultText',
                           children: [new TextRun(``)],
-                          bold: true,
+                          // bold: true,
                         }),
                       ],
                     }),

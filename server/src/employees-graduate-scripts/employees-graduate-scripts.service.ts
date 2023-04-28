@@ -75,12 +75,17 @@ export class EmployeesGraduateScriptsService {
     });
   }
 
-  getEmployeeGraduateScript(employeeId: number, graduateScriptId: number) {
+  getEmployeeGraduateScript(
+    employeeId: number,
+    graduateScriptId: number,
+    options = {},
+  ) {
     return this.employeeGraduateScriptRepository.findOne({
       where: {
         employeeId,
         graduateScriptId,
       },
+      ...options,
     });
   }
 

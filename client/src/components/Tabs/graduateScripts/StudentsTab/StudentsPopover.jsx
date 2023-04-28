@@ -4,6 +4,10 @@ import { StudentsPopoverItem } from './StudentsPopoverItem';
 import { TextField } from '@mui/material';
 import CommonListItem from '../../../common/CommonListItem';
 
+const filterSx = {
+  width: '100%',
+};
+
 export const StudentsPopover = React.memo(({ onSelect, students }) => {
   const [text, setText] = React.useState('');
 
@@ -34,6 +38,7 @@ export const StudentsPopover = React.memo(({ onSelect, students }) => {
         onChange={onTextChange}
         value={text}
         variant="filled"
+        sx={filterSx}
       />
       <DefaultList>
         {filteredStudents.length ? (

@@ -1,17 +1,15 @@
 import { incline, inclineLastname } from 'lvovich';
 import plural from 'plural-ru';
 import { AlignmentType, Packer, Paragraph, TextRun, Document } from 'docx';
-import { formatMark, formatDate, formatPerson } from '../formatters';
+import { formatMark, formatDate, formatPerson } from './formatters';
 
 export const generateAppendixToTheProtocol = ({
   degreeWork,
-  takeDay,
-  supervisor,
+  graduateScript,
   student,
   chairman,
   secretary,
-  graduation,
-  reviewer,
+  supervisor,
   number,
 }) => {
   const inclinedStudent = incline(
@@ -20,8 +18,16 @@ export const generateAppendixToTheProtocol = ({
       last: student.lastname,
       middle: student.patronymic,
     },
-    'genitive'
+    'genitive',
   );
+
+  const rawReviewer = degreeWork.reviewer;
+  const [lastname, name, patronymic] = rawReviewer.split(' ');
+  const reviewer = {
+    lastname,
+    name,
+    patronymic,
+  };
 
   const reviewerInfo = reviewer
     ? `${formatPerson(reviewer)}`
@@ -99,7 +105,7 @@ export const generateAppendixToTheProtocol = ({
             style: 'StartAppendixStyle',
             children: [
               new TextRun({
-                text: `от ${formatDate(takeDay.date)}`,
+                text: `от ${formatDate(graduateScript.date)}`,
               }),
             ],
           }),
@@ -186,11 +192,9 @@ export const generateAppendixToTheProtocol = ({
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `\t\tТекст ВКР на ${plural.noun(
-                  degreeWork.pagesNumber,
-                  '%d странице',
-                  '%d страницах'
-                )}`,
+                text: `\t\tТекст ВКР на ${degreeWork.pagesNumber} ${
+                  degreeWork.pagesNumber % 10 === 1 ? 'странице' : 'страницах'
+                }`,
               }),
             ],
           }),
@@ -199,7 +203,7 @@ export const generateAppendixToTheProtocol = ({
             children: [
               new TextRun({
                 text: `\t\tОтзыв руководителя ВКР ${formatMark(
-                  degreeWork.supervisorMark
+                  degreeWork.supervisorMark,
                 )}`,
               }),
             ],
@@ -209,7 +213,7 @@ export const generateAppendixToTheProtocol = ({
             children: [
               new TextRun({
                 text: `\t\tРецензия на ВКР: ${formatMark(
-                  degreeWork.reviewerMark
+                  degreeWork.reviewerMark,
                 )}`,
               }),
             ],
@@ -229,7 +233,7 @@ export const generateAppendixToTheProtocol = ({
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `1. ${graduation.first} - ${graduation.firstAuthor.lastname}`,
+                text: `1. ${degreeWork.firstQuestion} - ${degreeWork.firstQuestionAuthor.lastname}`,
               }),
             ],
           }),
@@ -250,7 +254,7 @@ export const generateAppendixToTheProtocol = ({
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `2. ${graduation.second} - ${graduation.secondAuthor.lastname}`,
+                text: `2. ${degreeWork.secondQuestion} - ${degreeWork.secondQuestionAuthor.lastname}`,
               }),
             ],
           }),
@@ -282,7 +286,7 @@ export const generateAppendixToTheProtocol = ({
             },
             children: [
               new TextRun({
-                text: `${graduation.overview}`,
+                text: `${degreeWork.summary}`,
               }),
             ],
           }),
@@ -318,10 +322,10 @@ export const generateAppendixToTheProtocol = ({
             },
             children: [
               new TextRun({
-                text: `выполнил и защитил ВКР с оценкой`,
+                text: `выполнил и защитил ВКР с оценкой `,
               }),
               new TextRun({
-                text: `${formatMark(graduation.mark)}`,
+                text: `${formatMark(degreeWork.mark)}`,
                 italics: true,
               }),
             ],
@@ -360,7 +364,7 @@ export const generateAppendixToTheProtocol = ({
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `${graduation.remarks}`,
+                text: `${degreeWork.notes}`,
               }),
             ],
           }),
@@ -375,7 +379,7 @@ export const generateAppendixToTheProtocol = ({
             children: [
               new TextRun({
                 text: `Председатель ГЭК\t\t\t__________\t\t\t\t${formatPerson(
-                  chairman
+                  chairman,
                 )}`,
               }),
             ],
@@ -401,7 +405,7 @@ export const generateAppendixToTheProtocol = ({
             children: [
               new TextRun({
                 text: `Секретарь ГЭК\t\t\t__________\t\t\t\t${formatPerson(
-                  secretary
+                  secretary,
                 )}`,
               }),
             ],
@@ -421,5 +425,5 @@ export const generateAppendixToTheProtocol = ({
     ],
   });
 
-  return Packer.toBlob(doc);
+  return Packer.toBuffer(doc);
 };

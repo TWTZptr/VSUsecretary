@@ -11,6 +11,8 @@ import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScrip
 import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 import React from 'react';
 import { CurrentGraduateScriptTab } from './CurrentGraduateScriptTab';
+import { generateProtocolDoc } from '../../../services/docsService';
+import { saveAs } from 'file-saver';
 
 const completedGraduateScriptTextSx = {
   fontSize: '20px',
@@ -37,6 +39,13 @@ export const GraduateScriptEditor = ({ disabled }) => {
   );
 
   const { setCurrentYear } = useCommonStore((state) => state);
+
+  const onGenerateProtocol = React.useCallback(async () => {
+    const res = await generateProtocolDoc(selectedGraduateScript.id);
+    const [year, month, day] = selectedGraduateScript.date.split('-');
+    const filename = `Протокол ${day}.${month}.${year}.docx`;
+    saveAs(res.data, filename);
+  }, [selectedGraduateScript.id, selectedGraduateScript.date]);
 
   const onDateChange = React.useCallback(
     (date) => {
@@ -132,6 +141,12 @@ export const GraduateScriptEditor = ({ disabled }) => {
             Начать защиту
           </CommonButton>
         )}
+        <CommonButton
+          disabled={!selectedGraduateScript.id}
+          onClick={onGenerateProtocol}
+        >
+          Протокол
+        </CommonButton>
       </Box>
       <EditorInputBlock>
         <Box>

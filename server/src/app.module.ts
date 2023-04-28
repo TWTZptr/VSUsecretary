@@ -16,6 +16,7 @@ import { EducationLevelsModule } from './education-levels/education-levels.modul
 import { PasswordModule } from './password/password.module';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
+import { DocsModule } from './docs/docs.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { FilesModule } from './files/files.module';
     PasswordModule,
     AuthModule,
     FilesModule,
+    DocsModule,
   ],
   controllers: [],
   providers: [],

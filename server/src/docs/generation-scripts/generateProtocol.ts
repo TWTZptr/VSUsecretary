@@ -1,14 +1,39 @@
 import { AlignmentType, Document, Packer, Paragraph, TextRun } from 'docx';
-import { formatPerson } from '../formatters';
+import { formatPerson } from './formatters';
 
-export const generateProtocol = (options) => {
-  const { chairman, secretary, commissionMembers, direction, takeDay, number } =
-    options;
+const formatPersonInfo = (person) => {
+  const academicDegree = person.info.academicDegree.length
+    ? `, ${person.info.academicDegree}`
+    : '';
 
-  const chairmanInfo = `${chairman.name[0]}. ${chairman.patronymic[0]}. ${chairman.lastname}, ${chairman.academicDegree}, ${chairman.academicRank}, ${chairman.position}`;
-  const commissionMembersInfo = commissionMembers.map((member) => {
-    return `${member.name[0]}. ${member.patronymic[0]}. ${member.lastname}, ${member.academicDegree}, ${member.academicRank}, ${member.position}, ${member.anotherJob}`;
-  });
+  const academicRank = person.info.academicRank.length
+    ? `, ${person.info.academicRank}`
+    : '';
+
+  const position = person.info.position.length
+    ? `, ${person.info.position}`
+    : '';
+
+  const anotherJob = person.info.anotherJob.length
+    ? `, ${person.info.anotherJob}`
+    : '';
+
+  return `${person.employee.name[0]}. ${person.employee.patronymic[0]}. ${person.employee.lastname}${academicDegree}${academicRank}${position}${anotherJob}`;
+};
+
+export const generateProtocol = ({
+  commission: { chairman, commission, secretary },
+  direction,
+  graduateScript,
+  number,
+}) => {
+  const chairmanInfo = formatPersonInfo(chairman);
+  const commissionMembersInfo = commission.map((member) =>
+    formatPersonInfo(member),
+  );
+
+  const [year, month, day] = graduateScript.date.split('-');
+  const date = `${day}.${month}.${year}`;
 
   const doc = new Document({
     styles: {
@@ -47,11 +72,7 @@ export const generateProtocol = (options) => {
         children: [
           new Paragraph({
             style: 'Heading',
-            children: [
-              new TextRun(
-                `ПРОТОКОЛ № ${number} от ${takeDay.date.replaceAll('-', '.')}`
-              ),
-            ],
+            children: [new TextRun(`ПРОТОКОЛ № ${number} от ${date}`)],
           }),
           new Paragraph({}),
           new Paragraph({
@@ -79,7 +100,7 @@ export const generateProtocol = (options) => {
             style: 'Heading',
             children: [
               new TextRun(
-                `с ________ час ________ мин.\t\tдо _______ час ________ мин`
+                `с ________ час ________ мин.\t\tдо _______ час ________ мин`,
               ),
             ],
           }),
@@ -121,7 +142,7 @@ export const generateProtocol = (options) => {
               }),
               new Paragraph({ style: 'DefaultText' }),
             ],
-            []
+            [],
           ),
           new Paragraph({ style: 'DefaultText' }),
           new Paragraph({ style: 'DefaultText' }),
@@ -129,10 +150,10 @@ export const generateProtocol = (options) => {
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `Председатель ГЭК\t\t\t__________\t\t\t`,
+                text: `Председатель ГЭК\t\t\t__________\t\t\t\t`,
               }),
               new TextRun({
-                text: formatPerson(chairman),
+                text: formatPerson(chairman.employee),
               }),
             ],
           }),
@@ -152,10 +173,10 @@ export const generateProtocol = (options) => {
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `Секретарь ГЭК\t\t\t__________\t\t\t`,
+                text: `Секретарь ГЭК\t\t\t__________\t\t\t\t`,
               }),
               new TextRun({
-                text: formatPerson(secretary),
+                text: formatPerson(secretary.employee),
               }),
             ],
           }),
@@ -174,5 +195,5 @@ export const generateProtocol = (options) => {
     ],
   });
 
-  return Packer.toBlob(doc);
+  return Packer.toBuffer(doc);
 };

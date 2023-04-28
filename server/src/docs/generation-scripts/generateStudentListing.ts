@@ -12,7 +12,7 @@ import {
   HeightRule,
   VerticalAlign,
 } from 'docx';
-import { formatMark, formatPerson } from '../formatters';
+import { formatMark, formatPerson } from './formatters';
 
 export const generateStudentListing = ({
   students,
@@ -128,7 +128,7 @@ export const generateStudentListing = ({
               }),
               ...students.map((student, index) => {
                 const degreeWork = degreeWorks.find(
-                  (degreeWork) => degreeWork.studentId === student.id
+                  (degreeWork) => degreeWork.studentId === student.id,
                 );
 
                 if (!degreeWork) {
@@ -165,7 +165,7 @@ export const generateStudentListing = ({
                           style: 'DefaultText',
                           children: [
                             new TextRun(
-                              `${student.lastname} ${student.name} ${student.patronymic}`
+                              `${student.lastname} ${student.name} ${student.patronymic}`,
                             ),
                           ],
                         }),
