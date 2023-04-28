@@ -38,7 +38,6 @@ export class UpdateDegreeWorkDto {
   @IsInt()
   @Min(0)
   @Max(5)
-  @IsNotEmpty()
   @IsOptional()
   readonly reviewerMark?: number;
 
@@ -56,7 +55,6 @@ export class UpdateDegreeWorkDto {
   @IsOptional()
   readonly supervisorId?: number;
 
-  @IsNotEmpty()
   @IsOptional()
   readonly reviewer?: string;
 }

@@ -13,7 +13,6 @@ export class UpdateGraduateScriptDto {
 
   @IsOptional()
   @IsNotEmpty()
-  @IsDate()
   readonly date: string;
 
   @IsOptional()

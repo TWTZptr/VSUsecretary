@@ -22,16 +22,19 @@ export const generateAppendixToTheProtocol = ({
   );
 
   const rawReviewer = degreeWork.reviewer;
-  const [lastname, name, patronymic] = rawReviewer.split(' ');
-  const reviewer = {
-    lastname,
-    name,
-    patronymic,
-  };
 
-  const reviewerInfo = reviewer
-    ? `${formatPerson(reviewer)}`
-    : '_____________________________________________________';
+  let reviewerInfo = '_____________________________________________________';
+
+  if (rawReviewer.length) {
+    const [lastname, name, patronymic] = rawReviewer.split(' ');
+    const reviewer = {
+      lastname,
+      name,
+      patronymic,
+    };
+
+    reviewerInfo = formatPerson(reviewer)
+  }
 
   const doc = new Document({
     styles: {

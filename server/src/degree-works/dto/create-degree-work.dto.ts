@@ -28,7 +28,6 @@ export class CreateDegreeWorkDto {
   @IsNotEmpty()
   readonly supervisorMark: number;
 
-  @IsNotEmpty()
   @IsOptional()
   readonly reviewer?: string;
 
@@ -53,11 +52,6 @@ export class CreateDegreeWorkDto {
   @IsInt()
   @IsNotEmpty()
   readonly studentId: number;
-
-  @IsInt()
-  @ToOptionalInt()
-  @IsOptional()
-  readonly reviewerId?: number;
 
   @IsInt()
   @ToOptionalInt()
