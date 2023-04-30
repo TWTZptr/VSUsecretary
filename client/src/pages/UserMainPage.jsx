@@ -3,6 +3,7 @@ import { USER_ROLES } from '../constants';
 import { Navigate, useLocation } from 'react-router-dom';
 import { AdminPage } from './AdminPage';
 import { FilesPage } from './FilesPage';
+import { SecretaryTabs } from '../hoc/SecretaryTabs';
 
 export const UserMainPage = () => {
   const auth = useAuthStore();

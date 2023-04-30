@@ -1,7 +1,7 @@
 import { useAuthStore } from '../hooks/zustand/useAuthStore';
 import { Navigate, useLocation } from 'react-router-dom';
 
-export const RequireAuth = ({ children, role }) => {
+export const RequireAuth = ({ children, roles }) => {
   const auth = useAuthStore((state) => state);
   const location = useLocation();
 
@@ -13,7 +13,7 @@ export const RequireAuth = ({ children, role }) => {
     return <Navigate to="login" state={{ from: location }} replace />;
   }
 
-  if (role && auth.user.role.name !== role) {
+  if (roles && !roles.includes(auth.user.role.name)) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 

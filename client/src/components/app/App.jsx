@@ -24,6 +24,7 @@ import { DegreeWorksPage } from '../../pages/DegreeWorksPage';
 import { useDegreeWorksStore } from '../../hooks/zustand/useDegreeWorksStore';
 import { FilesPage } from '../../pages/FilesPage';
 import { GraduateProcessPage } from '../../pages/GraduateProcessPage';
+import { useAuthStore } from '../../hooks/zustand/useAuthStore';
 
 function App() {
   const { getAllEducationLevels } = useCommonStore((state) => state);
@@ -33,6 +34,7 @@ function App() {
   const { getAllStudents } = useStudentsStore((state) => state);
   const { currentYear } = useCommonStore((state) => state);
   const { getAllDegreeWorks } = useDegreeWorksStore((state) => state);
+  const { user } = useAuthStore((state) => state);
 
   React.useEffect(() => {
     getAllEducationLevels();
@@ -60,7 +62,13 @@ function App() {
             path="/"
             element={
               <RequireAuth>
-                <UserMainPage />
+                {user.role.name === USER_ROLES.ADMIN ? (
+                  <SecretaryTabs>
+                    <UserMainPage />
+                  </SecretaryTabs>
+                ) : (
+                  <UserMainPage />
+                )}
               </RequireAuth>
             }
           />
@@ -75,7 +83,7 @@ function App() {
           <Route
             path="/directions"
             element={
-              <RequireAuth role={USER_ROLES.SECRETARY}>
+              <RequireAuth roles={[USER_ROLES.SECRETARY, USER_ROLES.ADMIN]}>
                 <SecretaryTabs>
                   <DirectionsPage />
                 </SecretaryTabs>
@@ -85,7 +93,7 @@ function App() {
           <Route
             path="/graduate-scripts"
             element={
-              <RequireAuth role={USER_ROLES.SECRETARY}>
+              <RequireAuth roles={[USER_ROLES.SECRETARY, USER_ROLES.ADMIN]}>
                 <SecretaryTabs>
                   <GraduateScriptsPage />
                 </SecretaryTabs>
@@ -95,7 +103,7 @@ function App() {
           <Route
             path="/employees"
             element={
-              <RequireAuth role={USER_ROLES.SECRETARY}>
+              <RequireAuth roles={[USER_ROLES.SECRETARY, USER_ROLES.ADMIN]}>
                 <SecretaryTabs>
                   <EmployeesPage />
                 </SecretaryTabs>
@@ -105,7 +113,7 @@ function App() {
           <Route
             path="/students"
             element={
-              <RequireAuth role={USER_ROLES.SECRETARY}>
+              <RequireAuth roles={[USER_ROLES.SECRETARY, USER_ROLES.ADMIN]}>
                 <SecretaryTabs>
                   <StudentsPage />
                 </SecretaryTabs>
@@ -115,7 +123,7 @@ function App() {
           <Route
             path="/degree-works"
             element={
-              <RequireAuth role={USER_ROLES.SECRETARY}>
+              <RequireAuth roles={[USER_ROLES.SECRETARY, USER_ROLES.ADMIN]}>
                 <SecretaryTabs>
                   <DegreeWorksPage />
                 </SecretaryTabs>
@@ -125,7 +133,7 @@ function App() {
           <Route
             path="/files"
             element={
-              <RequireAuth role={USER_ROLES.SECRETARY}>
+              <RequireAuth roles={[USER_ROLES.SECRETARY, USER_ROLES.ADMIN]}>
                 <SecretaryTabs>
                   <FilesPage parse />
                 </SecretaryTabs>
@@ -135,7 +143,7 @@ function App() {
           <Route
             path="/graduate-process"
             element={
-              <RequireAuth role={USER_ROLES.SECRETARY}>
+              <RequireAuth roles={[USER_ROLES.SECRETARY, USER_ROLES.ADMIN]}>
                 <GraduateProcessPage />
               </RequireAuth>
             }

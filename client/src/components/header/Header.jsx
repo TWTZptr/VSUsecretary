@@ -13,20 +13,20 @@ const sx = {
 };
 
 const headlineSx = {
-    width: '100%',
-    height: '60px',
-    backgroundColor: 'rgba(143,143,143,0.65)',
-    padding: '10px 20px',
-    textAlign: 'left',
-    display: 'flex',
-    justifyContent: 'space-between',
-    boxSizing: 'border-box',
-}
+  width: '100%',
+  height: '60px',
+  backgroundColor: 'rgba(143,143,143,0.65)',
+  padding: '10px 20px',
+  textAlign: 'left',
+  display: 'flex',
+  justifyContent: 'space-between',
+  boxSizing: 'border-box',
+};
 
 const flexSx = {
-    display: 'flex',
-    flexDirection: 'row',
-}
+  display: 'flex',
+  flexDirection: 'row',
+};
 
 export const Header = React.memo(() => {
   const { logout, user, authenticated } = useAuthStore((store) => store);
@@ -38,26 +38,16 @@ export const Header = React.memo(() => {
   }, [logout, navigate]);
 
   if (!authenticated) {
-      return <></>
+    return <></>;
   }
 
   return (
     <header>
-      <Box
-        sx={headlineSx}
-      >
+      <Box sx={headlineSx}>
         <Box>
-          {user?.role?.name !== USER_ROLES.ADMIN ? (
-            <YearSelect />
-          ) : (
-            <Typography sx={sx}>
-              <b>Панель администратора</b>
-            </Typography>
-          )}
+          <YearSelect />
         </Box>
-        <Box
-          sx={flexSx}
-        >
+        <Box sx={flexSx}>
           <Typography sx={sx}>
             Вы вошли как: <i>{user?.name}</i>
           </Typography>

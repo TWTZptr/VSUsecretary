@@ -5,4 +5,5 @@ export const SECTIONS_MAP = {
   '/employees': 3,
   '/graduate-scripts': 4,
   '/files': 5,
+  '/': 6,
 };
