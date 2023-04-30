@@ -3,15 +3,45 @@ import { Box } from '@mui/system';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import DownloadIcon from '@mui/icons-material/Download';
+import { downloadFile } from '../../../services/filesService';
+import { toastError } from '../../../utils/toastSender';
+import { saveAs } from 'file-saver';
+
+const iconsSx = {
+  marginLeft: '8px',
+  '&:hover': {
+    backgroundColor: 'white',
+    borderRadius: '4px',
+  },
+};
 
 export const FilesListItem = React.memo(({ file, onClick, onDelete }) => {
   const onSelfClick = React.useCallback(() => {
     onClick(file);
   }, [onClick, file]);
 
-  const onSelfDelete = React.useCallback(() => {
-    onDelete(file);
-  }, [onDelete, file]);
+  const onSelfDelete = React.useCallback(
+    (e) => {
+      e.stopPropagation();
+      onDelete(file);
+    },
+    [onDelete, file]
+  );
+
+  const onDownload = React.useCallback(
+    async (e) => {
+      e.stopPropagation();
+      const res = await downloadFile(file.id);
+
+      if (!res.ok) {
+        toastError('Ошибка при скачивании файла');
+        return;
+      }
+      saveAs(res.data, file.name);
+    },
+    [file.id, file.name]
+  );
 
   return (
     <Box
@@ -33,7 +63,7 @@ export const FilesListItem = React.memo(({ file, onClick, onDelete }) => {
         []
       )}
     >
-      <InsertDriveFileIcon sx={React.useMemo(() => ({}), [])} />
+      <InsertDriveFileIcon />
       <Typography sx={React.useMemo(() => ({ lineHeight: '24px' }), [])}>
         {file.name}
       </Typography>
@@ -46,9 +76,11 @@ export const FilesListItem = React.memo(({ file, onClick, onDelete }) => {
           []
         )}
       >
+        <DownloadIcon sx={iconsSx} onClick={onDownload} />
         <CloseIcon
           sx={React.useMemo(
             () => ({
+              marginLeft: '8px',
               '&:hover': {
                 backgroundColor: 'white',
                 borderRadius: '4px',

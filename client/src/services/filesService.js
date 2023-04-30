@@ -18,10 +18,15 @@ export const createFile = async (year, file, filename) => {
 };
 
 export const deleteFile = (fileId) =>
-  sendRequest('delete', `/api/files/${fileId}`, undefined);
+  sendRequest('delete', `/api/files/${fileId}`);
 
 export const parseStudentsFromFile = async (fileId, directionId, year) =>
   sendRequest('post', `api/files/${fileId}/parse-students`, {
     directionId,
     year,
+  });
+
+export const downloadFile = (fileId) =>
+  sendRequest('get', `/api/files/${fileId}/file`, undefined, {
+    responseType: 'blob',
   });

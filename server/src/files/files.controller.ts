@@ -33,10 +33,15 @@ export class FilesController {
     return this.filesService.getFilesList(year);
   }
 
-  @Get(':id')
+  @Get(':id/file')
   async getFile(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
     const readStream = await this.filesService.getFileById(id);
     readStream.pipe(res);
+  }
+
+  @Get(':id')
+  async getFileInfo(@Param('id', ParseIntPipe) id: number) {
+    return this.filesService.getFileInfoById(id);
   }
 
   @Post()

@@ -42,6 +42,15 @@ export class FilesService {
     return handle.createReadStream();
   }
 
+  async getFileInfoById(id: number) {
+    const fileItem = await this.fileRepository.findByPk(id);
+    if (!fileItem) {
+      throw new NotFoundException();
+    }
+
+    return fileItem;
+  }
+
   async saveFile(file: Express.Multer.File, year: number) {
     const uuid = uuidv4();
     const fileItem = await this.saveFileToDb({
