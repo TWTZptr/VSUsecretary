@@ -1,4 +1,5 @@
-import { IsInt, IsNotEmpty, Length } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, Length } from 'class-validator';
+import { ToOptionalInt } from '../../decorators/to-not-blank-int';
 
 export class CreateStudentDto {
   @IsNotEmpty()
@@ -15,9 +16,10 @@ export class CreateStudentDto {
 
   @IsInt()
   @IsNotEmpty()
-  readonly publications: number;
+  readonly directionId: number;
 
   @IsInt()
-  @IsNotEmpty()
-  readonly directionId: number;
+  @ToOptionalInt()
+  @IsOptional()
+  readonly graduateScriptId?: number;
 }

@@ -16,7 +16,6 @@ interface StudentCreationAttributes {
   lastname: string;
   patronymic: string;
   year: number;
-  publications: number;
 }
 
 @Table({ tableName: 'Students' })
@@ -41,7 +40,7 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   year: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: true })
   publications: number;
 
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })

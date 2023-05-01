@@ -16,7 +16,7 @@ export const INITIAL_STUDENT_STATE = {
   name: '',
   lastname: '',
   patronymic: '',
-  publications: '',
+  publications: null,
   directionId: '',
 };
 export const INITIAL_EMPLOYEE_STATE = {

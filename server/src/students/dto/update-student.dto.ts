@@ -39,5 +39,10 @@ export class UpdateStudentDto {
   @IsInt()
   @ToOptionalInt()
   @IsOptional()
+  readonly graduateScriptId?: number;
+
+  @IsInt()
+  @ToOptionalInt()
+  @IsOptional()
   readonly index?: number;
 }

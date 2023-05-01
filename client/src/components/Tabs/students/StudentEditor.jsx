@@ -69,7 +69,7 @@ export const StudentEditor = ({ handlers, disabled, localStudent }) => {
           id="publications"
           sx={React.useMemo(() => ({ width: '100%' }), [])}
           onChange={onPublicationsChange}
-          value={localStudent.publications}
+          value={localStudent.publications || ''}
           disabled={disabled}
         />
         <CommonFormControl

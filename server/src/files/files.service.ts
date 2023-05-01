@@ -13,16 +13,18 @@ import {
 } from './constants';
 import { v4 as uuidv4 } from 'uuid';
 import { getFilePathByUuid } from '../utils/getFilePathByUuid';
-import { parseStudents } from '../utils/fileParsers/parseStudents';
+import { parseGraduateScripts } from '../utils/fileParsers/parseGraduateScripts';
 import { StudentsService } from '../students/students.service';
-import { ParsedStudent } from '../utils/types/parsed-students.type';
+import { ParsedGraduateScript } from '../utils/types/parsed-students.type';
 import { ParseStudentsDto } from './dto/ParseStudents.dto';
+import { GraduateScriptsService } from '../graduate-scripts/graduate-scripts.service';
 
 @Injectable()
 export class FilesService {
   constructor(
     @InjectModel(File) private fileRepository: typeof File,
     private readonly studentsService: StudentsService,
+    private readonly graduateScriptsService: GraduateScriptsService,
   ) {}
 
   getFilesList(year: number) {
@@ -85,17 +87,33 @@ export class FilesService {
 
     const fileBuffer = await fs.readFile(getFilePathByUuid(file.uuid));
     const fileText = fileBuffer.toString();
-    let students: ParsedStudent[];
+    let graduateScripts: ParsedGraduateScript[];
 
     try {
-      students = parseStudents(fileText);
+      graduateScripts = parseGraduateScripts(fileText);
     } catch (err) {
       throw new BadRequestException(BAD_FILE_TEXT_MSG);
     }
 
-    const promises = students.map((student) =>
-      this.studentsService.createStudent({ ...student, ...dto }),
-    );
+    const promises: Promise<any>[] = [];
+
+    for (const graduateScript of graduateScripts) {
+      const createdGraduateScript =
+        await this.graduateScriptsService.createGraduateScript({
+          date: graduateScript.date,
+        });
+
+      for (const student of graduateScript.students) {
+        promises.push(
+          this.studentsService.createStudent({
+            ...student,
+            ...dto,
+            graduateScriptId: createdGraduateScript.id,
+          }),
+        );
+      }
+    }
+
     return Promise.all(promises);
   }
 }

@@ -6,7 +6,6 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { User } from '../users/users.model';
 import { DegreeWork } from '../degree-works/degree-work.model';
 
 interface GraduateMarksCreationAttributes {
