@@ -75,6 +75,11 @@ export const GraduateScriptEditor = ({ disabled }) => {
       return;
     }
 
+    if (students.some((student) => !student.degreeWork)) {
+      toastError('У одного или нескольких студентов отсутствуют данные о ВКР');
+      return;
+    }
+
     startGraduateScript(selectedGraduateScript);
   }, [
     chairman,
@@ -82,7 +87,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
     commission,
     startGraduateScript,
     selectedGraduateScript,
-    students.length,
+    students,
   ]);
 
   const onDeleteGraduateScript = React.useCallback(() => {

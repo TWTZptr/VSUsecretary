@@ -10,7 +10,7 @@ export const GraduateScriptsPage = React.memo(() => {
   const { startedGraduateScript } = useCommonStore((state) => state);
 
   const graduateScriptViewerSx = React.useMemo(
-    () => ({ width: '45%', marginLeft: '20px' }),
+    () => ({ width: '70%', marginLeft: '20px' }),
     []
   );
 

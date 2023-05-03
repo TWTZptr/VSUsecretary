@@ -30,10 +30,8 @@ export const GraduateProcess = React.memo(() => {
   const [selectedDegreeWork, degreeWorkHandlers] = useDegreeWork();
   const { students, setSelectedStudent, selectedStudent, updateDegreeWork } =
     useGraduateProcessStore((state) => state);
-
   const { startedGraduateScript, startGraduateScript, currentYear } =
     useCommonStore((state) => state);
-
   const { getAllGraduateScripts } = useGraduateScriptsStore((state) => state);
 
   const onStudentSelect = React.useCallback(

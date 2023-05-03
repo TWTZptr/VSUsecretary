@@ -131,8 +131,6 @@ export class GraduateScriptsService {
         commission.push(
           await this.employeesService.findEmployeeById(emp.employeeId),
         );
-      } else {
-        commission.push(emp);
       }
     }
 

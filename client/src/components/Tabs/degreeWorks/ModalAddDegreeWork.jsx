@@ -26,6 +26,7 @@ export const ModalAddDegreeWork = React.memo(({ onClose }) => {
       <DegreeWorksEditor
         handlers={degreeWorkHandlers}
         localDegreeWork={degreeWork}
+        edit
       />
       <CommonButton onClick={handleAdd}>Добавить</CommonButton>
     </ModalBox>

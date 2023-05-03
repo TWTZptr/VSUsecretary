@@ -10,6 +10,7 @@ import { Box } from '@mui/system';
 import { useGraduateScriptsStore } from '../../../../hooks/zustand/useGraduateScriptsStore';
 import { generateProtocolAppendixDoc } from '../../../../services/docsService';
 import { saveAs } from 'file-saver';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const arrowsSx = {
   cursor: 'pointer',
@@ -23,7 +24,7 @@ const iconButtonSx = {
 };
 
 export const StudentsTableItem = React.memo(
-  ({ student, onDelete, disabled }) => {
+  ({ student, onDelete, disabled, onDegreeWorkEdit }) => {
     const studentName = student ? formatPerson(student) : <i>Не указан</i>;
     const { employees } = useEmployeesStore((state) => state);
     const { upStudent, downStudent } = useGraduateScriptsStore(
@@ -38,7 +39,7 @@ export const StudentsTableItem = React.memo(
       const res = await generateProtocolAppendixDoc(student.id);
       saveAs(
         res.data,
-        `${student.index}_${student.lastname}_приложение к протоколу заседания ГЭК по защите ВКР.docx`
+        `${student.index} ${student.lastname} приложение к протоколу заседания ГЭК по защите ВКР.docx`
       );
     }, [student.id, student.index, student.lastname]);
 
@@ -47,7 +48,7 @@ export const StudentsTableItem = React.memo(
     }, [student, onDelete]);
 
     const supervisor = employees.find(
-      (employee) => employee.id === student.degreeWork.supervisorId
+      (employee) => employee.id === student.degreeWork?.supervisorId
     );
 
     const supervisorName = supervisor ? (
@@ -64,12 +65,16 @@ export const StudentsTableItem = React.memo(
       await downStudent(student);
     }, [student, downStudent]);
 
+    const onDegreeWorkEditSelf = React.useCallback(() => {
+      onDegreeWorkEdit(student);
+    }, [student, onDegreeWorkEdit]);
+
     return (
       <TableRow
         key={student.id}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
-        <TableCell>{student.degreeWork.theme}</TableCell>
+        <TableCell>{student.degreeWork?.theme || <i>Не указана</i>}</TableCell>
         <TableCell>{studentName}</TableCell>
         <TableCell>{supervisorName}</TableCell>
         <TableCell>
@@ -84,6 +89,12 @@ export const StudentsTableItem = React.memo(
               []
             )}
           >
+            <IconButton
+              onClick={onDegreeWorkEditSelf}
+              disabled={selectedGraduateScript.complete}
+            >
+              <SettingsIcon fontSize="small" />
+            </IconButton>
             <IconButton
               onClick={onAppendixGenerate}
               disabled={!selectedGraduateScript.complete}

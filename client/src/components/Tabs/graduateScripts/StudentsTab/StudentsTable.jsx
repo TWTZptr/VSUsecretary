@@ -105,17 +105,17 @@ export const StudentsTable = React.memo(({ disabled }) => {
       <Table sx={React.useMemo(() => ({ flexGrow: '1' }), [])}>
         <TableHead>
           <TableRow>
-            <TableCell sx={React.useMemo(() => ({ width: '250px' }), [])}>
+            <TableCell sx={React.useMemo(() => ({ width: '40%' }), [])}>
               Тема
             </TableCell>
-            <TableCell sx={React.useMemo(() => ({ width: '160px' }), [])}>
+            <TableCell sx={React.useMemo(() => ({ width: '25%' }), [])}>
               Студент
             </TableCell>
-            <TableCell sx={React.useMemo(() => ({ width: '160px' }), [])}>
+            <TableCell sx={React.useMemo(() => ({ width: '25%' }), [])}>
               Научный руководитель
             </TableCell>
             <TableCell
-              sx={React.useMemo(() => ({ width: '70px' }), [])}
+              sx={React.useMemo(() => ({ width: '10%' }), [])}
               align="right"
             ></TableCell>
           </TableRow>

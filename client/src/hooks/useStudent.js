@@ -18,7 +18,10 @@ export const useStudent = (initialState = INITIAL_STUDENT_STATE) => {
         setStudent((prevState) => ({ ...prevState, patronymic }));
       },
       setPublications: (publications) => {
-        setStudent((prevState) => ({ ...prevState, publications }));
+        setStudent((prevState) => ({
+          ...prevState,
+          publications: +publications,
+        }));
       },
       setStudent: (student) => {
         setStudent(() => student);

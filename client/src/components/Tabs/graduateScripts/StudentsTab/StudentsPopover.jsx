@@ -20,12 +20,10 @@ export const StudentsPopover = React.memo(({ onSelect, students }) => {
 
   const filteredStudents = React.useMemo(
     () =>
-      students.filter(
-        (s) =>
-          s.degreeWork &&
-          `${s.name} ${s.lastname} ${s.patronymic}`
-            .toLowerCase()
-            .includes(text.toLowerCase())
+      students.filter((s) =>
+        `${s.name} ${s.lastname} ${s.patronymic}`
+          .toLowerCase()
+          .includes(text.toLowerCase())
       ),
     [text, students]
   );

@@ -84,6 +84,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
     );
 
     const disabled = !localDegreeWork.id;
+    console.log(commissionEmployees);
 
     return (
       <Box sx={React.useMemo(() => ({ flexGrow: '1' }), [])}>
