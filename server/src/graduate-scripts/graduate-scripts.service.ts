@@ -15,6 +15,7 @@ import { EMPLOYEE_ROLES } from '../employees-graduate-scripts/enums';
 import { SetGraduateScriptCommissionMemberDto } from './dto/set-graduatescript-commission-member.dto';
 import { Op } from 'sequelize';
 import { SetEmployeeExtraInfoDto } from './dto/set-employee-extra-info.dto';
+import { EmployeeGraduateScript } from '../employees-graduate-scripts/employees-graduate-scripts.model';
 
 @Injectable()
 export class GraduateScriptsService {
@@ -87,7 +88,7 @@ export class GraduateScriptsService {
 
   async getAllEmployeesByGraduateScript(id: number) {
     const employeesGraduateScripts =
-      await this.employeesGraduateScriptsService.getEmployeesIdsByGraduateScriptId(
+      await this.employeesGraduateScriptsService.getEmployeesByGraduateScriptId(
         id,
       );
 
@@ -113,29 +114,32 @@ export class GraduateScriptsService {
     const commission = [];
 
     if (chairmanGraduateScript) {
-      chairman =
-        await this.employeesService.findEmployeeByIdWithGraduateScriptInfo(
-          chairmanGraduateScript.employeeId,
-          id,
-        );
+      const plainChairman = await chairmanGraduateScript.$get('employee', {
+        raw: true,
+      });
+      chairman = {
+        ...chairmanGraduateScript.get({ plain: true }),
+        ...plainChairman,
+      };
     }
 
     if (secretaryGraduateScript) {
-      secretary =
-        await this.employeesService.findEmployeeByIdWithGraduateScriptInfo(
-          secretaryGraduateScript.employeeId,
-          id,
-        );
+      const plainSecretary = await secretaryGraduateScript.$get('employee', {
+        raw: true,
+      });
+      secretary = {
+        ...secretaryGraduateScript.get({ plain: true }),
+        ...plainSecretary,
+      };
     }
 
     for (const emp of commissionGraduateScript) {
       if (emp) {
-        commission.push(
-          await this.employeesService.findEmployeeByIdWithGraduateScriptInfo(
-            emp.employeeId,
-            id,
-          ),
-        );
+        const plainEmp = await emp.$get('employee', { raw: true });
+        commission.push({
+          ...emp.get({ plain: true }),
+          ...plainEmp,
+        });
       }
     }
 

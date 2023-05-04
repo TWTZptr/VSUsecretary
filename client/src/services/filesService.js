@@ -20,9 +20,8 @@ export const createFile = async (year, file, filename) => {
 export const deleteFile = (fileId) =>
   sendRequest('delete', `/api/files/${fileId}`);
 
-export const parseStudentsFromFile = async (fileId, directionId, year) =>
+export const parseStudentsFromFile = async (fileId, year) =>
   sendRequest('post', `api/files/${fileId}/parse-students`, {
-    directionId,
     year,
   });
 

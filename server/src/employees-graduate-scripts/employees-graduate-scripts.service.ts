@@ -18,7 +18,7 @@ export class EmployeesGraduateScriptsService {
     });
   }
 
-  async getEmployeesIdsByGraduateScriptId(graduateScriptId: number) {
+  async getEmployeesByGraduateScriptId(graduateScriptId: number) {
     return this.employeeGraduateScriptRepository.findAll({
       where: { graduateScriptId },
     });

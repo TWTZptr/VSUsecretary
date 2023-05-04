@@ -20,7 +20,8 @@ export const EmployeesList = React.memo(({ disabled }) => {
     setSecretary,
     setChairman,
     setCommission,
-    setCommissionMember,
+    removeCommissionMember,
+    addCommissionMember,
   } = useGraduateScriptsStore((state) => state);
 
   const handleChairmanEducateScriptChange = React.useCallback(
@@ -41,7 +42,6 @@ export const EmployeesList = React.memo(({ disabled }) => {
     }
     return com;
   }, [commission]);
-  console.log(commissionToDisplay);
 
   const onDeleteEmployee = React.useCallback(
     (employee) =>
@@ -57,17 +57,15 @@ export const EmployeesList = React.memo(({ disabled }) => {
             return;
           }
 
-          const memberIndex = commission.findIndex((m) => m.id === employee.id);
-          setCommissionMember(null, memberIndex);
+          removeCommissionMember(null, employee.id);
         }
       ),
     [
       selectedGraduateScript,
       chairman.id,
-      commission,
       secretary.id,
       setChairman,
-      setCommissionMember,
+      removeCommissionMember,
       setSecretary,
     ]
   );
@@ -90,11 +88,10 @@ export const EmployeesList = React.memo(({ disabled }) => {
         member.id,
         index
       ).then(() => {
-        commission.splice(index, 1, member);
-        setCommission(commission);
+        addCommissionMember({ ...member, index });
       });
     },
-    [setCommission, selectedGraduateScript.id, commission]
+    [selectedGraduateScript.id, addCommissionMember]
   );
 
   const employeesToExclude = React.useMemo(

@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
@@ -47,10 +48,8 @@ export class Employee extends Model<Employee, EmployeeCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   email: string;
 
-  @BelongsToMany(() => GraduateScript, () => EmployeeGraduateScript)
-  graduateScripts: Array<
-    GraduateScript & { EmployeeGraduateScript: EmployeeGraduateScript }
-  >;
+  @HasMany(() => EmployeeGraduateScript, 'employeeId')
+  employeeGraduateScripts: EmployeeGraduateScript[];
 
   @HasMany(() => DegreeWork, 'supervisorId')
   degreeWorksAsSupervisor: DegreeWork[];

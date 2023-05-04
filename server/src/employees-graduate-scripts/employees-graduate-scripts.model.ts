@@ -1,9 +1,11 @@
 import {
-  Table,
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
+  HasOne,
   Model,
+  Table,
 } from 'sequelize-typescript';
 import { Employee } from 'src/employees/employees.model';
 import { GraduateScript } from 'src/graduate-scripts/graduate-scripts.model';
@@ -82,4 +84,10 @@ export class EmployeeGraduateScript extends Model<
 
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   index: number;
+
+  @BelongsTo(() => GraduateScript, 'graduateScriptId')
+  graduateScript: GraduateScript;
+
+  @BelongsTo(() => Employee, 'employeeId')
+  employee: Employee;
 }

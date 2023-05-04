@@ -5,9 +5,16 @@ import { GraduateScriptsList } from '../components/Tabs/graduateScripts/Graduate
 import { ViewerBox } from '../components/common/ViewerBox';
 import { useCommonStore } from '../hooks/zustand/useCommonStore';
 import { Navigate } from 'react-router-dom';
+import { useGraduateScriptsStore } from '../hooks/zustand/useGraduateScriptsStore';
 
 export const GraduateScriptsPage = React.memo(() => {
   const { startedGraduateScript } = useCommonStore((state) => state);
+  const { getAllGraduateScripts } = useGraduateScriptsStore((state) => state);
+  const { currentYear } = useCommonStore((state) => state);
+
+  React.useEffect(() => {
+    getAllGraduateScripts(currentYear);
+  }, [currentYear, getAllGraduateScripts]);
 
   const graduateScriptViewerSx = React.useMemo(
     () => ({ width: '70%', marginLeft: '20px' }),

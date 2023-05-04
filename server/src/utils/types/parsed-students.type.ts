@@ -4,5 +4,6 @@ export type ParsedGraduateScript = {
     lastname: string;
     name: string;
     patronymic: string;
+    index: number;
   }[];
 };

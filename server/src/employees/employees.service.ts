@@ -63,9 +63,14 @@ export class EmployeesService {
     employee: Employee,
     graduateScript: GraduateScript,
   ) {
-    await employee.$remove('graduateScript', graduateScript);
-    const updatedEmployee = this.getEmployeeById(employee.id);
-    return updatedEmployee;
+    const employeeGraduateScripts = await employee.$get(
+      'employeeGraduateScripts',
+      { where: { graduateScriptId: graduateScript.id } },
+    );
+
+    await Promise.all(employeeGraduateScripts.map((egs) => egs.destroy()));
+
+    return this.getEmployeeById(employee.id);
   }
 
   async isEmployeeExists(id: number) {
@@ -74,8 +79,12 @@ export class EmployeesService {
 
   async getEmployeeGraduateScripts(employeeId: number) {
     const employee = await this.findEmployeeById(employeeId);
-    const graduateScripts = await employee.$get('graduateScripts');
-    return graduateScripts;
+    const employeeGraduateScripts = await employee.$get(
+      'employeeGraduateScripts',
+    );
+    return Promise.all(
+      employeeGraduateScripts.map((egs) => egs.$get('graduateScript')),
+    );
   }
 
   async getAllEmployees() {

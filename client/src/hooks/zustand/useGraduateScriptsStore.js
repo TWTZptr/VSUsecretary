@@ -111,10 +111,13 @@ export const useGraduateScriptsStore = createStore(
         set({
           commission: commission.length ? commission : INITIAL_COMMISSION_STATE,
         }),
-      setCommissionMember: (employee, index) => {
+      removeCommissionMember: (employee, empId) => {
         const current = get().commission;
-        current[index] = employee || INITIAL_EMPLOYEE_STATE;
-        set({ commission: current });
+        set({ commission: current.filter((emp) => empId !== emp.id) });
+      },
+      addCommissionMember: (employee) => {
+        const current = get().commission;
+        set({ commission: [...current, employee] });
       },
       getAllEmployees: async () => {
         const selected = get().selectedGraduateScript;

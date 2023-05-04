@@ -28,8 +28,8 @@ export const parseGraduateScripts = (
       students: [],
     };
 
-    for (const student of students) {
-      graduateScript.students.push(parseStudent(student));
+    for (const [index, student] of students.entries()) {
+      graduateScript.students.push({ ...parseStudent(student), index });
     }
 
     result.push(graduateScript);
