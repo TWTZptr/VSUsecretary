@@ -2,7 +2,16 @@ import { Box } from '@mui/system';
 import { EditorInputBlock } from '../../common/EditorInputBlock';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { Tab, Tabs, TextField, Typography } from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+} from '@mui/material';
 import DangerousButton from '../../common/DangerousButton';
 import { CommonButton } from '../../common/CommonButton';
 import { AddGraduateScriptPopover } from './AddGraduateScriptPopover';
@@ -13,9 +22,15 @@ import React from 'react';
 import { CurrentGraduateScriptTab } from './CurrentGraduateScriptTab';
 import { generateProtocolDoc } from '../../../services/docsService';
 import { saveAs } from 'file-saver';
+import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
 
 const completedGraduateScriptTextSx = {
   fontSize: '20px',
+};
+
+const flexCenterSx = {
+  display: 'flex',
+  justifyContent: 'center',
 };
 
 export const GraduateScriptEditor = ({ disabled }) => {
@@ -30,6 +45,17 @@ export const GraduateScriptEditor = ({ disabled }) => {
   } = useGraduateScriptsStore((state) => state);
   const { startGraduateScript } = useCommonStore((state) => state);
   const [currentTab, setCurrentTab] = React.useState(1);
+  const { directions } = useDirectionsStore((state) => state);
+
+  const onDirectionIdChange = React.useCallback(
+    (event) => {
+      updateGraduateScript({
+        ...selectedGraduateScript,
+        directionId: event.target.value,
+      });
+    },
+    [updateGraduateScript, selectedGraduateScript]
+  );
 
   const onTabChange = React.useCallback(
     (e, newTab) => {
@@ -41,11 +67,27 @@ export const GraduateScriptEditor = ({ disabled }) => {
   const { setCurrentYear } = useCommonStore((state) => state);
 
   const onGenerateProtocol = React.useCallback(async () => {
+    const commissionLength = commission.reduce(
+      (acc, curr) => (curr.id ? 1 : 0),
+      0
+    );
+
+    if (!chairman.id || !secretary.id || commissionLength < 3) {
+      toastError('Не полностью указан состав коммиссии');
+      return;
+    }
+
     const res = await generateProtocolDoc(selectedGraduateScript.id);
     const [year, month, day] = selectedGraduateScript.date.split('-');
     const filename = `Протокол ${day}.${month}.${year}.docx`;
     saveAs(res.data, filename);
-  }, [selectedGraduateScript.id, selectedGraduateScript.date]);
+  }, [
+    chairman.id,
+    secretary.id,
+    commission,
+    selectedGraduateScript.id,
+    selectedGraduateScript.date,
+  ]);
 
   const onDateChange = React.useCallback(
     (date) => {
@@ -96,8 +138,10 @@ export const GraduateScriptEditor = ({ disabled }) => {
 
   return (
     <Box sx={React.useMemo(() => ({ width: '100%', textAlign: 'left' }), [])}>
-      <EditorInputBlock>
-        <Box sx={React.useMemo(() => ({ width: 'auto', margin: 'auto' }), [])}>
+      <Box sx={flexCenterSx}>
+        <Box
+          sx={React.useMemo(() => ({ width: 'auto', textAlign: 'left' }), [])}
+        >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="Дата сдачи"
@@ -109,18 +153,29 @@ export const GraduateScriptEditor = ({ disabled }) => {
                   {...params}
                 />
               )}
-              for
               disabled={disabled}
             />
           </LocalizationProvider>
         </Box>
-      </EditorInputBlock>
-      <Box
-        sx={React.useMemo(
-          () => ({ display: 'flex', justifyContent: 'center' }),
-          []
-        )}
-      >
+        <FormControl
+          sx={React.useMemo(() => ({ width: '40%', marginLeft: '20px' }), [])}
+          disabled={disabled}
+        >
+          <InputLabel>Направление</InputLabel>
+          <Select
+            label="Направление"
+            onChange={onDirectionIdChange}
+            value={selectedGraduateScript.directionId || ''}
+          >
+            {directions.map((direction) => (
+              <MenuItem value={direction.id} key={direction.id}>
+                {direction.code} {direction.shortName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={flexCenterSx}>
         <Tabs value={currentTab} onChange={onTabChange}>
           <Tab label="Состав комиссии" />
           <Tab label="Студенты" />

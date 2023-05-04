@@ -9,6 +9,7 @@ import {
 import { useGraduateScriptsStore } from '../../../../hooks/zustand/useGraduateScriptsStore';
 import { EmployeesSearchDropdown } from '../../../common/EmployeesSearchDropdown/EmployeesSearchDropdown';
 import { CommissionMember } from './CommissionMember';
+import { INITIAL_EMPLOYEE_STATE } from '../../../../constants';
 
 export const EmployeesList = React.memo(({ disabled }) => {
   const {
@@ -32,6 +33,15 @@ export const EmployeesList = React.memo(({ disabled }) => {
     },
     [setChairman, selectedGraduateScript.id]
   );
+
+  const commissionToDisplay = React.useMemo(() => {
+    const com = new Array(5).fill(INITIAL_EMPLOYEE_STATE);
+    for (const member of commission) {
+      com[member.index] = member;
+    }
+    return com;
+  }, [commission]);
+  console.log(commissionToDisplay);
 
   const onDeleteEmployee = React.useCallback(
     (employee) =>
@@ -89,8 +99,7 @@ export const EmployeesList = React.memo(({ disabled }) => {
 
   const employeesToExclude = React.useMemo(
     () => [chairman, secretary, ...commission],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [chairman, secretary, ...commission.map((m) => m.id)]
+    [chairman, secretary, commission]
   );
 
   return (
@@ -119,7 +128,7 @@ export const EmployeesList = React.memo(({ disabled }) => {
         exclude={employeesToExclude}
         onDeleteEmployee={onDeleteEmployee}
       />
-      {commission.map((member, index) => (
+      {commissionToDisplay.map((member, index) => (
         <CommissionMember
           key={index}
           disabled={disabled}

@@ -26,9 +26,6 @@ export const useStudent = (initialState = INITIAL_STUDENT_STATE) => {
       setStudent: (student) => {
         setStudent(() => student);
       },
-      setDirectionId: (directionId) => {
-        setStudent((prevState) => ({ ...prevState, directionId }));
-      },
     }),
     []
   );

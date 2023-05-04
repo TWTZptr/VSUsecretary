@@ -5,6 +5,8 @@ import { Employee } from './employees.model';
 import { UNEXIST_EMPLOYEE_ID_MSG } from './constants';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { GraduateScript } from '../graduate-scripts/graduate-scripts.model';
+import { FindOptions } from 'sequelize';
+import { EmployeeGraduateScript } from '../employees-graduate-scripts/employees-graduate-scripts.model';
 
 @Injectable()
 export class EmployeesService {
@@ -16,8 +18,8 @@ export class EmployeesService {
     return this.employeeRepository.create(dto);
   }
 
-  async findEmployeeById(id: number) {
-    const employee = await this.getEmployeeById(id);
+  async findEmployeeById(id: number, options: FindOptions<Employee> = {}) {
+    const employee = await this.getEmployeeById(id, options);
     if (!employee) {
       throw new NotFoundException(UNEXIST_EMPLOYEE_ID_MSG);
     }
@@ -25,8 +27,8 @@ export class EmployeesService {
     return employee;
   }
 
-  async getEmployeeById(id: number, attributes = null) {
-    return this.employeeRepository.findByPk(id, { attributes });
+  async getEmployeeById(id: number, options: FindOptions<Employee> = {}) {
+    return this.employeeRepository.findByPk(id, options);
   }
 
   async updateEmployee(dto: UpdateEmployeeDto) {
@@ -81,5 +83,23 @@ export class EmployeesService {
       order: ['lastname'],
     });
     return employees;
+  }
+
+  findEmployeeByIdWithGraduateScriptInfo(
+    employeeId: number,
+    graduateScriptId: number,
+  ) {
+    return this.employeeRepository.findOne({
+      where: {
+        '$graduateScripts.graduateScriptId$': graduateScriptId,
+        id: employeeId,
+      },
+      include: [
+        {
+          model: EmployeeGraduateScript,
+          as: 'graduateScripts',
+        },
+      ],
+    });
   }
 }

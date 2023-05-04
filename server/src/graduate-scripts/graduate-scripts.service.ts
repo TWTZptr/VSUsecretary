@@ -15,7 +15,6 @@ import { EMPLOYEE_ROLES } from '../employees-graduate-scripts/enums';
 import { SetGraduateScriptCommissionMemberDto } from './dto/set-graduatescript-commission-member.dto';
 import { Op } from 'sequelize';
 import { SetEmployeeExtraInfoDto } from './dto/set-employee-extra-info.dto';
-import { StudentsService } from '../students/students.service';
 
 @Injectable()
 export class GraduateScriptsService {
@@ -24,7 +23,6 @@ export class GraduateScriptsService {
     private graduateScriptRepository: typeof GraduateScript,
     private readonly employeesGraduateScriptsService: EmployeesGraduateScriptsService,
     private readonly employeesService: EmployeesService,
-    private readonly studentsService: StudentsService,
   ) {}
 
   async createGraduateScript(dto: CreateGraduateScriptDto) {
@@ -115,21 +113,28 @@ export class GraduateScriptsService {
     const commission = [];
 
     if (chairmanGraduateScript) {
-      chairman = await this.employeesService.findEmployeeById(
-        chairmanGraduateScript.employeeId,
-      );
+      chairman =
+        await this.employeesService.findEmployeeByIdWithGraduateScriptInfo(
+          chairmanGraduateScript.employeeId,
+          id,
+        );
     }
 
     if (secretaryGraduateScript) {
-      secretary = await this.employeesService.findEmployeeById(
-        secretaryGraduateScript.employeeId,
-      );
+      secretary =
+        await this.employeesService.findEmployeeByIdWithGraduateScriptInfo(
+          secretaryGraduateScript.employeeId,
+          id,
+        );
     }
 
     for (const emp of commissionGraduateScript) {
       if (emp) {
         commission.push(
-          await this.employeesService.findEmployeeById(emp.employeeId),
+          await this.employeesService.findEmployeeByIdWithGraduateScriptInfo(
+            emp.employeeId,
+            id,
+          ),
         );
       }
     }
@@ -203,6 +208,16 @@ export class GraduateScriptsService {
       employeeId,
       graduateScriptId,
       index,
+    );
+  }
+
+  async findEmployeeByIdWithGraduateScriptInfo(
+    employeeId: number,
+    graduateScriptId: number,
+  ) {
+    return this.employeesService.findEmployeeByIdWithGraduateScriptInfo(
+      employeeId,
+      graduateScriptId,
     );
   }
 

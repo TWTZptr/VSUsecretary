@@ -1,30 +1,19 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateStudentDto } from './dto/create-student.dto';
-import { UNEXIST_DIRECTION_ID_MSG, UNEXIST_STUDENT_ID_MSG } from './constants';
+import { UNEXIST_STUDENT_ID_MSG } from './constants';
 import { Student } from './students.model';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { DirectionsService } from '../directions/directions.service';
-import { FindOptions, Op } from 'sequelize';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class StudentsService {
   constructor(
     @InjectModel(Student) private studentRepository: typeof Student,
-    private readonly directionsService: DirectionsService,
   ) {}
 
   async createStudent(dto: CreateStudentDto) {
-    if (
-      dto.directionId !== undefined &&
-      (await this.directionsService.isDirectionExists(dto.directionId))
-    ) {
-      throw new BadRequestException(UNEXIST_DIRECTION_ID_MSG);
-    }
     return this.studentRepository.create(dto);
   }
 
@@ -33,13 +22,6 @@ export class StudentsService {
   }
 
   async updateStudent(dto: UpdateStudentDto) {
-    if (
-      dto.directionId &&
-      (await this.directionsService.isDirectionExists(dto.directionId))
-    ) {
-      throw new BadRequestException(UNEXIST_DIRECTION_ID_MSG);
-    }
-
     const [affectedCount] = await this.studentRepository.update(dto, {
       where: { id: dto.id },
     });

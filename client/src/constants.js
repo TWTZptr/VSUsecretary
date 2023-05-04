@@ -17,7 +17,6 @@ export const INITIAL_STUDENT_STATE = {
   lastname: '',
   patronymic: '',
   publications: null,
-  directionId: '',
 };
 export const INITIAL_EMPLOYEE_STATE = {
   name: '',
@@ -29,6 +28,7 @@ export const INITIAL_EMPLOYEE_STATE = {
 export const INITIAL_GRADUATE_SCRIPT_STATE = {
   date: null,
   complete: false,
+  directionId: '',
 };
 export const INITIAL_DEGREE_WORK_STATE = {
   theme: '',
@@ -60,7 +60,7 @@ export const INIT_USER = {
     name: '',
   },
 };
-export const INITIAL_COMMISSION_STATE = Array(5).fill(INITIAL_EMPLOYEE_STATE);
+export const INITIAL_COMMISSION_STATE = [];
 export const INITIAL_GRADUATE_SCRIPT_EMPLOYEES_STATE = {
   commission: INITIAL_COMMISSION_STATE,
   secretary: null,

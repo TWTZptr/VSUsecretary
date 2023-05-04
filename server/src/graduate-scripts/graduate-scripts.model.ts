@@ -1,7 +1,9 @@
 import {
+  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
+  ForeignKey,
   HasMany,
   Model,
   Table,
@@ -9,6 +11,7 @@ import {
 import { EmployeeGraduateScript } from 'src/employees-graduate-scripts/employees-graduate-scripts.model';
 import { Employee } from 'src/employees/employees.model';
 import { Student } from '../students/students.model';
+import { Direction } from '../directions/directions.model';
 
 interface GraduateScriptCreationAttributes {
   date: string;
@@ -27,6 +30,10 @@ export class GraduateScript extends Model<
   })
   id: number;
 
+  @ForeignKey(() => Direction)
+  @Column({ type: DataType.INTEGER, allowNull: true, field: 'direction_id' })
+  directionId: number;
+
   @Column({ type: DataType.DATEONLY, allowNull: false })
   date: string;
 
@@ -37,6 +44,9 @@ export class GraduateScript extends Model<
   employees: Array<
     Employee & { EmployeeGraduateScript: EmployeeGraduateScript }
   >;
+
+  @BelongsTo(() => Direction, 'directionId')
+  direction: Direction;
 
   @HasMany(() => Student, 'graduateScriptId')
   students: Student[];

@@ -52,9 +52,7 @@ export class DocsService {
       );
     }
 
-    const students = await graduateScript.$get('students');
-
-    const direction = await students[0].$get('direction');
+    const direction = await graduateScript.$get('direction');
     const number = await this.graduateScriptsService.getGraduateScriptNumber(
       graduateScriptId,
     );

@@ -15,10 +15,6 @@ export class CreateStudentDto {
   readonly patronymic: string;
 
   @IsInt()
-  @IsNotEmpty()
-  readonly directionId: number;
-
-  @IsInt()
   @ToOptionalInt()
   @IsOptional()
   readonly graduateScriptId?: number;

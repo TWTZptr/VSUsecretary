@@ -7,7 +7,6 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Direction } from '../directions/directions.model';
 import { GraduateScript } from '../graduate-scripts/graduate-scripts.model';
 import { DegreeWork } from '../degree-works/degree-work.model';
 
@@ -46,10 +45,6 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   index: number;
 
-  @ForeignKey(() => Direction)
-  @Column({ type: DataType.INTEGER, allowNull: false, field: 'direction_id' })
-  directionId: number;
-
   @ForeignKey(() => GraduateScript)
   @Column({
     type: DataType.INTEGER,
@@ -57,9 +52,6 @@ export class Student extends Model<Student, StudentCreationAttributes> {
     field: 'gradudate_script_id',
   })
   graduateScriptId: number;
-
-  @BelongsTo(() => Direction, 'directionId')
-  direction: Direction;
 
   @BelongsTo(() => GraduateScript, 'graduateScriptId')
   graduateScript: GraduateScript;

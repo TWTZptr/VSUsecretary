@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsDate,
-  IsInt,
-  IsOptional,
-  IsBoolean,
-} from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UpdateGraduateScriptDto {
   @IsNotEmpty()
@@ -14,6 +8,11 @@ export class UpdateGraduateScriptDto {
   @IsOptional()
   @IsNotEmpty()
   readonly date: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsInt()
+  readonly directionId: number;
 
   @IsOptional()
   @IsNotEmpty()

@@ -28,6 +28,9 @@ export const useGraduateScript = (
           degreeWorks: [...takeDay.degreeWorks, id],
         }));
       },
+      setDirectionId: (directionId) => {
+        setGraduateScript((prevState) => ({ ...prevState, directionId }));
+      },
     }),
     []
   );

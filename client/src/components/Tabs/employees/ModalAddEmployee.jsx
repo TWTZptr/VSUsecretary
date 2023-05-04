@@ -7,25 +7,28 @@ import { toastError } from '../../../utils/toastSender';
 import { useEmployeesStore } from '../../../hooks/zustand/useEmployeesStore';
 import React from 'react';
 
-export const ModalAddEmployee = ({ onClose }) => {
+export const ModalAddEmployee = ({ onClose, onAddCallback }) => {
   const [employee, employeeHandlers] = useEmployee();
   const { createEmployee, selectEmployee } = useEmployeesStore(
     (state) => state
   );
 
   const handleAdd = React.useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       try {
         validateEmployee(employee);
-        createEmployee(employee);
-        selectEmployee(employee);
+        const newEmployee = await createEmployee(employee);
+        selectEmployee(newEmployee);
+        if (onAddCallback) {
+          onAddCallback(newEmployee);
+        }
         onClose();
       } catch (e) {
         toastError(e.message);
       }
     },
-    [createEmployee, employee, selectEmployee, onClose]
+    [createEmployee, employee, selectEmployee, onClose, onAddCallback]
   );
 
   return (

@@ -163,7 +163,10 @@ export const CustomSearchDropdown = React.memo(
           <EmployeesSearchDropdownAdd onClick={activateCreateModal} />
         </Box>
         <CommonModal active={createModalActive} onClose={inactivateCreateModal}>
-          <ModalCreateComponent onClose={inactivateCreateModal} />
+          <ModalCreateComponent
+            onClose={inactivateCreateModal}
+            onAddCallback={onSelect}
+          />
         </CommonModal>
         <CommonModal active={editModalActive} onClose={inactivateEditModal}>
           <ModalEditExtraInfoComponent

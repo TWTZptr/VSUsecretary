@@ -20,6 +20,14 @@ export class EmployeeGraduateScript extends Model<
   EmployeeGraduateScript,
   EmployeeGraduateScriptCreationAttributes
 > {
+  @Column({
+    type: DataType.INTEGER,
+    unique: true,
+    autoIncrement: true,
+    primaryKey: true,
+  })
+  id: number;
+
   @ForeignKey(() => Employee)
   @Column({
     type: DataType.INTEGER,
