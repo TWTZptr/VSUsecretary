@@ -1,13 +1,8 @@
 import { ListItemButton, ListItemText } from '@mui/material';
 import CommonListItem from '../../common/CommonListItem';
-import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
 import React from 'react';
 
 export const StudentListItem = ({ student, onClick, selected }) => {
-  const direction = useDirectionsStore((state) => state.directions).find(
-    (d) => d.id === student.directionId
-  );
-
   const onSelfClick = React.useCallback(() => {
     onClick(student);
   }, [onClick, student]);
@@ -21,7 +16,7 @@ export const StudentListItem = ({ student, onClick, selected }) => {
     >
       <ListItemButton>
         <ListItemText
-          primary={`${student.lastname} ${student.name} ${student.patronymic} ${direction?.shortName}`}
+          primary={`${student.lastname} ${student.name} ${student.patronymic}`}
         />
       </ListItemButton>
     </CommonListItem>

@@ -39,7 +39,9 @@ export const StudentsTableItem = React.memo(
       const res = await generateProtocolAppendixDoc(student.id);
       saveAs(
         res.data,
-        `${student.index} ${student.lastname} приложение к протоколу заседания ГЭК по защите ВКР.docx`
+        `${student.index + 1} ${
+          student.lastname
+        } приложение к протоколу заседания ГЭК по защите ВКР.docx`
       );
     }, [student.id, student.index, student.lastname]);
 

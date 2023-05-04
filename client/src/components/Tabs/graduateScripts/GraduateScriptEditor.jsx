@@ -20,7 +20,11 @@ import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScrip
 import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 import React from 'react';
 import { CurrentGraduateScriptTab } from './CurrentGraduateScriptTab';
-import { generateProtocolDoc } from '../../../services/docsService';
+import {
+  generateMarksShortList,
+  generateProtocolDoc,
+  generateStudentListing,
+} from '../../../services/docsService';
 import { saveAs } from 'file-saver';
 import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
 
@@ -43,7 +47,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
     secretary,
     students,
   } = useGraduateScriptsStore((state) => state);
-  const { startGraduateScript } = useCommonStore((state) => state);
+  const { startGraduateScript, currentYear } = useCommonStore((state) => state);
   const [currentTab, setCurrentTab] = React.useState(1);
   const { directions } = useDirectionsStore((state) => state);
 
@@ -67,13 +71,13 @@ export const GraduateScriptEditor = ({ disabled }) => {
   const { setCurrentYear } = useCommonStore((state) => state);
 
   const onGenerateProtocol = React.useCallback(async () => {
-    const commissionLength = commission.reduce(
-      (acc, curr) => (curr.id ? 1 : 0),
-      0
-    );
-
-    if (!chairman.id || !secretary.id || commissionLength < 3) {
+    if (!chairman.id || !secretary.id || commission.length < 3) {
       toastError('Не полностью указан состав коммиссии');
+      return;
+    }
+
+    if (!selectedGraduateScript.directionId) {
+      toastError('Не указано направление');
       return;
     }
 
@@ -84,6 +88,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
   }, [
     chairman.id,
     secretary.id,
+    selectedGraduateScript.directionId,
     commission,
     selectedGraduateScript.id,
     selectedGraduateScript.date,
@@ -122,6 +127,11 @@ export const GraduateScriptEditor = ({ disabled }) => {
       return;
     }
 
+    if (!selectedGraduateScript.directionId) {
+      toastError('Не указано направление');
+      return;
+    }
+
     startGraduateScript(selectedGraduateScript);
   }, [
     chairman,
@@ -135,6 +145,24 @@ export const GraduateScriptEditor = ({ disabled }) => {
   const onDeleteGraduateScript = React.useCallback(() => {
     removeGraduateScript(selectedGraduateScript.id);
   }, [removeGraduateScript, selectedGraduateScript.id]);
+
+  const onGenerateMarksShortList = React.useCallback(async () => {
+    const res = await generateMarksShortList(selectedGraduateScript.id);
+    const direction = directions.find(
+      (d) => d.id === selectedGraduateScript.directionId
+    );
+    const filename = `Оценочный лист ${direction.shortName}.docx`;
+    saveAs(res.data, filename);
+  }, [selectedGraduateScript, directions]);
+
+  const onGenerateStudentListing = React.useCallback(async () => {
+    const direction = directions.find(
+      (d) => d.id === selectedGraduateScript.directionId
+    );
+    const res = await generateStudentListing(currentYear, direction.id);
+    const filename = `Список студентов ${currentYear} ${direction.shortName}.docx`;
+    saveAs(res.data, filename);
+  }, []);
 
   return (
     <Box sx={React.useMemo(() => ({ width: '100%', textAlign: 'left' }), [])}>
@@ -207,6 +235,18 @@ export const GraduateScriptEditor = ({ disabled }) => {
         >
           Протокол
         </CommonButton>
+        {selectedGraduateScript.complete ? (
+          <>
+            <CommonButton onClick={onGenerateMarksShortList}>
+              Оценочный лист
+            </CommonButton>
+            <CommonButton onClick={onGenerateStudentListing}>
+              Список студентов
+            </CommonButton>
+          </>
+        ) : (
+          ''
+        )}
       </Box>
       <EditorInputBlock>
         <Box>

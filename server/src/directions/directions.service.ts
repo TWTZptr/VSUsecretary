@@ -4,6 +4,7 @@ import { Direction } from './directions.model';
 import { CreateDirectionDto } from './dto/create-direction.dto';
 import { UpdateDirectionDto } from './dto/update-direction.dto';
 import { DIRECTION_DOES_NOT_EXIST_MSG } from './constants';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class DirectionsService {
@@ -27,8 +28,8 @@ export class DirectionsService {
     return this.getDirectionById(id);
   }
 
-  getDirectionById(id: number, attributes = null) {
-    return this.directionRepository.findByPk(id, { attributes });
+  getDirectionById(id: number, options: FindOptions<Direction> = {}) {
+    return this.directionRepository.findByPk(id, options);
   }
 
   async getDirectionByFilter(filter, attributes = null) {
@@ -57,9 +58,8 @@ export class DirectionsService {
   }
 
   async getAllDirections() {
-    const directions = await this.directionRepository.findAll({
+    return this.directionRepository.findAll({
       order: ['full_name'],
     });
-    return directions;
   }
 }

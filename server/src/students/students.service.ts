@@ -69,6 +69,10 @@ export class StudentsService {
     return this.studentRepository.findAll(options);
   }
 
+  async getStudentsByOptions(options: FindOptions<Student>) {
+    return this.studentRepository.findAll(options);
+  }
+
   getAllStudentsWithNoGraduateScript(year?: number) {
     const options: FindOptions<Student> = {
       order: ['index'],
@@ -80,5 +84,12 @@ export class StudentsService {
     };
 
     return this.studentRepository.findAll(options);
+  }
+
+  getStudentsByGraduateScriptId(graduateScriptId: number) {
+    return this.studentRepository.findAll({
+      where: { graduateScriptId },
+      include: 'degreeWork',
+    });
   }
 }

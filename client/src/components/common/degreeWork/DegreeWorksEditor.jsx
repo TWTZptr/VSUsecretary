@@ -196,6 +196,7 @@ export const DegreeWorksEditor = React.memo(
                 checked={localDegreeWork.implementation}
                 onChange={handleImplementationChange}
                 inputProps={implementationSx}
+                disabled={disabled}
               />
             }
             label="Внедрение"

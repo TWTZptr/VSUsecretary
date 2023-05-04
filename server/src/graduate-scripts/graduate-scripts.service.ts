@@ -13,9 +13,8 @@ import { EmployeesService } from '../employees/employees.service';
 import { UNEXIST_EMPLOYEE_ID_MSG } from '../employees/constants';
 import { EMPLOYEE_ROLES } from '../employees-graduate-scripts/enums';
 import { SetGraduateScriptCommissionMemberDto } from './dto/set-graduatescript-commission-member.dto';
-import { Op } from 'sequelize';
+import { FindOptions, Op } from 'sequelize';
 import { SetEmployeeExtraInfoDto } from './dto/set-employee-extra-info.dto';
-import { EmployeeGraduateScript } from '../employees-graduate-scripts/employees-graduate-scripts.model';
 
 @Injectable()
 export class GraduateScriptsService {
@@ -270,5 +269,9 @@ export class GraduateScriptsService {
     });
 
     return graduateScriptsPrev.length + 1;
+  }
+
+  getGraduateScriptsByOptions(options: FindOptions<GraduateScript>) {
+    return this.graduateScriptRepository.findAll(options);
   }
 }

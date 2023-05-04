@@ -14,13 +14,10 @@ import {
 import { formatDate, formatMark, formatPerson } from './formatters';
 
 export const generateMarksListShort = ({
-  takeDay,
-  graduations,
+  graduateScript,
   chairman,
   secretary,
   direction,
-  group,
-  degreeWorks,
   students,
 }) => {
   let number = 0;
@@ -94,7 +91,7 @@ export const generateMarksListShort = ({
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `${direction.code} ${direction.fullName} (${group.educationLevel})`,
+                text: `${direction.code} ${direction.fullName} (${direction.educationLevel.name})`,
                 underline: { type: UnderlineType.SINGLE },
               }),
             ],
@@ -190,10 +187,6 @@ export const generateMarksListShort = ({
                 ],
               }),
               ...students.map((student) => {
-                const degreeWork = degreeWorks.find(
-                  (degreeWork) => degreeWork.studentId === student.id,
-                );
-                const graduationInfo = graduations.get(degreeWork.id);
                 number++;
 
                 return new TableRow({
@@ -240,7 +233,9 @@ export const generateMarksListShort = ({
                           style: 'TableText',
                           children: [
                             new TextRun(
-                              `${formatMark(degreeWork.supervisorMark)}`,
+                              `${formatMark(
+                                student.degreeWork.supervisorMark,
+                              )}`,
                             ),
                           ],
                         }),
@@ -256,7 +251,7 @@ export const generateMarksListShort = ({
                           style: 'TableText',
                           children: [
                             new TextRun(
-                              `${formatMark(degreeWork.reviewerMark)}`,
+                              `${formatMark(student.degreeWork.reviewerMark)}`,
                             ),
                           ],
                         }),
@@ -271,7 +266,9 @@ export const generateMarksListShort = ({
                         new Paragraph({
                           style: 'TableText',
                           children: [
-                            new TextRun(`${formatMark(graduationInfo.mark)}`),
+                            new TextRun(
+                              `${formatMark(student.degreeWork.mark)}`,
+                            ),
                           ],
                         }),
                       ],
@@ -293,7 +290,7 @@ export const generateMarksListShort = ({
                 text: formatPerson(chairman),
               }),
               new TextRun({
-                text: `       ${formatDate(takeDay.date)}`,
+                text: `       ${formatDate(graduateScript.date)}`,
               }),
             ],
           }),
@@ -319,7 +316,7 @@ export const generateMarksListShort = ({
                 text: formatPerson(secretary),
               }),
               new TextRun({
-                text: `       ${formatDate(takeDay.date)}`,
+                text: `       ${formatDate(graduateScript.date)}`,
               }),
             ],
           }),
@@ -338,5 +335,5 @@ export const generateMarksListShort = ({
     ],
   });
 
-  return Packer.toBlob(doc);
+  return Packer.toBuffer(doc);
 };

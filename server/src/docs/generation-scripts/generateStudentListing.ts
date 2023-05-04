@@ -1,25 +1,20 @@
 import {
-  Packer,
-  Paragraph,
-  TextRun,
-  Document,
-  PageOrientation,
-  Table,
-  TableRow,
-  TableCell,
-  WidthType,
   AlignmentType,
+  Document,
   HeightRule,
+  Packer,
+  PageOrientation,
+  Paragraph,
+  Table,
+  TableCell,
+  TableRow,
+  TextRun,
   VerticalAlign,
+  WidthType,
 } from 'docx';
-import { formatMark, formatPerson } from './formatters';
+import { formatMark } from './formatters';
 
-export const generateStudentListing = ({
-  students,
-  degreeWorks,
-  direction,
-  group,
-}) => {
+export const generateStudentListing = ({ students, direction }) => {
   const doc = new Document({
     styles: {
       paragraphStyles: [
@@ -67,7 +62,7 @@ export const generateStudentListing = ({
             style: 'Header',
             children: [
               new TextRun({
-                text: `${direction.code} ${direction.fullName} (${group.educationLevel})`,
+                text: `${direction.code} ${direction.fullName} (${direction.educationLevel.name})`,
               }),
             ],
           }),
@@ -127,14 +122,6 @@ export const generateStudentListing = ({
                 ],
               }),
               ...students.map((student, index) => {
-                const degreeWork = degreeWorks.find(
-                  (degreeWork) => degreeWork.studentId === student.id,
-                );
-
-                if (!degreeWork) {
-                  throw new Error(`${formatPerson(student)} не имеет ВКР!`);
-                }
-
                 return new TableRow({
                   height: {
                     value: 500,
@@ -180,7 +167,7 @@ export const generateStudentListing = ({
                       children: [
                         new Paragraph({
                           style: 'DefaultText',
-                          children: [new TextRun(degreeWork.theme)],
+                          children: [new TextRun(student.degreeWork.theme)],
                         }),
                       ],
                     }),
@@ -193,7 +180,9 @@ export const generateStudentListing = ({
                       children: [
                         new Paragraph({
                           style: 'DefaultText',
-                          children: [new TextRun(formatMark(degreeWork.mark))],
+                          children: [
+                            new TextRun(formatMark(student.degreeWork.mark)),
+                          ],
                         }),
                       ],
                     }),
@@ -207,5 +196,5 @@ export const generateStudentListing = ({
     ],
   });
 
-  return Packer.toBlob(doc);
+  return Packer.toBuffer(doc);
 };

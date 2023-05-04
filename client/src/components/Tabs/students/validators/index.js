@@ -29,9 +29,6 @@ const schema = Joi.object({
     'number.min': 'Количество публикаций не могут быть отрицательным',
   }),
   year: Joi.number().optional(),
-  directionId: Joi.number().optional().messages({
-    'number.empty': 'Направление не указано',
-  }),
   order: Joi.optional(),
   degreeWorkId: Joi.optional(),
   graduateScriptId: Joi.optional(),

@@ -8,6 +8,9 @@ import { EmployeesGraduateScriptsService } from '../employees-graduate-scripts/e
 import { generateProtocol } from './generation-scripts/generateProtocol';
 import { Employee } from '../employees/employees.model';
 import { generateAppendixToTheProtocol } from './generation-scripts/generateAppendixToTheProtocol';
+import { generateMarksListShort } from './generation-scripts/generateMarksListShort';
+import { Op } from 'sequelize';
+import { generateStudentListing } from './generation-scripts/generateStudentListing';
 
 @Injectable()
 export class DocsService {
@@ -107,5 +110,62 @@ export class DocsService {
       number,
       supervisor,
     });
+  }
+
+  async generateMarksListShort(graduateScriptId) {
+    const graduateScript =
+      await this.graduateScriptsService.findGraduateScriptById(
+        graduateScriptId,
+      );
+
+    const direction = await graduateScript.$get('direction', {
+      include: ['educationLevel'],
+    });
+    const { chairman, secretary } =
+      await this.graduateScriptsService.getAllEmployeesByGraduateScript(
+        graduateScript.id,
+      );
+
+    const students = await this.studentsService.getStudentsByGraduateScriptId(
+      graduateScriptId,
+    );
+
+    return generateMarksListShort({
+      graduateScript,
+      chairman,
+      secretary,
+      direction,
+      students,
+    });
+  }
+
+  async generateStudentListing(year: number, directionId: number) {
+    const direction = await this.directionsService.getDirectionById(
+      directionId,
+      { include: ['educationLevel'] },
+    );
+
+    const graduateScripts =
+      await this.graduateScriptsService.getGraduateScriptsByOptions({
+        where: {
+          directionId,
+          date: {
+            [Op.gte]: `${year}-01-01`,
+            [Op.lte]: `${year}-12-31`,
+          },
+        },
+      });
+
+    const students = await this.studentsService.getStudentsByOptions({
+      where: {
+        graduateScriptId: {
+          [Op.in]: graduateScripts.map((gs) => gs.id),
+        },
+      },
+      order: ['lastname', 'name', 'patronymic'],
+      include: ['degreeWork'],
+    });
+
+    return generateStudentListing({ students, direction });
   }
 }

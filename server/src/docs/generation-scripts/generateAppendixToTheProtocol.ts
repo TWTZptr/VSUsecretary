@@ -33,7 +33,7 @@ export const generateAppendixToTheProtocol = ({
       patronymic,
     };
 
-    reviewerInfo = formatPerson(reviewer)
+    reviewerInfo = formatPerson(reviewer);
   }
 
   const doc = new Document({

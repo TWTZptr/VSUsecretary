@@ -37,6 +37,7 @@ export const GraduateProcess = React.memo(() => {
   const onStudentSelect = React.useCallback(
     (student) => {
       if (selectedDegreeWork.id) {
+        console.log(selectedDegreeWork);
         updateDegreeWork(selectedDegreeWork, startedGraduateScript.id);
       }
 

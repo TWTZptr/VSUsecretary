@@ -15,3 +15,19 @@ export const generateProtocolAppendixDoc = (studentId) =>
     {},
     { params: { studentId }, responseType: 'blob' }
   );
+
+export const generateMarksShortList = (graduateScriptId) =>
+  sendRequest(
+    'get',
+    `/api/docs/marks-list-short`,
+    {},
+    { params: { graduateScriptId }, responseType: 'blob' }
+  );
+
+export const generateStudentListing = (year, directionId) =>
+  sendRequest(
+    'get',
+    'api/docs/student-listing',
+    {},
+    { params: { year, directionId }, responseType: 'blob' }
+  );
