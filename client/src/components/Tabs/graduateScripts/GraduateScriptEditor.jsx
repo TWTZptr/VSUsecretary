@@ -46,6 +46,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
     chairman,
     secretary,
     students,
+    resetSelectedGraduateScript
   } = useGraduateScriptsStore((state) => state);
   const { startGraduateScript, currentYear } = useCommonStore((state) => state);
   const [currentTab, setCurrentTab] = React.useState(1);
@@ -144,7 +145,8 @@ export const GraduateScriptEditor = ({ disabled }) => {
 
   const onDeleteGraduateScript = React.useCallback(() => {
     removeGraduateScript(selectedGraduateScript.id);
-  }, [removeGraduateScript, selectedGraduateScript.id]);
+    resetSelectedGraduateScript();
+  }, [removeGraduateScript, selectedGraduateScript.id, resetSelectedGraduateScript]);
 
   const onGenerateMarksShortList = React.useCallback(async () => {
     const res = await generateMarksShortList(selectedGraduateScript.id);

@@ -16,6 +16,10 @@ export const formatMark = (mark) => {
 };
 
 export const formatPerson = (person, declension = '') => {
+  if (!person.id) {
+    return ''
+  }
+
   if (declension) {
     return `${inclineLastname(person.lastname, declension)} ${
       person.name.toUpperCase()[0]

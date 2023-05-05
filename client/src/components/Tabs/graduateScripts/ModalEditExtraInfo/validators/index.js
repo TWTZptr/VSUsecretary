@@ -31,7 +31,7 @@ const schema = Joi.object({
   }),
   role: Joi.string(),
   index: Joi.number(),
-});
+}).unknown(true);
 
 export const validateExtraInfo = (extraInfo) => {
   const validationResult = schema.validate(extraInfo);

@@ -32,7 +32,7 @@ export const ExtraInfoEditor = React.memo(({ handlers, localExtraInfo }) => {
           value={localExtraInfo.position}
         />
         <CommonTextField
-          label="Второе место работы"
+          label="Место работы"
           id="anotherJob"
           sx={fullWidthSx}
           onChange={onAnotherJobChange}

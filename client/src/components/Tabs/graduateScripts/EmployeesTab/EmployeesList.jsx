@@ -1,15 +1,15 @@
-import { Box } from '@mui/system';
+import {Box} from '@mui/system';
 import React from 'react';
 import {
-  removeEmployeeGraduateScript,
-  setGraduateScriptChairman,
-  setGraduateScriptCommissionMember,
-  setGraduateScriptSecretary,
+    removeEmployeeGraduateScript,
+    setGraduateScriptChairman,
+    setGraduateScriptCommissionMember,
+    setGraduateScriptSecretary,
 } from '../../../../services/graduateScriptsService';
-import { useGraduateScriptsStore } from '../../../../hooks/zustand/useGraduateScriptsStore';
-import { EmployeesSearchDropdown } from '../../../common/EmployeesSearchDropdown/EmployeesSearchDropdown';
-import { CommissionMember } from './CommissionMember';
-import { INITIAL_EMPLOYEE_STATE } from '../../../../constants';
+import {useGraduateScriptsStore} from '../../../../hooks/zustand/useGraduateScriptsStore';
+import {EmployeesSearchDropdown} from '../../../common/EmployeesSearchDropdown/EmployeesSearchDropdown';
+import {CommissionMember} from './CommissionMember';
+import {INITIAL_EMPLOYEE_STATE} from '../../../../constants';
 
 export const EmployeesList = React.memo(({ disabled }) => {
   const {
@@ -19,7 +19,6 @@ export const EmployeesList = React.memo(({ disabled }) => {
     commission,
     setSecretary,
     setChairman,
-    setCommission,
     removeCommissionMember,
     addCommissionMember,
   } = useGraduateScriptsStore((state) => state);

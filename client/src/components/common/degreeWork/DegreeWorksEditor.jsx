@@ -166,7 +166,7 @@ export const DegreeWorksEditor = React.memo(
             onChange={handleReviewerChange}
             value={localDegreeWork.reviewer}
             disabled={disabled}
-            sx={React.useMemo(() => ({ flexGrow: 1, minWidth: '500px' }), [])}
+            sx={React.useMemo(() => ({ flexGrow: 1 }), [])}
           />
           <MarkSelector
             label="Оценка"

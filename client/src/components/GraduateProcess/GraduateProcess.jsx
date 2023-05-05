@@ -26,6 +26,10 @@ const buttonSx = {
   margin: '15px',
 };
 
+const wrapperBoxSx = {
+  width: '35%'
+}
+
 export const GraduateProcess = React.memo(() => {
   const [selectedDegreeWork, degreeWorkHandlers] = useDegreeWork();
   const { students, setSelectedStudent, selectedStudent, updateDegreeWork } =
@@ -79,11 +83,13 @@ export const GraduateProcess = React.memo(() => {
   return (
     <Box sx={outerSx}>
       <Box sx={flexSx}>
-        <DegreeWorksEditor
-          localDegreeWork={selectedDegreeWork}
-          handlers={degreeWorkHandlers}
-          disabled
-        />
+        <Box sx={wrapperBoxSx}>
+          <DegreeWorksEditor
+              localDegreeWork={selectedDegreeWork}
+              handlers={degreeWorkHandlers}
+              disabled
+          />
+        </Box>
         <GraduateProcessDegreeWorkInfo
           localDegreeWork={selectedDegreeWork}
           handlers={degreeWorkHandlers}

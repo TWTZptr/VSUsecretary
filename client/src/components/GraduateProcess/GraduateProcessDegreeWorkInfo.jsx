@@ -87,7 +87,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
     console.log(commissionEmployees);
 
     return (
-      <Box sx={React.useMemo(() => ({ flexGrow: '1' }), [])}>
+      <Box sx={React.useMemo(() => ({ flexGrow: '1', width: '50%' }), [])}>
         <EditorInputBlock>
           <CommonTextField
             label="Первый вопрос"
