@@ -4,9 +4,15 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DownloadIcon from '@mui/icons-material/Download';
-import { downloadFile } from '../../../services/filesService';
-import { toastError } from '../../../utils/toastSender';
+import {
+  downloadFile,
+  parseStudentsFromFile,
+} from '../../../services/filesService';
+import { toastError, toastSuccessful } from '../../../utils/toastSender';
 import { saveAs } from 'file-saver';
+import CommentIcon from '@mui/icons-material/Comment';
+import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
+import { useCommonStore } from '../../../hooks/zustand/useCommonStore';
 
 const iconsSx = {
   marginLeft: '8px',
@@ -16,10 +22,9 @@ const iconsSx = {
   },
 };
 
-export const FilesListItem = React.memo(({ file, onClick, onDelete }) => {
-  const onSelfClick = React.useCallback(() => {
-    onClick(file);
-  }, [onClick, file]);
+export const FilesListItem = React.memo(({ file, onDelete }) => {
+  const { addStudents } = useStudentsStore((state) => state);
+  const { currentYear } = useCommonStore((state) => state);
 
   const onSelfDelete = React.useCallback(
     (e) => {
@@ -43,9 +48,19 @@ export const FilesListItem = React.memo(({ file, onClick, onDelete }) => {
     [file.id, file.name]
   );
 
+  const onParse = React.useCallback(async () => {
+    const res = await parseStudentsFromFile(file.id, currentYear);
+    if (!res.ok) {
+      toastError(res.msg);
+      return;
+    }
+
+    addStudents(res.data);
+    toastSuccessful('Файл успешно распознан, студенты загружены');
+  }, [file.id, currentYear, addStudents]);
+
   return (
     <Box
-      onClick={onSelfClick}
       sx={React.useMemo(
         () => ({
           display: 'flex',
@@ -76,6 +91,7 @@ export const FilesListItem = React.memo(({ file, onClick, onDelete }) => {
           []
         )}
       >
+        <CommentIcon sx={iconsSx} onClick={onParse} />
         <DownloadIcon sx={iconsSx} onClick={onDownload} />
         <CloseIcon
           sx={React.useMemo(

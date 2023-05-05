@@ -25,8 +25,12 @@ export const EmployeeViewer = () => {
     employeeHandlers.setEmployee(selectedEmployee);
   }, [selectedEmployee, employeeHandlers]);
 
-  const onDelete = React.useCallback(() => {
-    removeEmployeeById(selectedEmployee.id);
+  const onDelete = React.useCallback(async () => {
+    const res = await removeEmployeeById(selectedEmployee.id);
+    if (!res.ok) {
+      toastError(res.msg);
+      return;
+    }
     resetSelectedEmployee();
   }, [selectedEmployee, removeEmployeeById, resetSelectedEmployee]);
 

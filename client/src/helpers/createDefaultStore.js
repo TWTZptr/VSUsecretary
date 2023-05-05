@@ -1,15 +1,6 @@
 import { create as createStore } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-// directions
-// createDirection
-// removeDirectionById
-// updateDirection
-// getAllDirections
-// getDirectionById
-// selectedDirection
-// selectDirection
-// resetSelectedDirection
 export const createDefaultStore = (
   name,
   { create, update, remove, getAll },
@@ -32,9 +23,10 @@ export const createDefaultStore = (
         },
         ['remove' + cap + 'ById']: async (id) => {
           const res = await remove(id);
-          if (res) {
+          if (res.ok) {
             set({ [plural]: get()[plural].filter((val) => val.id !== id) });
           }
+          return res;
         },
         ['update' + cap]: async (item) => {
           const res = await update(item);

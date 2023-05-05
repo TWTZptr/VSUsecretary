@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { EmployeeGraduateScript } from './employees-graduate-scripts.model';
 import { EMPLOYEE_ROLES } from './enums';
 import { SetEmployeeExtraInfoDto } from '../graduate-scripts/dto/set-employee-extra-info.dto';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class EmployeesGraduateScriptsService {
@@ -100,5 +101,11 @@ export class EmployeesGraduateScriptsService {
         where: { employeeId, graduateScriptId },
       },
     );
+  }
+
+  getEmployeeGraduateScriptByOptions(
+    options: FindOptions<EmployeeGraduateScript>,
+  ) {
+    return this.employeeGraduateScriptRepository.findOne(options);
   }
 }

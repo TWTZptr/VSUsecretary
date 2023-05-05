@@ -15,8 +15,8 @@ import { StudentsModule } from '../students/students.module';
     SequelizeModule.forFeature([GraduateScript]),
     forwardRef(() => AuthModule),
     forwardRef(() => EmployeesModule),
-    EmployeesGraduateScriptsModule,
-    StudentsModule,
+    forwardRef(() => EmployeesGraduateScriptsModule),
+    forwardRef(() => StudentsModule),
   ],
   exports: [GraduateScriptsService],
 })

@@ -44,7 +44,7 @@ export class StudentsController {
 
   @Delete(':id')
   deleteStudentById(@Param('id', ParseIntPipe) id: number) {
-    return this.studentsService.deleteStudentById(id);
+    return this.studentsService.tryDeleteStudent(id);
   }
 
   @Get()

@@ -162,7 +162,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
     const res = await generateStudentListing(currentYear, direction.id);
     const filename = `Список студентов ${currentYear} ${direction.shortName}.docx`;
     saveAs(res.data, filename);
-  }, []);
+  }, [directions, currentYear, selectedGraduateScript.directionId]);
 
   return (
     <Box sx={React.useMemo(() => ({ width: '100%', textAlign: 'left' }), [])}>

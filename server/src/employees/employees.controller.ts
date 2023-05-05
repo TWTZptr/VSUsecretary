@@ -43,7 +43,7 @@ export class EmployeesController {
 
   @Delete(':id')
   deleteEmployeeById(@Param('id', ParseIntPipe) id: number) {
-    return this.employeesService.deleteEmployeeById(id);
+    return this.employeesService.tryToDeleteEmployeeById(id);
   }
 
   @Post('graduateScripts')

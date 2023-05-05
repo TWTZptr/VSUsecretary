@@ -3,7 +3,7 @@ import { ParsedGraduateScript } from '../types/parsed-students.type';
 export const parseGraduateScripts = (
   studentsFileText: string,
 ): ParsedGraduateScript[] => {
-  const graduateScripts = studentsFileText.trim().split('\n\n');
+  const graduateScripts = studentsFileText.trim().split('\r\n\r\n');
 
   const result = [];
 

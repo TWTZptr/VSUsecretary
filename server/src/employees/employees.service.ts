@@ -1,17 +1,26 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { Employee } from './employees.model';
-import { UNEXIST_EMPLOYEE_ID_MSG } from './constants';
+import {
+  EMPLOYEE_USED_IN_GRADUATE_SCRIPT_MSG,
+  UNEXIST_EMPLOYEE_ID_MSG,
+} from './constants';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { GraduateScript } from '../graduate-scripts/graduate-scripts.model';
 import { FindOptions } from 'sequelize';
 import { EmployeeGraduateScript } from '../employees-graduate-scripts/employees-graduate-scripts.model';
+import { EmployeesGraduateScriptsService } from '../employees-graduate-scripts/employees-graduate-scripts.service';
 
 @Injectable()
 export class EmployeesService {
   constructor(
     @InjectModel(Employee) private employeeRepository: typeof Employee,
+    private readonly employeeGraduateScriptService: EmployeesGraduateScriptsService,
   ) {}
 
   createEmployee(dto: CreateEmployeeDto) {
@@ -40,6 +49,19 @@ export class EmployeesService {
       throw new NotFoundException(UNEXIST_EMPLOYEE_ID_MSG);
     }
     return this.getEmployeeById(dto.id);
+  }
+
+  async tryToDeleteEmployeeById(id: number) {
+    const employeesGraduateScripts =
+      await this.employeeGraduateScriptService.getEmployeeGraduateScriptByOptions(
+        { where: { employeeId: id } },
+      );
+
+    if (employeesGraduateScripts) {
+      throw new BadRequestException(EMPLOYEE_USED_IN_GRADUATE_SCRIPT_MSG);
+    }
+
+    await this.deleteEmployeeById(id);
   }
 
   async deleteEmployeeById(id: number) {

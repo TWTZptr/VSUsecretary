@@ -1,10 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateStudentDto } from './dto/create-student.dto';
-import { UNEXIST_STUDENT_ID_MSG } from './constants';
+import { UNEXIST_STUDENT_ID_MSG, USED_STUDENT_MSG } from './constants';
 import { Student } from './students.model';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { DirectionsService } from '../directions/directions.service';
 import { FindOptions } from 'sequelize';
 
 @Injectable()
@@ -91,5 +94,19 @@ export class StudentsService {
       where: { graduateScriptId },
       include: 'degreeWork',
     });
+  }
+
+  async tryDeleteStudent(studentId: number) {
+    const student = await this.studentRepository.findByPk(studentId);
+    if (student.graduateScriptId) {
+      throw new BadRequestException(USED_STUDENT_MSG);
+    }
+
+    const degreeWork = await student.$get('degreeWork');
+    if (degreeWork) {
+      await degreeWork.destroy();
+    }
+
+    return student.destroy();
   }
 }

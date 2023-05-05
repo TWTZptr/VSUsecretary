@@ -14,16 +14,25 @@ import { useStudentsStore } from '../../../hooks/zustand/useStudentsStore';
 export const StudentViewer = () => {
   const [modalActive, activateModal, inactivateModal] = useModal();
   const [student, studentHandlers] = useStudent();
-  const { selectedStudent, removeStudentById, updateStudent } =
-    useStudentsStore((state) => state);
+  const {
+    selectedStudent,
+    removeStudentById,
+    updateStudent,
+    resetSelectedStudent,
+  } = useStudentsStore((state) => state);
 
   React.useEffect(() => {
     studentHandlers.setStudent(selectedStudent);
   }, [selectedStudent, studentHandlers]);
 
-  const onDelete = React.useCallback(() => {
-    removeStudentById(selectedStudent.id);
-  }, [removeStudentById, selectedStudent.id]);
+  const onDelete = React.useCallback(async () => {
+    const res = await removeStudentById(selectedStudent.id);
+    if (!res.ok) {
+      toastError(res.msg);
+      return;
+    }
+    resetSelectedStudent();
+  }, [removeStudentById, selectedStudent.id, resetSelectedStudent]);
 
   const onSave = React.useCallback(() => {
     try {
