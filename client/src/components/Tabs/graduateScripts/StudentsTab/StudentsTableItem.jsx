@@ -27,7 +27,7 @@ export const StudentsTableItem = React.memo(
   ({ student, onDelete, disabled, onDegreeWorkEdit }) => {
     const studentName = student ? formatPerson(student) : <i>Не указан</i>;
     const { employees } = useEmployeesStore((state) => state);
-    const { upStudent, downStudent } = useGraduateScriptsStore(
+    const { upStudent, downStudent, students } = useGraduateScriptsStore(
       (state) => state
     );
 
@@ -37,13 +37,14 @@ export const StudentsTableItem = React.memo(
 
     const onAppendixGenerate = React.useCallback(async () => {
       const res = await generateProtocolAppendixDoc(student.id);
+      const studentIndex = students.findIndex(s => s.id === student.id)
       saveAs(
         res.data,
-        `${student.index + 1} ${
+        `${studentIndex + 1} ${
           student.lastname
         } приложение к протоколу заседания ГЭК по защите ВКР.docx`
       );
-    }, [student.id, student.index, student.lastname]);
+    }, [student.id, student.lastname, students]);
 
     const onSelfClick = React.useCallback(() => {
       onDelete(student);

@@ -44,9 +44,9 @@ export const StudentsTable = React.memo(({ disabled }) => {
     initialData: [],
   });
 
-  const popoverActivate = (event) => {
-    setAnchorEl(event.target);
-  };
+  const popoverActivate = React.useCallback((event) => {
+      setAnchorEl(event.target);
+  }, [setAnchorEl]);
 
   const anchorRef = React.useRef();
 
