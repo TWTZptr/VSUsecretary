@@ -18,6 +18,9 @@ import {
   formatPublicationsCount,
 } from './formatters';
 
+/**
+ * @deprecated
+ */
 export const generateMarksListFull = ({
   takeDay,
   direction,

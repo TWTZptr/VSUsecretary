@@ -21,6 +21,7 @@ export class SequelizeConfigService implements SequelizeOptionsFactory {
       port: +this.configService.get('DB.PORT'),
       autoLoadModels: true,
       synchronize: true,
+      logging: false,
       define: {
         timestamps: false,
       },

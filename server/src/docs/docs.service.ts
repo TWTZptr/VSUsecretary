@@ -11,6 +11,9 @@ import { generateAppendixToTheProtocol } from './generation-scripts/generateAppe
 import { generateMarksListShort } from './generation-scripts/generateMarksListShort';
 import { Op } from 'sequelize';
 import { generateStudentListing } from './generation-scripts/generateStudentListing';
+import { Student } from '../students/students.model';
+import { DegreeWork } from '../degree-works/degree-work.model';
+import { generateStudentPassports } from './generation-scripts/generateStudentPassports';
 
 @Injectable()
 export class DocsService {
@@ -167,5 +170,27 @@ export class DocsService {
     });
 
     return generateStudentListing({ students, direction });
+  }
+
+  async getStudentsPassports(graduateScriptId: number) {
+    const graduateScript =
+      await this.graduateScriptsService.getGraduateScriptById(
+        graduateScriptId,
+        {
+          include: [
+            {
+              model: Student,
+              include: [
+                {
+                  model: DegreeWork,
+                  include: ['supervisor'],
+                },
+              ],
+            },
+          ],
+        },
+      );
+
+    return generateStudentPassports(graduateScript.students);
   }
 }

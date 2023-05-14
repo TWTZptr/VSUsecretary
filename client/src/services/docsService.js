@@ -31,3 +31,11 @@ export const generateStudentListing = (year, directionId) =>
     {},
     { params: { year, directionId }, responseType: 'blob' }
   );
+
+export const generateStudentsPassports = (graduateScriptId) =>
+  sendRequest(
+    'get',
+    `api/docs/students-passports`,
+    {},
+    { params: { graduateScriptId }, responseType: 'blob' }
+  );

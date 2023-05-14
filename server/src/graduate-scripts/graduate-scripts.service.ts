@@ -42,8 +42,11 @@ export class GraduateScriptsService {
     return this.getGraduateScriptById(dto.id);
   }
 
-  async getGraduateScriptById(id: number, attributes = null) {
-    return this.graduateScriptRepository.findByPk(id, { attributes });
+  async getGraduateScriptById(
+    id: number,
+    options: FindOptions<GraduateScript> = {},
+  ) {
+    return this.graduateScriptRepository.findByPk(id, options);
   }
 
   async findGraduateScriptById(id: number) {
@@ -72,12 +75,12 @@ export class GraduateScriptsService {
   getAllGraduateScripts(year?: number) {
     if (!year) {
       return this.graduateScriptRepository.findAll({
-        order: ['id'],
+        order: ['date'],
       });
     }
 
     return this.graduateScriptRepository.findAll({
-      order: ['id'],
+      order: ['date'],
       where: {
         date: {
           [Op.gte]: `${year}-01-01`,

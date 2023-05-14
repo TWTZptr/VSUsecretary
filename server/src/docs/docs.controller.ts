@@ -64,4 +64,16 @@ export class DocsController {
 
     return new StreamableFile(buffer);
   }
+  @UseGuards(RoleGuard)
+  @RequireRoles(SECRETARY, ADMIN)
+  @Get('students-passports')
+  async generateStudentPassport(
+    @Query('graduateScriptId', ParseIntPipe) graduateScriptId: number,
+  ) {
+    const buffer = await this.docsService.getStudentsPassports(
+      graduateScriptId,
+    );
+
+    return new StreamableFile(buffer);
+  }
 }

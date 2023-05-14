@@ -24,6 +24,7 @@ import {
   generateMarksShortList,
   generateProtocolDoc,
   generateStudentListing,
+  generateStudentsPassports,
 } from '../../../services/docsService';
 import { saveAs } from 'file-saver';
 import { useDirectionsStore } from '../../../hooks/zustand/useDirectionsStore';
@@ -76,7 +77,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
   const { setCurrentYear } = useCommonStore((state) => state);
 
   const onGenerateProtocol = React.useCallback(async () => {
-    if (!chairman.id || !secretary.id || commission.length < 3) {
+    if (!chairman.id || !secretary.id || commission.length < 5) {
       toastError('Не полностью указан состав коммиссии');
       return;
     }
@@ -117,8 +118,8 @@ export const GraduateScriptEditor = ({ disabled }) => {
       0
     );
 
-    if (!chairman.id || !secretary.id || commissionLength < 3) {
-      toastError('Не указан(ы) председатель/секретарь/член комиссии');
+    if (!chairman.id || !secretary.id || commissionLength < 5) {
+      toastError('Не указан(ы) председатель/секретарь/член(ы) комиссии');
       return;
     }
 
@@ -195,6 +196,35 @@ export const GraduateScriptEditor = ({ disabled }) => {
     const filename = `Список студентов ${currentYear} ${direction.shortName}.docx`;
     saveAs(res.data, filename);
   }, [directions, currentYear, selectedGraduateScript.directionId]);
+
+  const onStudentsPassportsGenerate = React.useCallback(async () => {
+    if (!students.length) {
+      toastError('Не добавлено ни одного студента!');
+      return;
+    }
+    console.log(students);
+
+    if (
+      students.some(
+        (student) =>
+          !student.degreeWork?.theme ||
+          !student.degreeWork?.pagesNumber ||
+          !student.degreeWork?.originality ||
+          !student.degreeWork?.supervisorId ||
+          !student.degreeWork?.supervisorMark ||
+          !student.publications
+      )
+    ) {
+      toastError(
+        'У одного или нескольких студентов не полностью указаны данные о ВКР'
+      );
+      return;
+    }
+
+    const res = await generateStudentsPassports(selectedGraduateScript.id);
+    const filename = `Паспорта студентов ${selectedGraduateScript.date}.docx`;
+    saveAs(res.data, filename);
+  }, [selectedGraduateScript.date, selectedGraduateScript.id, students]);
 
   return (
     <Box sx={React.useMemo(() => ({ width: '100%', textAlign: 'left' }), [])}>
@@ -284,6 +314,12 @@ export const GraduateScriptEditor = ({ disabled }) => {
           onClick={onGenerateProtocol}
         >
           Протокол
+        </CommonButton>
+        <CommonButton
+          disabled={!selectedGraduateScript.id}
+          onClick={onStudentsPassportsGenerate}
+        >
+          Карточки студентов
         </CommonButton>
         {selectedGraduateScript.complete ? (
           <>
