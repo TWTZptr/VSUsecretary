@@ -90,6 +90,10 @@ export const CustomSearchDropdown = React.memo(
     );
 
     const onCopyMessageText = React.useCallback(async () => {
+      if (!selectedItem.id) {
+        return;
+      }
+
       try {
         validateEmailMessageData({ time, audience });
       } catch (err) {
