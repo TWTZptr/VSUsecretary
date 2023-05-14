@@ -68,7 +68,13 @@ export const useGraduateScriptsStore = createStore(
       },
       selectedGraduateScript: INITIAL_GRADUATE_SCRIPT_STATE,
       resetSelectedGraduateScript: () =>
-        set({ selectedGraduateScript: INITIAL_GRADUATE_SCRIPT_STATE }),
+        set({
+          selectedGraduateScript: INITIAL_GRADUATE_SCRIPT_STATE,
+          students: [],
+          commission: [],
+          chairman: INITIAL_EMPLOYEE_STATE,
+          secretary: INITIAL_EMPLOYEE_STATE,
+        }),
       selectGraduateScript: (graduateScript) => {
         set({ selectedGraduateScript: graduateScript });
         get().getAllEmployees();

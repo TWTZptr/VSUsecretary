@@ -60,6 +60,7 @@ export class DirectionsService {
   async getAllDirections() {
     return this.directionRepository.findAll({
       order: ['full_name'],
+      include: ['educationLevel'],
     });
   }
 }

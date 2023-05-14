@@ -6,6 +6,10 @@ import { useModal } from '../../../hooks/useModal';
 import { TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
+import EmailIcon from '@mui/icons-material/Email';
+import { toastSuccessful } from '../../../utils/toastSender';
+import { getMailMessageText } from '../../../utils/getMailMessageText';
+import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
 
 export const CustomSearchDropdown = React.memo(
   ({
@@ -26,6 +30,8 @@ export const CustomSearchDropdown = React.memo(
       useModal();
     const [editModalActive, activateEditModal, inactivateEditModal] =
       useModal();
+    const { graduateScripts, selectedGraduateScript, secretary } =
+      useGraduateScriptsStore((state) => state);
 
     const items = React.useMemo(
       () => itemsCallback(text),
@@ -60,17 +66,57 @@ export const CustomSearchDropdown = React.memo(
       }
     }, [dropdownHidden, closeDropdownOnClickOutside]);
 
+    const buttonsDisabled = !selectedItem.id;
+
     const onOpenModal = React.useCallback(
-      () => selectedItem.id && activateEditModal(),
-      [selectedItem.id, activateEditModal]
+      () =>
+        selectedItem.id && !disabled && !buttonsDisabled && activateEditModal(),
+      [selectedItem.id, activateEditModal, disabled, buttonsDisabled]
     );
 
     const onDeleteItem = React.useCallback(
-      () => selectedItem.id && onDelete(selectedItem),
-      [onDelete, selectedItem]
+      () =>
+        selectedItem.id &&
+        !disabled &&
+        !buttonsDisabled &&
+        onDelete(selectedItem),
+      [onDelete, selectedItem, disabled, buttonsDisabled]
     );
 
-    const buttonsDisabled = !selectedItem.id;
+    const onCopyMessageText = React.useCallback(async () => {
+      const dates = graduateScripts.map((gs) => new Date(Date.parse(gs.date)));
+      await navigator.clipboard.writeText(
+        getMailMessageText(
+          selectedItem,
+          dates,
+          selectedGraduateScript.direction,
+          secretary
+        )
+      );
+      toastSuccessful('Текст скопирован в буффер обмена');
+    }, [
+      selectedItem,
+      graduateScripts,
+      selectedGraduateScript.direction,
+      secretary,
+    ]);
+
+    const itemsSx = React.useMemo(
+      () => ({
+        marginTop: '20px',
+        backgroundColor: 'white',
+        zIndex: '1',
+        opacity: disabled || buttonsDisabled ? '0.2' : '',
+        ':hover':
+          disabled || buttonsDisabled
+            ? ''
+            : {
+                cursor: 'pointer',
+                backgroundColor: '#f5f5f5',
+              },
+      }),
+      [disabled, buttonsDisabled]
+    );
 
     return (
       <Box sx={React.useMemo(() => ({ width: 'auto' }), [])}>
@@ -96,44 +142,9 @@ export const CustomSearchDropdown = React.memo(
             )}
             variant="standard"
           />
-          <FormatAlignJustifyIcon
-            sx={React.useMemo(
-              () => ({
-                marginTop: '20px',
-                backgroundColor: 'white',
-                zIndex: '1',
-                opacity: disabled || buttonsDisabled ? '0.2' : '',
-                ':hover':
-                  disabled || buttonsDisabled
-                    ? ''
-                    : {
-                        cursor: 'pointer',
-                        backgroundColor: '#f5f5f5',
-                      },
-              }),
-              [disabled, buttonsDisabled]
-            )}
-            onClick={onOpenModal}
-          />
-          <CloseIcon
-            sx={React.useMemo(
-              () => ({
-                marginTop: '20px',
-                backgroundColor: 'white',
-                zIndex: '1',
-                opacity: disabled || buttonsDisabled ? '0.2' : '',
-                ':hover':
-                  disabled || buttonsDisabled
-                    ? ''
-                    : {
-                        cursor: 'pointer',
-                        backgroundColor: '#f5f5f5',
-                      },
-              }),
-              [disabled, buttonsDisabled]
-            )}
-            onClick={onDeleteItem}
-          />
+          <EmailIcon sx={itemsSx} onClick={onCopyMessageText} />
+          <FormatAlignJustifyIcon sx={itemsSx} onClick={onOpenModal} />
+          <CloseIcon sx={itemsSx} onClick={onDeleteItem} />
         </Box>
         <Box
           sx={React.useMemo(

@@ -15,6 +15,8 @@ import { EMPLOYEE_ROLES } from '../employees-graduate-scripts/enums';
 import { SetGraduateScriptCommissionMemberDto } from './dto/set-graduatescript-commission-member.dto';
 import { FindOptions, Op } from 'sequelize';
 import { SetEmployeeExtraInfoDto } from './dto/set-employee-extra-info.dto';
+import { Direction } from '../directions/directions.model';
+import { EducationLevel } from '../education-levels/education-levels.model';
 
 @Injectable()
 export class GraduateScriptsService {
@@ -82,6 +84,7 @@ export class GraduateScriptsService {
           [Op.lte]: `${year}-12-31`,
         },
       },
+      include: { model: Direction, include: [EducationLevel] },
     });
   }
 

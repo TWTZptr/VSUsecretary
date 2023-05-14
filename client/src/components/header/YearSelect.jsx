@@ -1,6 +1,9 @@
 import React from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useCommonStore } from '../../hooks/zustand/useCommonStore';
+import { useGraduateScriptsStore } from '../../hooks/zustand/useGraduateScriptsStore';
+import { useStudentsStore } from '../../hooks/zustand/useStudentsStore';
+import { useDegreeWorksStore } from '../../hooks/zustand/useDegreeWorksStore';
 
 const from = new Date().getFullYear() - 10;
 const years = Array.from({ length: 20 }, (_, index) => index + from).reverse();
@@ -9,12 +12,25 @@ export const YearSelect = React.memo(() => {
   const { currentYear, setCurrentYear, startedGraduateScript } = useCommonStore(
     (state) => state
   );
+  const { resetSelectedGraduateScript } = useGraduateScriptsStore(
+    (state) => state
+  );
+  const { resetSelectedStudent } = useStudentsStore((state) => state);
+  const { resetSelectedDegreeWork } = useDegreeWorksStore((state) => state);
 
   const onYearChange = React.useCallback(
     (event) => {
+      resetSelectedGraduateScript();
+      resetSelectedStudent();
+      resetSelectedDegreeWork();
       setCurrentYear(event.target.value);
     },
-    [setCurrentYear]
+    [
+      setCurrentYear,
+      resetSelectedGraduateScript,
+      resetSelectedDegreeWork,
+      resetSelectedStudent,
+    ]
   );
 
   return (
