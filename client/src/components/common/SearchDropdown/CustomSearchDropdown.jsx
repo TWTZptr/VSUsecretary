@@ -7,9 +7,10 @@ import { TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import EmailIcon from '@mui/icons-material/Email';
-import { toastSuccessful } from '../../../utils/toastSender';
+import { toastError, toastSuccessful } from '../../../utils/toastSender';
 import { getMailMessageText } from '../../../utils/getMailMessageText';
 import { useGraduateScriptsStore } from '../../../hooks/zustand/useGraduateScriptsStore';
+import { validateEmailMessageData } from '../../Tabs/graduateScripts/EmployeesTab/validators';
 
 export const CustomSearchDropdown = React.memo(
   ({
@@ -30,8 +31,13 @@ export const CustomSearchDropdown = React.memo(
       useModal();
     const [editModalActive, activateEditModal, inactivateEditModal] =
       useModal();
-    const { graduateScripts, selectedGraduateScript, secretary } =
-      useGraduateScriptsStore((state) => state);
+    const {
+      graduateScripts,
+      selectedGraduateScript,
+      secretary,
+      time,
+      audience,
+    } = useGraduateScriptsStore((state) => state);
 
     const items = React.useMemo(
       () => itemsCallback(text),
@@ -84,13 +90,22 @@ export const CustomSearchDropdown = React.memo(
     );
 
     const onCopyMessageText = React.useCallback(async () => {
+      try {
+        validateEmailMessageData({ time, audience });
+      } catch (err) {
+        toastError(err.message);
+        return;
+      }
+
       const dates = graduateScripts.map((gs) => new Date(Date.parse(gs.date)));
       await navigator.clipboard.writeText(
         getMailMessageText(
           selectedItem,
           dates,
           selectedGraduateScript.direction,
-          secretary
+          secretary,
+          time,
+          audience
         )
       );
       toastSuccessful('Текст скопирован в буффер обмена');
@@ -99,6 +114,8 @@ export const CustomSearchDropdown = React.memo(
       graduateScripts,
       selectedGraduateScript.direction,
       secretary,
+      audience,
+      time,
     ]);
 
     const itemsSx = React.useMemo(

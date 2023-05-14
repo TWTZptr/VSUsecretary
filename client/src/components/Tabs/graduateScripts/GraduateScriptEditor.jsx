@@ -46,11 +46,15 @@ export const GraduateScriptEditor = ({ disabled }) => {
     chairman,
     secretary,
     students,
-    resetSelectedGraduateScript
+    resetSelectedGraduateScript,
+    setAudience,
+    setTime,
   } = useGraduateScriptsStore((state) => state);
   const { startGraduateScript, currentYear } = useCommonStore((state) => state);
   const [currentTab, setCurrentTab] = React.useState(1);
   const { directions } = useDirectionsStore((state) => state);
+  const [localTime, setLocalTime] = React.useState('');
+  const [localAudience, setLocalAudience] = React.useState('');
 
   const onDirectionIdChange = React.useCallback(
     (event) => {
@@ -146,7 +150,33 @@ export const GraduateScriptEditor = ({ disabled }) => {
   const onDeleteGraduateScript = React.useCallback(() => {
     removeGraduateScript(selectedGraduateScript.id);
     resetSelectedGraduateScript();
-  }, [removeGraduateScript, selectedGraduateScript.id, resetSelectedGraduateScript]);
+  }, [
+    removeGraduateScript,
+    selectedGraduateScript.id,
+    resetSelectedGraduateScript,
+  ]);
+
+  const onTimeChange = React.useCallback(
+    (e) => {
+      setLocalTime(e.target.value);
+    },
+    [setLocalTime]
+  );
+
+  const onAudienceChange = React.useCallback(
+    (e) => {
+      setLocalAudience(e.target.value);
+    },
+    [setLocalAudience]
+  );
+
+  const onTimeSet = React.useCallback(() => {
+    setTime(localTime);
+  }, [localTime, setTime]);
+
+  const onAudienceSet = React.useCallback(() => {
+    setAudience(localAudience);
+  }, [localAudience, setAudience]);
 
   const onGenerateMarksShortList = React.useCallback(async () => {
     const res = await generateMarksShortList(selectedGraduateScript.id);
@@ -204,6 +234,24 @@ export const GraduateScriptEditor = ({ disabled }) => {
             ))}
           </Select>
         </FormControl>
+        <TextField
+          sx={React.useMemo(() => ({ marginLeft: '20px' }), [])}
+          label="Время"
+          id="time"
+          onChange={onTimeChange}
+          value={localTime}
+          disabled={disabled}
+          onBlur={onTimeSet}
+        />
+        <TextField
+          sx={React.useMemo(() => ({ marginLeft: '20px' }), [])}
+          label="Аудитория"
+          id="audience"
+          onChange={onAudienceChange}
+          value={localAudience}
+          disabled={disabled}
+          onBlur={onAudienceSet}
+        />
       </Box>
       <Box sx={flexCenterSx}>
         <Tabs value={currentTab} onChange={onTabChange}>

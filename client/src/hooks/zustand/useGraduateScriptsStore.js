@@ -139,6 +139,14 @@ export const useGraduateScriptsStore = createStore(
         );
       },
       students: [],
+      time: '',
+      audience: '',
+      setTime: (time) => {
+        set({ time });
+      },
+      setAudience: (audience) => {
+        set({ audience });
+      },
     }),
     {
       name: 'GraduateScripts',

@@ -1,7 +1,14 @@
 import { getGender } from 'lvovich';
 import { formatPerson } from '../helpers/formatters';
 
-export const getMailMessageText = (person, dates, direction, secretary) => {
+export const getMailMessageText = (
+  person,
+  dates,
+  direction,
+  secretary,
+  time,
+  audience
+) => {
   const gender = getGender({
     last: person.lastname,
     middle: person.patronymic,
@@ -26,7 +33,7 @@ ${dates
   )
   .join('\n')}
 
-Начало в 09.00. Аудитория 10 (цокольный этаж)
+Начало в ${time}. Аудитория ${audience}
 
 Подтвердите, пожалуйста, получение данного сообщения.
 
