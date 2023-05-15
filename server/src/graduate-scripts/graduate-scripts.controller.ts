@@ -126,4 +126,13 @@ export class GraduateScriptsController {
       graduateScriptId,
     );
   }
+
+  @Post(':graduateScriptId/employees/last-used-info')
+  useLastUsedEmployeesInfo(
+    @Param('graduateScriptId', ParseIntPipe) graduateScriptId: number,
+  ) {
+    return this.graduateScriptsService.useLastUsedEmployeesInfo(
+      graduateScriptId,
+    );
+  }
 }

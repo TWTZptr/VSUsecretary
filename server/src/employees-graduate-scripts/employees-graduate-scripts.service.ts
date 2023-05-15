@@ -108,4 +108,30 @@ export class EmployeesGraduateScriptsService {
   ) {
     return this.employeeGraduateScriptRepository.findOne(options);
   }
+
+  async setEmployeesLastInfo(
+    currentGsId: number,
+    prevGraduateScriptId: number,
+  ) {
+    const prevEgs = await this.employeeGraduateScriptRepository.findAll({
+      where: { graduateScriptId: prevGraduateScriptId },
+      attributes: {
+        exclude: ['id'],
+      },
+      raw: true,
+    });
+
+    const promises = prevEgs.map((egs) =>
+      this.employeeGraduateScriptRepository.upsert({
+        ...egs,
+        graduateScriptId: currentGsId,
+      }),
+    );
+
+    await Promise.all(promises);
+
+    return this.employeeGraduateScriptRepository.findAll({
+      where: { graduateScriptId: currentGsId },
+    });
+  }
 }

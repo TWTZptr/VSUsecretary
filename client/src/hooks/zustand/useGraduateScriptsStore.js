@@ -38,6 +38,9 @@ export const useGraduateScriptsStore = createStore(
           set({
             graduateScripts: [...get().graduateScripts, res],
             selectedGraduateScript: res,
+            secretary: INITIAL_EMPLOYEE_STATE,
+            chairman: INITIAL_EMPLOYEE_STATE,
+            commission: INITIAL_COMMISSION_STATE,
           });
         }
       },

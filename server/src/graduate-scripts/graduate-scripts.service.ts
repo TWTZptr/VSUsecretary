@@ -39,7 +39,7 @@ export class GraduateScriptsService {
     if (!affectedCount) {
       throw new NotFoundException(UNEXIST_GRADUATE_SCRIPT_ID_MSG);
     }
-    return this.getGraduateScriptById(dto.id);
+    return this.getGraduateScriptById(dto.id, { include: ['degreeWork'] });
   }
 
   async getGraduateScriptById(
@@ -279,5 +279,31 @@ export class GraduateScriptsService {
 
   getGraduateScriptsByOptions(options: FindOptions<GraduateScript>) {
     return this.graduateScriptRepository.findAll(options);
+  }
+
+  async useLastUsedEmployeesInfo(graduateScriptId: number) {
+    const gs = await this.findGraduateScriptById(graduateScriptId);
+
+    if (!gs) {
+      throw new BadRequestException(UNEXIST_GRADUATE_SCRIPT_ID_MSG);
+    }
+
+    const prevGs = await this.graduateScriptRepository.findOne({
+      order: [['date', 'DESC']],
+      where: {
+        date: {
+          [Op.lt]: gs.date,
+        },
+      },
+    });
+
+    if (!prevGs) {
+      return;
+    }
+
+    return this.employeesGraduateScriptsService.setEmployeesLastInfo(
+      gs.id,
+      prevGs.id,
+    );
   }
 }
