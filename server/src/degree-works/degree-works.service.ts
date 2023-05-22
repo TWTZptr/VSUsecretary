@@ -7,10 +7,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { EmployeesService } from 'src/employees/employees.service';
 import { UNEXIST_STUDENT_ID_MSG } from 'src/students/constants';
 import { StudentsService } from 'src/students/students.service';
-import { GraduateScriptsService } from 'src/graduate-scripts/graduate-scripts.service';
 import {
   UNEXIST_DEGREE_WORK_ID_MSG,
-  UNEXIST_REWIEVER_ID_MSG,
   UNEXIST_SUPERVISOR_ID_MSG,
 } from './constants';
 import { DegreeWork } from './degree-work.model';

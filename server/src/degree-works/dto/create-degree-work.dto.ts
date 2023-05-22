@@ -1,11 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsInt,
-  Min,
-  Max,
-} from 'class-validator';
+import { IsInt, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { ToBoolean } from 'src/decorators/to-boolean';
 import { ToOptionalInt } from 'src/decorators/to-not-blank-int';
 import { INVALID_IMPLEMENTATION_BOOLEAN_VALUE_MSG } from '../constants';
@@ -23,27 +16,21 @@ export class CreateDegreeWorkDto {
   readonly originality: number;
 
   @IsInt()
-  @Min(0)
-  @Max(5)
   @IsNotEmpty()
-  readonly supervisorMark: number;
+  readonly supervisorMarkId: number;
 
   @IsOptional()
   readonly reviewer?: string;
 
   @IsInt()
-  @Min(0)
-  @Max(5)
   @IsNotEmpty()
   @IsOptional()
-  readonly reviewerMark?: number;
+  readonly reviewerMarkId?: number;
 
   @IsInt()
-  @Min(0)
-  @Max(5)
   @IsNotEmpty()
   @IsOptional()
-  readonly mark?: number;
+  readonly markId?: number;
 
   @ToBoolean()
   @IsNotEmpty({ message: INVALID_IMPLEMENTATION_BOOLEAN_VALUE_MSG })

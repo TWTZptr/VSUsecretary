@@ -17,6 +17,7 @@ import { PasswordModule } from './password/password.module';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
 import { DocsModule } from './docs/docs.module';
+import { MarksModule } from './marks/marks.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { DocsModule } from './docs/docs.module';
     AuthModule,
     FilesModule,
     DocsModule,
+    MarksModule,
   ],
   controllers: [],
   providers: [],

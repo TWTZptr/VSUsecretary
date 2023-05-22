@@ -1,5 +1,4 @@
 import { incline, inclineLastname } from 'lvovich';
-import plural from 'plural-ru';
 import { AlignmentType, Packer, Paragraph, TextRun, Document } from 'docx';
 import { formatMark, formatDate, formatPerson } from './formatters';
 

@@ -29,20 +29,23 @@ export class UpdateDegreeWorkDto {
   readonly originality?: number;
 
   @IsInt()
-  @Min(0)
-  @Max(5)
   @IsNotEmpty()
   @IsOptional()
-  readonly supervisorMark?: number;
+  readonly supervisorMarkId?: number;
 
   @IsInt()
-  @Min(0)
-  @Max(5)
   @IsOptional()
-  readonly reviewerMark?: number;
+  @IsNotEmpty()
+  readonly reviewerMarkId?: number;
+
+  @IsInt()
+  @IsOptional()
+  @IsNotEmpty()
+  readonly markId?: number;
 
   @ToBoolean()
   @IsOptional()
+  @IsNotEmpty()
   readonly implementation?: boolean;
 
   @IsInt()

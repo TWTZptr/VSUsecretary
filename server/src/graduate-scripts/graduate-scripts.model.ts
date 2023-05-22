@@ -1,6 +1,5 @@
 import {
   BelongsTo,
-  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
@@ -9,7 +8,6 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { EmployeeGraduateScript } from 'src/employees-graduate-scripts/employees-graduate-scripts.model';
-import { Employee } from 'src/employees/employees.model';
 import { Student } from '../students/students.model';
 import { Direction } from '../directions/directions.model';
 

@@ -8,12 +8,13 @@ import {
 } from 'sequelize-typescript';
 import { Employee } from 'src/employees/employees.model';
 import { Student } from 'src/students/students.model';
+import { Mark } from '../marks/marks.model';
 
 interface DegreeWorkCreationAttributes {
   theme: string;
   pagesNumber: number;
   originality: number;
-  supervisorMark: number;
+  supervisorMarkId: number;
   implementation: boolean;
   studentId: number;
 }
@@ -40,19 +41,25 @@ export class DegreeWork extends Model<
   @Column({ type: DataType.FLOAT, allowNull: false })
   originality: number;
 
+  @ForeignKey(() => Mark)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    field: 'supervisor_mark',
+    field: 'supervisor_mark_id',
   })
-  supervisorMark: number;
+  supervisorMarkId: number;
 
   @ForeignKey(() => Student)
   @Column({ type: DataType.INTEGER, allowNull: false, field: 'student_id' })
   studentId: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: true, field: 'reviewer_mark' })
-  reviewerMark: number;
+  @ForeignKey(() => Mark)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+    field: 'reviewer_mark_id',
+  })
+  reviewerMarkId: number;
 
   @Column({ type: DataType.BOOLEAN, allowNull: false })
   implementation: boolean;
@@ -117,15 +124,26 @@ export class DegreeWork extends Model<
   })
   secondQuestionAuthorId: number;
 
+  @ForeignKey(() => Mark)
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
+    field: 'mark_id',
   })
-  mark: number;
+  markId: number;
 
   @BelongsTo(() => Employee, 'firstQuestionAuthorId')
   firstQuestionAuthor: Employee;
 
   @BelongsTo(() => Employee, 'secondQuestionAuthorId')
   secondQuestionAuthor: Employee;
+
+  @BelongsTo(() => Mark, 'markId')
+  mark: Mark;
+
+  @BelongsTo(() => Mark, 'supervisorMarkId')
+  supervisorMark: Mark;
+
+  @BelongsTo(() => Mark, 'reviewerMarkId')
+  reviewerMark: Mark;
 }
