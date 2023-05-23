@@ -9,6 +9,7 @@ import { UNEXIST_STUDENT_ID_MSG, USED_STUDENT_MSG } from './constants';
 import { Student } from './students.model';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { FindOptions } from 'sequelize';
+import { DegreeWork } from '../degree-works/degree-work.model';
 
 @Injectable()
 export class StudentsService {
@@ -34,7 +35,7 @@ export class StudentsService {
     }
 
     return this.studentRepository.findByPk(dto.id, {
-      include: ['degreeWork'],
+      include: { model: DegreeWork, include: ['mark'] },
     });
   }
 
@@ -92,7 +93,7 @@ export class StudentsService {
   getStudentsByGraduateScriptId(graduateScriptId: number) {
     return this.studentRepository.findAll({
       where: { graduateScriptId },
-      include: 'degreeWork',
+      include: { model: DegreeWork, include: ['mark'] },
     });
   }
 

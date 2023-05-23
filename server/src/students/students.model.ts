@@ -45,6 +45,9 @@ export class Student extends Model<Student, StudentCreationAttributes> {
   @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
   index: number;
 
+  @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
+  honor: boolean;
+
   @ForeignKey(() => GraduateScript)
   @Column({
     type: DataType.INTEGER,

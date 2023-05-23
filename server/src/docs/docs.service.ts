@@ -166,10 +166,13 @@ export class DocsService {
         },
       },
       order: ['lastname', 'name', 'patronymic'],
-      include: ['degreeWork'],
+      include: [{ model: DegreeWork, include: ['mark'] }],
     });
 
-    return generateStudentListing({ students, direction });
+    return generateStudentListing({
+      students: students.filter((student) => student.degreeWork),
+      direction,
+    });
   }
 
   async getStudentsPassports(graduateScriptId: number) {

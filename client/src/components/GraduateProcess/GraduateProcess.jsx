@@ -27,8 +27,8 @@ const buttonSx = {
 };
 
 const wrapperBoxSx = {
-  width: '35%'
-}
+  width: '35%',
+};
 
 export const GraduateProcess = React.memo(() => {
   const [selectedDegreeWork, degreeWorkHandlers] = useDegreeWork();
@@ -41,7 +41,6 @@ export const GraduateProcess = React.memo(() => {
   const onStudentSelect = React.useCallback(
     (student) => {
       if (selectedDegreeWork.id) {
-        console.log(selectedDegreeWork);
         updateDegreeWork(selectedDegreeWork, startedGraduateScript.id);
       }
 
@@ -85,9 +84,9 @@ export const GraduateProcess = React.memo(() => {
       <Box sx={flexSx}>
         <Box sx={wrapperBoxSx}>
           <DegreeWorksEditor
-              localDegreeWork={selectedDegreeWork}
-              handlers={degreeWorkHandlers}
-              disabled
+            localDegreeWork={selectedDegreeWork}
+            handlers={degreeWorkHandlers}
+            disabled
           />
         </Box>
         <GraduateProcessDegreeWorkInfo

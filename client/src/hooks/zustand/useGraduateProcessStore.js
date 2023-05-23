@@ -9,6 +9,7 @@ import {
   getStudentsByGraduateScriptId,
 } from '../../services/graduateScriptsService';
 import { updateDegreeWork } from '../../services/degreeWorksService';
+import { updateStudent } from '../../services/studentsService';
 
 export const useGraduateProcessStore = create(
   devtools((set, get) => ({
@@ -36,6 +37,21 @@ export const useGraduateProcessStore = create(
       const res = await updateDegreeWork(degreeWork);
       if (res) {
         get().getAllStudents(graduateScriptId);
+      }
+    },
+    updateSelectedStudent: async (student) => {
+      const res = await updateStudent({
+        id: get().selectedStudent.id,
+        ...student,
+      });
+
+      if (res) {
+        set({
+          selectedStudent: res,
+          students: get().students.map((student) =>
+            student.id === res.id ? res : student
+          ),
+        });
       }
     },
   }))

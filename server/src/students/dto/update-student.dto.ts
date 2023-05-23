@@ -1,5 +1,6 @@
 import { Length, IsOptional, IsNotEmpty, IsInt } from 'class-validator';
 import { ToOptionalInt } from 'src/decorators/to-not-blank-int';
+import { ToBoolean } from '../../decorators/to-boolean';
 
 export class UpdateStudentDto {
   @IsNotEmpty()
@@ -40,4 +41,9 @@ export class UpdateStudentDto {
   @ToOptionalInt()
   @IsOptional()
   readonly index?: number;
+
+  @ToBoolean()
+  @IsOptional()
+  @IsNotEmpty()
+  readonly honor: boolean;
 }

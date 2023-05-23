@@ -1,6 +1,6 @@
 import { incline, inclineLastname } from 'lvovich';
-import { AlignmentType, Packer, Paragraph, TextRun, Document } from 'docx';
-import { formatMark, formatDate, formatPerson } from './formatters';
+import { AlignmentType, Document, Packer, Paragraph, TextRun } from 'docx';
+import { formatDate, formatPerson } from './formatters';
 
 export const generateAppendixToTheProtocol = ({
   degreeWork,
@@ -204,9 +204,7 @@ export const generateAppendixToTheProtocol = ({
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `\t\tОтзыв руководителя ВКР ${formatMark(
-                  degreeWork.supervisorMark,
-                )}`,
+                text: `\t\tОтзыв руководителя ВКР ${degreeWork.supervisorMark.name}`,
               }),
             ],
           }),
@@ -214,9 +212,7 @@ export const generateAppendixToTheProtocol = ({
             style: 'DefaultText',
             children: [
               new TextRun({
-                text: `\t\tРецензия на ВКР: ${formatMark(
-                  degreeWork.reviewerMark,
-                )}`,
+                text: `\t\tРецензия на ВКР: ${degreeWork.reviewerMark.name}`,
               }),
             ],
           }),
@@ -327,7 +323,7 @@ export const generateAppendixToTheProtocol = ({
                 text: `выполнил и защитил ВКР с оценкой `,
               }),
               new TextRun({
-                text: `${formatMark(degreeWork.mark)}`,
+                text: `${degreeWork.mark.name}`,
                 italics: true,
               }),
             ],

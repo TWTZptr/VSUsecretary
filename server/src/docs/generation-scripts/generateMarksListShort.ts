@@ -11,7 +11,7 @@ import {
   UnderlineType,
   WidthType,
 } from 'docx';
-import { formatDate, formatMark, formatPerson } from './formatters';
+import { formatDate, formatPerson } from './formatters';
 
 export const generateMarksListShort = ({
   graduateScript,
@@ -233,9 +233,9 @@ export const generateMarksListShort = ({
                           style: 'TableText',
                           children: [
                             new TextRun(
-                              `${formatMark(
-                                student.degreeWork.supervisorMark,
-                              )}`,
+                              `${
+                                student.degreeWork.supervisorMark?.name || '-'
+                              }`,
                             ),
                           ],
                         }),
@@ -251,7 +251,7 @@ export const generateMarksListShort = ({
                           style: 'TableText',
                           children: [
                             new TextRun(
-                              `${formatMark(student.degreeWork.reviewerMark)}`,
+                              `${student.degreeWork.reviewerMark?.name || '-'}`,
                             ),
                           ],
                         }),
@@ -267,7 +267,7 @@ export const generateMarksListShort = ({
                           style: 'TableText',
                           children: [
                             new TextRun(
-                              `${formatMark(student.degreeWork.mark)}`,
+                              `${student.degreeWork.mark?.name || '-'}`,
                             ),
                           ],
                         }),

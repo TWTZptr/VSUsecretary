@@ -12,7 +12,6 @@ import {
   VerticalAlign,
   WidthType,
 } from 'docx';
-import { formatMark } from './formatters';
 
 export const generateStudentListing = ({ students, direction }) => {
   const doc = new Document({
@@ -180,9 +179,7 @@ export const generateStudentListing = ({ students, direction }) => {
                       children: [
                         new Paragraph({
                           style: 'DefaultText',
-                          children: [
-                            new TextRun(formatMark(student.degreeWork.mark)),
-                          ],
+                          children: [new TextRun(student.degreeWork.mark.name)],
                         }),
                       ],
                     }),

@@ -9,6 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { Student } from '../students/students.model';
 import { EducationLevel } from '../education-levels/education-levels.model';
+import { GraduateScript } from '../graduate-scripts/graduate-scripts.model';
 
 interface DirectionCreationAttributes {
   code: string;
@@ -47,6 +48,6 @@ export class Direction extends Model<Direction, DirectionCreationAttributes> {
   @BelongsTo(() => EducationLevel, 'educationLevelId')
   educationLevel: EducationLevel;
 
-  @HasMany(() => Student, 'directionId')
-  students: Student[];
+  @HasMany(() => GraduateScript, 'directionId')
+  graduateScripts: GraduateScript[];
 }
