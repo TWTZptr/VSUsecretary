@@ -45,6 +45,7 @@ export const DegreeWorkViewer = React.memo(() => {
           handlers={degreeWorkHandlers}
           localDegreeWork={degreeWork}
           disabled={disabled}
+          editStudent
         />
         <Box sx={React.useMemo(() => ({ margin: '10px' }), [])}>
           <Typography sx={React.useMemo(() => ({ textAlign: 'left' }), [])}>

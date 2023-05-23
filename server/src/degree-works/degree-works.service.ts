@@ -92,6 +92,7 @@ export class DegreeWorksService {
           model: Student,
           as: 'student',
         },
+        'mark',
       ],
     });
   }

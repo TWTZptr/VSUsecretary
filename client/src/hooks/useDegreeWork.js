@@ -29,11 +29,11 @@ export const useDegreeWork = (initialState = INITIAL_DEGREE_WORK_STATE) => {
       setOriginality: (originality) => {
         setDegreeWork((prevState) => ({ ...prevState, originality }));
       },
-      setSupervisorMark: (supervisorMark) => {
-        setDegreeWork((prevState) => ({ ...prevState, supervisorMark }));
+      setSupervisorMarkId: (supervisorMarkId) => {
+        setDegreeWork((prevState) => ({ ...prevState, supervisorMarkId }));
       },
-      setReviewerMark: (reviewerMark) => {
-        setDegreeWork((prevState) => ({ ...prevState, reviewerMark }));
+      setReviewerMarkId: (reviewerMarkId) => {
+        setDegreeWork((prevState) => ({ ...prevState, reviewerMarkId }));
       },
       setImplementation: (implementation) => {
         setDegreeWork((prevState) => ({ ...prevState, implementation }));
@@ -59,8 +59,8 @@ export const useDegreeWork = (initialState = INITIAL_DEGREE_WORK_STATE) => {
           secondQuestionAuthorId,
         }));
       },
-      setMark: (mark) => {
-        setDegreeWork((prevState) => ({ ...prevState, mark }));
+      setMarkId: (markId) => {
+        setDegreeWork((prevState) => ({ ...prevState, markId }));
       },
     };
   }, []);

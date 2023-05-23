@@ -16,7 +16,7 @@ export class Mark extends Model<Mark, MarkCreationAttributes> {
   })
   id: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: false, unique: true })
   mark: number;
 
   @Column({ type: DataType.STRING, allowNull: false })

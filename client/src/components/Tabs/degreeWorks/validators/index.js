@@ -18,17 +18,9 @@ const schema = Joi.object({
     'number.max': `Оригинальность должна быть не более 100`,
     'any.required': `Оригинальность не указана`,
   }),
-  supervisorMark: Joi.number().min(0).max(5).required().messages({
-    'number.base': `Неверная оценка научного руководителя`,
-    'number.min': `Оценка научного руководителя должна быть не менее 0`,
-    'number.max': `Оценка научного руководителя должна быть не более 5`,
-    'any.required': `Оценка научного руководителя не указана`,
-  }),
-  reviewerMark: Joi.number().allow('', null).min(0).max(5).messages({
-    'number.base': `Оценка рецензента должна быть числом`,
-    'number.min': `Оценка рецензента должна быть не менее 0`,
-    'number.max': `Оценка рецензента должна быть не более 5`,
-    'any.required': `Оценка рецензента не указана`,
+  supervisorMarkId: Joi.number().required().messages({
+    'number.base': 'Оценка научного руководителя не указана',
+    'number.required': `Оценка научного руководителя не указана`,
   }),
   implementation: Joi.bool().required().messages({
     'bool.base': `Внедрение должна быть bool`,

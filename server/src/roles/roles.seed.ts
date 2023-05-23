@@ -1,5 +1,4 @@
 import { OnSeederInit, Seeder } from 'nestjs-sequelize-seeder';
-import { Role } from './roles.model';
 
 @Seeder({
   model: 'Role',

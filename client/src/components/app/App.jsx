@@ -25,6 +25,7 @@ import { useDegreeWorksStore } from '../../hooks/zustand/useDegreeWorksStore';
 import { FilesPage } from '../../pages/FilesPage';
 import { GraduateProcessPage } from '../../pages/GraduateProcessPage';
 import { useAuthStore } from '../../hooks/zustand/useAuthStore';
+import { useMarksStore } from '../../hooks/zustand/useMarksStore';
 
 function App() {
   const { getAllEducationLevels } = useCommonStore((state) => state);
@@ -34,6 +35,7 @@ function App() {
   const { getAllStudents } = useStudentsStore((state) => state);
   const { currentYear } = useCommonStore((state) => state);
   const { getAllDegreeWorks } = useDegreeWorksStore((state) => state);
+  const { getAllMarks } = useMarksStore((state) => state);
   const { user } = useAuthStore((state) => state);
 
   React.useEffect(() => {
@@ -43,6 +45,7 @@ function App() {
     getAllGraduateScripts(currentYear);
     getAllStudents(currentYear);
     getAllDegreeWorks(currentYear);
+    getAllMarks();
   }, [
     getAllEducationLevels,
     getAllDirections,
@@ -51,6 +54,7 @@ function App() {
     getAllStudents,
     currentYear,
     getAllDegreeWorks,
+    getAllMarks,
   ]);
 
   return (

@@ -39,7 +39,7 @@ export class GraduateScriptsService {
     if (!affectedCount) {
       throw new NotFoundException(UNEXIST_GRADUATE_SCRIPT_ID_MSG);
     }
-    return this.getGraduateScriptById(dto.id, { include: ['degreeWork'] });
+    return this.getGraduateScriptById(dto.id);
   }
 
   async getGraduateScriptById(

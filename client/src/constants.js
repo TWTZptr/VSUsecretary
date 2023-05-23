@@ -35,17 +35,22 @@ export const INITIAL_DEGREE_WORK_STATE = {
   studentId: '',
   pagesNumber: '',
   originality: '',
-  supervisorMark: null,
+  supervisorId: null,
+  supervisorMarkId: null,
   implementation: false,
   reviewer: '',
-  reviewerMark: null,
+  reviewerMarkId: null,
   summary: '',
   notes: '',
   firstQuestion: '',
   secondQuestion: '',
   firstQuestionAuthorId: null,
   secondQuestionAuthorId: null,
-  mark: null,
+  markId: null,
+};
+export const INITIAL_MARK_STATE = {
+  mark: '',
+  name: '',
 };
 export const USER_ROLES = {
   ADMIN: 'Администратор',

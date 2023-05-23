@@ -147,8 +147,8 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
         <EditorInputBlock>
           <MarkSelector
             label="Оценка"
-            onChange={handlers.setMark}
-            value={localDegreeWork.mark || ''}
+            onChange={handlers.setMarkId}
+            value={localDegreeWork.markId || ''}
             disabled={disabled}
           />
         </EditorInputBlock>

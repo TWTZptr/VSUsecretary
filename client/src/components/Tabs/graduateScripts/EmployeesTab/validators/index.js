@@ -13,6 +13,10 @@ const schema = Joi.object({
     'string.min': 'Номер аудитории не должен быть пустым',
     'any.required': 'Номер аудитории должен быть не пустым',
   }),
+  directionId: Joi.number().required().messages({
+    'number.base': 'Направление должно быть указано',
+    'any.required': 'Направление должно быть указано',
+  }),
 });
 
 export const validateEmailMessageData = (msgData) => {

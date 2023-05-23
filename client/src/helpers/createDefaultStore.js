@@ -24,7 +24,10 @@ export const createDefaultStore = (
         ['remove' + cap + 'ById']: async (id) => {
           const res = await remove(id);
           if (res.ok) {
-            set({ [plural]: get()[plural].filter((val) => val.id !== id) });
+            set({
+              [plural]: get()[plural].filter((val) => val.id !== id),
+              ['selected' + cap]: initVal,
+            });
           }
           return res;
         },

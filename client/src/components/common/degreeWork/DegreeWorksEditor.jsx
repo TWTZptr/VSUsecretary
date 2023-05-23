@@ -30,6 +30,8 @@ const marginLeftSx = {
   marginLeft: '10px',
 };
 
+const centerSx = { alignItems: 'center' };
+
 export const DegreeWorksEditor = React.memo(
   ({
     localDegreeWork,
@@ -109,14 +111,13 @@ export const DegreeWorksEditor = React.memo(
             sx={React.useMemo(() => ({ flexGrow: 1, minWidth: '500px' }), [])}
           />
         </EditorInputBlock>
-        <EditorInputBlock sx={{ alignItems: 'center' }}>
+        <EditorInputBlock sx={centerSx}>
           {editStudent ? (
             <StudentSelector
               students={unusedStudents}
               student={student}
               disabled={disabled}
               onChange={handleStudentChange}
-              sx={sx40}
             />
           ) : (
             <CommonTextField
@@ -154,9 +155,9 @@ export const DegreeWorksEditor = React.memo(
           />
           <MarkSelector
             label="Оценка"
-            onChange={handlers.setSupervisorMark}
+            onChange={handlers.setSupervisorMarkId}
             disabled={disabled}
-            value={localDegreeWork.supervisorMark || ''}
+            value={localDegreeWork.supervisorMarkId || ''}
           />
         </EditorInputBlock>
         <EditorInputBlock>
@@ -170,9 +171,9 @@ export const DegreeWorksEditor = React.memo(
           />
           <MarkSelector
             label="Оценка"
-            onChange={handlers.setReviewerMark}
+            onChange={handlers.setReviewerMarkId}
             disabled={disabled}
-            value={localDegreeWork.reviewerMark || ''}
+            value={localDegreeWork.reviewerMarkId || ''}
           />
         </EditorInputBlock>
         {publicationsHandler ? (
