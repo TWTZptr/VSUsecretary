@@ -14,6 +14,7 @@ import { generateStudentListing } from './generation-scripts/generateStudentList
 import { Student } from '../students/students.model';
 import { DegreeWork } from '../degree-works/degree-work.model';
 import { generateStudentPassports } from './generation-scripts/generateStudentPassports';
+import { generateQualificationListing } from './generation-scripts/generateQualificationList';
 
 @Injectable()
 export class DocsService {
@@ -195,5 +196,48 @@ export class DocsService {
       );
 
     return generateStudentPassports(graduateScript.students);
+  }
+
+  async getQualificationListing(graduateScriptId: number) {
+    const graduateScript =
+      await this.graduateScriptsService.getGraduateScriptById(graduateScriptId);
+
+    const year = graduateScript.date.split('-')[0];
+
+    const graduateScripts =
+      await this.graduateScriptsService.getGraduateScriptsByOptions({
+        where: {
+          complete: true,
+          directionId: graduateScript.directionId,
+          date: {
+            [Op.gte]: `${year}-01-01`,
+            [Op.lte]: `${year}-12-31`,
+          },
+        },
+        order: [['date', 'DESC']],
+      });
+
+    const direction = await graduateScript.$get('direction', {
+      include: ['educationLevel'],
+    });
+    const students = [];
+
+    for (const gs of graduateScripts) {
+      students.push(...(await gs.$get('students')));
+    }
+
+    const { chairman, secretary } =
+      await this.graduateScriptsService.getAllEmployeesByGraduateScript(
+        graduateScriptId,
+      );
+
+    return generateQualificationListing({
+      date: graduateScripts[0].date,
+      direction,
+      students,
+      chairman,
+      secretary,
+      number: graduateScripts.length,
+    });
   }
 }

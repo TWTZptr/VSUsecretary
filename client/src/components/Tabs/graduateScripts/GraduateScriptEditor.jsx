@@ -23,6 +23,7 @@ import { CurrentGraduateScriptTab } from './CurrentGraduateScriptTab';
 import {
   generateMarksShortList,
   generateProtocolDoc,
+  generateQualificationList,
   generateStudentListing,
   generateStudentsPassports,
 } from '../../../services/docsService';
@@ -202,7 +203,6 @@ export const GraduateScriptEditor = ({ disabled }) => {
       toastError('Не добавлено ни одного студента!');
       return;
     }
-    console.log(students);
 
     if (
       students.some(
@@ -225,6 +225,12 @@ export const GraduateScriptEditor = ({ disabled }) => {
     const filename = `Паспорта студентов ${selectedGraduateScript.date}.docx`;
     saveAs(res.data, filename);
   }, [selectedGraduateScript.date, selectedGraduateScript.id, students]);
+
+  const onGenerateQualificationList = React.useCallback(async () => {
+    const res = await generateQualificationList(selectedGraduateScript.id);
+    const filename = `Приложение о квалификации ${selectedGraduateScript.date}.docx`;
+    saveAs(res.data, filename);
+  }, [selectedGraduateScript.date, selectedGraduateScript.id]);
 
   return (
     <Box sx={React.useMemo(() => ({ width: '100%', textAlign: 'left' }), [])}>
@@ -313,7 +319,7 @@ export const GraduateScriptEditor = ({ disabled }) => {
           disabled={!selectedGraduateScript.id}
           onClick={onGenerateProtocol}
         >
-          Протокол
+          Протокол заседания
         </CommonButton>
         <CommonButton
           disabled={!selectedGraduateScript.id}
@@ -328,6 +334,9 @@ export const GraduateScriptEditor = ({ disabled }) => {
             </CommonButton>
             <CommonButton onClick={onGenerateStudentListing}>
               Список студентов
+            </CommonButton>
+            <CommonButton onClick={onGenerateQualificationList}>
+              Приложение о квалификации
             </CommonButton>
           </>
         ) : (

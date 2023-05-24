@@ -76,4 +76,17 @@ export class DocsController {
 
     return new StreamableFile(buffer);
   }
+
+  @UseGuards(RoleGuard)
+  @RequireRoles(SECRETARY, ADMIN)
+  @Get('qualification-list')
+  async generateQualificationList(
+    @Query('graduateScriptId', ParseIntPipe) graduateScriptId: number,
+  ) {
+    const buffer = await this.docsService.getQualificationListing(
+      graduateScriptId,
+    );
+
+    return new StreamableFile(buffer);
+  }
 }

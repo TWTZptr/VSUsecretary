@@ -39,3 +39,11 @@ export const generateStudentsPassports = (graduateScriptId) =>
     {},
     { params: { graduateScriptId }, responseType: 'blob' }
   );
+
+export const generateQualificationList = (graduateScriptId) =>
+  sendRequest(
+    'get',
+    'api/docs/qualification-list',
+    {},
+    { params: { graduateScriptId }, responseType: 'blob' }
+  );
