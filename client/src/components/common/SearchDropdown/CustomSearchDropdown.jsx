@@ -95,7 +95,11 @@ export const CustomSearchDropdown = React.memo(
       }
 
       try {
-        validateEmailMessageData({ time, audience });
+        validateEmailMessageData({
+          time,
+          audience,
+          directionId: selectedGraduateScript.direction.id,
+        });
       } catch (err) {
         toastError(err.message);
         return;

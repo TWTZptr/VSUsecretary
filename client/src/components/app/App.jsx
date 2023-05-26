@@ -66,7 +66,7 @@ function App() {
             path="/"
             element={
               <RequireAuth>
-                {user.role.name === USER_ROLES.ADMIN ? (
+                {user?.role?.name === USER_ROLES.ADMIN ? (
                   <SecretaryTabs>
                     <UserMainPage />
                   </SecretaryTabs>
