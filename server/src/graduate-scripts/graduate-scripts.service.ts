@@ -17,6 +17,7 @@ import { FindOptions, Op } from 'sequelize';
 import { SetEmployeeExtraInfoDto } from './dto/set-employee-extra-info.dto';
 import { Direction } from '../directions/directions.model';
 import { EducationLevel } from '../education-levels/education-levels.model';
+import { DegreeWork } from '../degree-works/degree-work.model';
 
 @Injectable()
 export class GraduateScriptsService {
@@ -256,7 +257,12 @@ export class GraduateScriptsService {
     }
 
     return graduateScript.$get('students', {
-      include: ['degreeWork'],
+      include: [
+        {
+          model: DegreeWork,
+          include: ['mark', 'reviewerMark', 'supervisorMark'],
+        },
+      ],
       order: ['index', 'lastname'],
     });
   }

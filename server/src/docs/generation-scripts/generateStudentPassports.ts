@@ -1,11 +1,4 @@
-import {
-  AlignmentType,
-  Document,
-  Packer,
-  PageBreak,
-  Paragraph,
-  TextRun,
-} from 'docx';
+import { Document, Packer, PageBreak, Paragraph, TextRun } from 'docx';
 import { formatPerson } from './formatters';
 
 export const generateStudentPassports = (students) => {
@@ -46,7 +39,7 @@ export const generateStudentPassports = (students) => {
       style: 'DefaultText',
       children: [
         new TextRun(
-          `Оценка руководителя: ${student.degreeWork.supervisorMark}`,
+          `Оценка руководителя: ${student.degreeWork.supervisorMark.name}`,
         ),
       ],
     }),

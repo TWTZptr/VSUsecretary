@@ -187,7 +187,7 @@ export class DocsService {
               include: [
                 {
                   model: DegreeWork,
-                  include: ['supervisor'],
+                  include: ['supervisor', 'supervisorMark'],
                 },
               ],
             },
