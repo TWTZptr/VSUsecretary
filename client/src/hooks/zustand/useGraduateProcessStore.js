@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import {
   INITIAL_DEGREE_WORK_STATE,
   INITIAL_GRADUATE_SCRIPT_EMPLOYEES_STATE,
+  INITIAL_STUDENT_STATE,
 } from '../../constants';
 import {
   getEmployeesByGraduateScriptId,
@@ -13,7 +14,7 @@ import { updateStudent } from '../../services/studentsService';
 
 export const useGraduateProcessStore = create(
   devtools((set, get) => ({
-    selectedStudent: INITIAL_DEGREE_WORK_STATE,
+    selectedStudent: INITIAL_STUDENT_STATE,
     setSelectedStudent: (student) => set({ selectedStudent: student }),
     students: [],
     getAllStudents: async (graduateScriptId) => {

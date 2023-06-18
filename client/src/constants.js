@@ -17,6 +17,7 @@ export const INITIAL_STUDENT_STATE = {
   lastname: '',
   patronymic: '',
   publications: null,
+  honor: false,
 };
 export const INITIAL_EMPLOYEE_STATE = {
   name: '',
@@ -30,15 +31,21 @@ export const INITIAL_GRADUATE_SCRIPT_STATE = {
   complete: false,
   directionId: '',
 };
+export const INITIAL_MARK_STATE = {
+  mark: '',
+  name: '',
+};
 export const INITIAL_DEGREE_WORK_STATE = {
   theme: '',
   studentId: '',
   pagesNumber: '',
   originality: '',
   supervisorId: null,
+  supervisorMark: INITIAL_MARK_STATE,
   supervisorMarkId: null,
   implementation: false,
   reviewer: '',
+  reviewerMark: INITIAL_MARK_STATE,
   reviewerMarkId: null,
   summary: '',
   notes: '',
@@ -46,11 +53,8 @@ export const INITIAL_DEGREE_WORK_STATE = {
   secondQuestion: '',
   firstQuestionAuthorId: null,
   secondQuestionAuthorId: null,
+  mark: INITIAL_MARK_STATE,
   markId: null,
-};
-export const INITIAL_MARK_STATE = {
-  mark: '',
-  name: '',
 };
 export const USER_ROLES = {
   ADMIN: 'Администратор',

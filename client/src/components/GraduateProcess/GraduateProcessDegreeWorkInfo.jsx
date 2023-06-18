@@ -7,7 +7,7 @@ import { EmployeeSelector } from '../common/selectors/EmployeeSelector';
 import { useGraduateProcessStore } from '../../hooks/zustand/useGraduateProcessStore';
 import { useEmployeesStore } from '../../hooks/zustand/useEmployeesStore';
 import { INITIAL_EMPLOYEE_STATE } from '../../constants';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 
 const authorSx = {
   width: '5%',
@@ -18,10 +18,14 @@ const checkboxSx = {
 };
 
 export const GraduateProcessDegreeWorkInfo = React.memo(
-  ({ localDegreeWork, handlers }) => {
+  ({ localDegreeWork, handlers, onDegreeWorkSave }) => {
     const { graduateProcessEmployees, selectedStudent, updateSelectedStudent } =
       useGraduateProcessStore((state) => state);
     const { employees } = useEmployeesStore((state) => state);
+
+    const onBlur = React.useCallback(async () => {
+      await onDegreeWorkSave();
+    }, [onDegreeWorkSave]);
 
     const firstQuestionAuthor = React.useMemo(
       () =>
@@ -93,6 +97,8 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
 
     const disabled = !localDegreeWork.id;
 
+    console.log(selectedStudent);
+
     return (
       <Box sx={React.useMemo(() => ({ flexGrow: '1', width: '50%' }), [])}>
         <EditorInputBlock>
@@ -103,6 +109,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
             value={localDegreeWork.firstQuestion}
             sx={React.useMemo(() => ({ flexGrow: 1, width: '40%' }), [])}
             disabled={disabled}
+            onBlur={onBlur}
           />
           <EmployeeSelector
             employees={commissionEmployees}
@@ -111,6 +118,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
             label="Спрашивающий"
             sx={authorSx}
             disabled={disabled}
+            onBlur={onBlur}
           />
         </EditorInputBlock>
         <EditorInputBlock>
@@ -121,6 +129,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
             value={localDegreeWork.secondQuestion}
             sx={React.useMemo(() => ({ flexGrow: 1, width: '40%' }), [])}
             disabled={disabled}
+            onBlur={onBlur}
           />
           <EmployeeSelector
             employees={commissionEmployees}
@@ -129,6 +138,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
             label="Спрашивающий"
             sx={authorSx}
             disabled={disabled}
+            onBlur={onBlur}
           />
         </EditorInputBlock>
         <EditorInputBlock>
@@ -139,6 +149,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
             value={localDegreeWork.notes}
             sx={React.useMemo(() => ({ flexGrow: 1, width: '40%' }), [])}
             disabled={disabled}
+            onBlur={onBlur}
           />
         </EditorInputBlock>
         <EditorInputBlock>
@@ -149,6 +160,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
             value={localDegreeWork.summary}
             sx={React.useMemo(() => ({ flexGrow: 1, width: '40%' }), [])}
             disabled={disabled}
+            onBlur={onBlur}
           />
         </EditorInputBlock>
         <EditorInputBlock>
@@ -157,6 +169,7 @@ export const GraduateProcessDegreeWorkInfo = React.memo(
             onChange={handlers.setMarkId}
             value={localDegreeWork.markId || ''}
             disabled={disabled}
+            onBlur={onBlur}
           />
           <FormControlLabel
             control={

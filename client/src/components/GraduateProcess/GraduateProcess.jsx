@@ -38,6 +38,10 @@ export const GraduateProcess = React.memo(() => {
     useCommonStore((state) => state);
   const { getAllGraduateScripts } = useGraduateScriptsStore((state) => state);
 
+  const onDegreeWorkSave = React.useCallback(() => {
+    updateDegreeWork(selectedDegreeWork, startedGraduateScript.id);
+  }, [selectedDegreeWork, startedGraduateScript.id, updateDegreeWork]);
+
   const onStudentSelect = React.useCallback(
     (student) => {
       if (selectedDegreeWork.id) {
@@ -92,6 +96,7 @@ export const GraduateProcess = React.memo(() => {
         <GraduateProcessDegreeWorkInfo
           localDegreeWork={selectedDegreeWork}
           handlers={degreeWorkHandlers}
+          onDegreeWorkSave={onDegreeWorkSave}
         />
         <GraduateProcessStudentsList
           students={students}
