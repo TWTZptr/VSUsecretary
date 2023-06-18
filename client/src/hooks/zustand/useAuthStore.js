@@ -12,8 +12,8 @@ export const useAuthStore = create((set) => {
     set({ user, authenticated: true });
   };
 
-  const logoutUser = (user) => {
-    set({ user, authenticated: false });
+  const logoutUser = () => {
+    set({ user: INIT_USER, authenticated: false });
   };
 
   return {

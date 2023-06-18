@@ -9,6 +9,7 @@ export const graduateProcessEndCheck = (students) => {
       !student.degreeWork.notes.length ||
       !student.degreeWork.summary.length
     ) {
+      console.log(student.degreeWork);
       return false;
     }
   }

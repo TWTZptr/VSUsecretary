@@ -28,24 +28,27 @@ import { useAuthStore } from '../../hooks/zustand/useAuthStore';
 import { useMarksStore } from '../../hooks/zustand/useMarksStore';
 
 function App() {
-  const { getAllEducationLevels } = useCommonStore((state) => state);
   const { getAllDirections } = useDirectionsStore((state) => state);
   const { getAllEmployees } = useEmployeesStore((state) => state);
   const { getAllGraduateScripts } = useGraduateScriptsStore((state) => state);
   const { getAllStudents } = useStudentsStore((state) => state);
-  const { currentYear } = useCommonStore((state) => state);
+  const { currentYear, getAllEducationLevels } = useCommonStore(
+    (state) => state
+  );
   const { getAllDegreeWorks } = useDegreeWorksStore((state) => state);
   const { getAllMarks } = useMarksStore((state) => state);
   const { user } = useAuthStore((state) => state);
 
   React.useEffect(() => {
-    getAllEducationLevels();
-    getAllDirections();
-    getAllEmployees();
-    getAllGraduateScripts(currentYear);
-    getAllStudents(currentYear);
-    getAllDegreeWorks(currentYear);
-    getAllMarks();
+    if (user.id) {
+      getAllEducationLevels();
+      getAllDirections();
+      getAllEmployees();
+      getAllGraduateScripts(currentYear);
+      getAllStudents(currentYear);
+      getAllDegreeWorks(currentYear);
+      getAllMarks();
+    }
   }, [
     getAllEducationLevels,
     getAllDirections,
@@ -55,6 +58,7 @@ function App() {
     currentYear,
     getAllDegreeWorks,
     getAllMarks,
+    user.id,
   ]);
 
   return (

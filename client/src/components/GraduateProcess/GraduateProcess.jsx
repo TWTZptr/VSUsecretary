@@ -58,7 +58,7 @@ export const GraduateProcess = React.memo(() => {
 
   const onEndProcess = React.useCallback(async () => {
     if (selectedDegreeWork.id) {
-      updateDegreeWork(selectedDegreeWork, startedGraduateScript.id);
+      await updateDegreeWork(selectedDegreeWork, startedGraduateScript.id);
     }
 
     if (!graduateProcessEndCheck(students)) {
