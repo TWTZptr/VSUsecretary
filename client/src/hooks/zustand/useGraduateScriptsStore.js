@@ -144,10 +144,14 @@ export const useGraduateScriptsStore = createStore(
       students: [],
       time: '',
       audience: '',
-      setTime: (time) => {
+      setTime: async (time) => {
+        const graduateScript = get().selectedGraduateScript;
+        await updateGraduateScript({ ...graduateScript, time });
         set({ time });
       },
-      setAudience: (audience) => {
+      setAudience: async (audience) => {
+        const graduateScript = get().selectedGraduateScript;
+        await updateGraduateScript({ ...graduateScript, audience });
         set({ audience });
       },
     }),

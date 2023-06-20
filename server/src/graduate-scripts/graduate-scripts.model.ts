@@ -38,6 +38,12 @@ export class GraduateScript extends Model<
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
   complete: boolean;
 
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: '' })
+  audience: string;
+
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: '' })
+  time: string;
+
   @HasMany(() => EmployeeGraduateScript, 'graduateScriptId')
   employeeGraduateScripts: EmployeeGraduateScript[];
 

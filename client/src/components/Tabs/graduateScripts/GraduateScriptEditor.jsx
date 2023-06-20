@@ -58,6 +58,11 @@ export const GraduateScriptEditor = ({ disabled }) => {
   const [localTime, setLocalTime] = React.useState('');
   const [localAudience, setLocalAudience] = React.useState('');
 
+  React.useEffect(() => {
+    setLocalTime(selectedGraduateScript.time);
+    setLocalAudience(selectedGraduateScript.audience);
+  }, [selectedGraduateScript.time, selectedGraduateScript.audience]);
+
   const onDirectionIdChange = React.useCallback(
     (event) => {
       updateGraduateScript({

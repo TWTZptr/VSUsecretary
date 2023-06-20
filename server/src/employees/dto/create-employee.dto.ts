@@ -13,21 +13,6 @@ export class CreateEmployeeDto {
   @Length(3, 50)
   readonly patronymic: string;
 
-  // @IsNotEmpty()
-  // @Length(3, 50)
-  // readonly academicDegree: string;
-  //
-  // @IsNotEmpty()
-  // @Length(3, 50)
-  // readonly academicRank: string;
-  //
-  // @IsNotEmpty()
-  // readonly position: string;
-  //
-  // @IsOptional()
-  // @Length(0, 50)
-  // readonly anotherJob?: string;
-
   @IsNotEmpty()
   @Length(4, 20)
   readonly phoneNumber: string;

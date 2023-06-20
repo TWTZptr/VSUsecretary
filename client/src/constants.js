@@ -30,6 +30,8 @@ export const INITIAL_GRADUATE_SCRIPT_STATE = {
   date: null,
   complete: false,
   directionId: '',
+  time: '',
+  audience: '',
 };
 export const INITIAL_MARK_STATE = {
   mark: '',
