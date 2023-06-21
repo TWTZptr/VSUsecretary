@@ -91,7 +91,7 @@ export class DocsService {
   async generateProtocolAppendix(studentId: number) {
     const student = await this.studentsService.getStudentById(studentId);
     const degreeWork = await student.$get('degreeWork', {
-      include: ['firstQuestionAuthor', 'secondQuestionAuthor'],
+      include: ['firstQuestionAuthor', 'secondQuestionAuthor', 'supervisorMark', 'mark', 'reviewerMark'],
     });
     const graduateScript = await student.$get('graduateScript');
     const { chairman, secretary } =

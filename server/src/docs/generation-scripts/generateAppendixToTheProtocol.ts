@@ -165,7 +165,7 @@ export const generateAppendixToTheProtocol = ({
               }),
               new TextRun({
                 italics: true,
-                text: `${inclineLastname(supervisor.lastname)} ${
+                text: `${inclineLastname(supervisor.lastname, 'genitive')} ${
                   supervisor.name.toUpperCase()[0]
                 }. ${supervisor.patronymic.toLocaleUpperCase()[0]}.`,
               }),

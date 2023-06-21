@@ -9,7 +9,7 @@ const schema = Joi.object({
     'string.min': 'Должностьне должна быть короче 3-х символов',
     'any.required': 'Должность должна быть не пустым',
   }),
-  anotherJob: Joi.string().allow('').min(3).max(50).messages({
+  anotherJob: Joi.string().allow('').messages({
     'string.base': 'Второе место работы должно быть текстом',
     'string.empty': 'Второе место работы не должно быть пустым',
     'string.min': 'Второе место работы не должно быть короче 3-х символов',
