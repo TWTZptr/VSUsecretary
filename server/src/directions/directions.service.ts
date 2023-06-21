@@ -12,9 +12,8 @@ export class DirectionsService {
     @InjectModel(Direction) private directionRepository: typeof Direction,
   ) {}
 
-  async createDirection(dto: CreateDirectionDto) {
-    const direction = await this.directionRepository.create(dto);
-    return direction;
+  createDirection(dto: CreateDirectionDto) {
+    return this.directionRepository.create(dto);
   }
 
   async updateDirection(id: number, dto: UpdateDirectionDto) {
@@ -25,7 +24,9 @@ export class DirectionsService {
     if (!affectedCount) {
       throw new NotFoundException(DIRECTION_DOES_NOT_EXIST_MSG);
     }
-    return this.getDirectionById(id);
+    return this.getDirectionById(id, {
+      include: ['educationLevel'],
+    });
   }
 
   getDirectionById(id: number, options: FindOptions<Direction> = {}) {
@@ -37,7 +38,9 @@ export class DirectionsService {
   }
 
   async findDirectionById(id: number) {
-    const direction = await this.getDirectionById(id);
+    const direction = await this.getDirectionById(id, {
+      include: ['educationLevel'],
+    });
     if (!direction) {
       throw new NotFoundException(DIRECTION_DOES_NOT_EXIST_MSG);
     }
@@ -45,7 +48,12 @@ export class DirectionsService {
   }
 
   async isDirectionExists(id?: number) {
-    return id && !(await this.getDirectionById(id));
+    return (
+      id &&
+      !(await this.getDirectionById(id, {
+        include: ['educationLevel'],
+      }))
+    );
   }
 
   async deleteDirectionById(id: number) {

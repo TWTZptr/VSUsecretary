@@ -22,7 +22,7 @@ const schema = Joi.object({
     'number.base': `Неверная степень обучения`,
     'number.empty': 'Степень обучения не указана',
   }),
-});
+}).unknown(true);
 
 export const validateDirection = (direction) => {
   const validationResult = schema.validate(direction);

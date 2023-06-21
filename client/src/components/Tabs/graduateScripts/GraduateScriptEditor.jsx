@@ -270,7 +270,8 @@ export const GraduateScriptEditor = ({ disabled }) => {
           >
             {directions.map((direction) => (
               <MenuItem value={direction.id} key={direction.id}>
-                {direction.code} {direction.shortName}
+                {direction.code} {direction.shortName}{' '}
+                {direction.educationLevel.name}
               </MenuItem>
             ))}
           </Select>

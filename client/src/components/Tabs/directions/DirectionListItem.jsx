@@ -7,6 +7,7 @@ export const DirectionListItem = React.memo(
     const onSelfClick = React.useCallback(() => {
       onClick(direction);
     }, [onClick, direction]);
+    console.log(direction);
 
     return (
       <CommonListItem
@@ -16,7 +17,9 @@ export const DirectionListItem = React.memo(
         active={selected}
       >
         <ListItemButton>
-          <ListItemText primary={`${direction.code} ${direction.shortName}`} />
+          <ListItemText
+            primary={`${direction.code} ${direction.shortName} ${direction.educationLevel.name}`}
+          />
         </ListItemButton>
       </CommonListItem>
     );
